@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { FaPlay, FaSpotify, FaYoutube, FaHeart, FaShare, FaClock, FaCalendar, FaMusic } from 'react-icons/fa'
+import { FaPlay, FaSpotify, FaYoutube, FaHeart, FaShare, FaClock, FaCalendar, FaMusic, FaSearch } from 'react-icons/fa'
 import Image from 'next/image'
 
 // Music Categories
