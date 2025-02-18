@@ -61,18 +61,18 @@ export default function Footer() {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="w-full lg:w-auto"
           >
-            <div className="glass-card p-8 max-w-md mx-auto lg:mx-0">
+            <div className="glass-card p-6 sm:p-8 max-w-md mx-auto lg:mx-0">
               <h3 className="text-xl font-semibold text-white mb-2">Stay Connected</h3>
               <p className="text-white/60 mb-6">Join our newsletter for updates and inspiration</p>
-              <form className="flex gap-4">
+              <form className="flex flex-col sm:flex-row gap-3">
                 <input
                   type="email"
                   placeholder="Enter your email"
-                  className="flex-1 px-6 py-3 bg-white/5 rounded-xl text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-[#3b82f6] transition-all duration-300"
+                  className="flex-1 px-4 py-3 bg-white/5 rounded-xl text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-[#3b82f6] transition-all duration-300"
                 />
                 <button
                   type="submit"
-                  className="px-6 py-3 bg-gradient-to-r from-[#3b82f6] to-[#2563eb] text-white rounded-xl hover:opacity-90 transition-opacity flex items-center gap-2 whitespace-nowrap"
+                  className="px-6 py-3 bg-gradient-to-r from-[#3b82f6] to-[#2563eb] text-white rounded-xl hover:opacity-90 transition-opacity flex items-center justify-center gap-2 whitespace-nowrap"
                 >
                   Subscribe <FaArrowRight className="text-sm" />
                 </button>

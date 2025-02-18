@@ -11,23 +11,23 @@ import { FaPlay, FaMusic, FaVideo, FaChevronDown } from 'react-icons/fa'
 
 export default function HeroSection() {
   return (
-    <section className="relative min-h-screen w-full overflow-hidden pt-24">
+    <section className="relative min-h-[60vh] sm:min-h-[70vh] md:min-h-screen w-full overflow-hidden pt-16 sm:pt-24">
       <HeroSlider />
       
       {/* Main Content */}
-      <div className="absolute inset-0 z-10 flex flex-col pt-24">
+      <div className="absolute inset-0 z-10 flex flex-col pt-16 sm:pt-24">
         {/* Hero Content */}
         <div className="flex-1 flex items-center">
-          <div className="container mx-auto px-8 lg:px-16 2xl:px-24">
-            <div className="max-w-6xl pt-4 md:pt-6">
-              <div className="space-y-6 md:space-y-8">
+          <div className="container">
+            <div className="max-w-6xl pt-4">
+              <div className="space-y-4 sm:space-y-6 md:space-y-8">
                 {/* Main Title */}
                 <motion.div
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.8 }}
                 >
-                  <h1 className="text-5xl md:text-7xl font-bold text-white leading-tight tracking-tight max-w-4xl">
+                  <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold text-white leading-tight tracking-tight max-w-4xl">
                     <span className="inline-block">Spreading</span>{" "}
                     <span className="inline-block text-[#3b82f6]">
                       God's Love
@@ -43,8 +43,8 @@ export default function HeroSection() {
                   transition={{ duration: 0.8, delay: 0.2 }}
                   className="max-w-2xl"
                 >
-                  <p className="text-xl text-white/80 font-light leading-relaxed">
-                    Join JACO MUSICAL on a spiritual journey through gospel music. Available for church events, gospel concerts, and special occasions. Let's create an unforgettable worship experience together.
+                  <p className="text-base sm:text-lg md:text-xl text-white/80 font-light leading-relaxed">
+                    Join JACO MUSICAL on a spiritual journey through gospel music. Available for church events, gospel concerts, and special occasions.
                   </p>
                 </motion.div>
 
@@ -53,20 +53,20 @@ export default function HeroSection() {
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: 0.4 }}
-                  className="flex flex-wrap gap-4"
+                  className="flex flex-wrap gap-3 sm:gap-4"
                 >
                   <Link 
                     href="/videos"
-                    className="inline-flex items-center gap-3 px-8 py-4 text-lg bg-gradient-to-r from-[#3b82f6] to-[#2563eb] hover:from-[#2563eb] hover:to-[#1d4ed8] text-white shadow-lg hover:shadow-xl transition-all duration-300 rounded-full"
+                    className="inline-flex items-center gap-2 px-6 py-3 sm:px-8 sm:py-4 text-base sm:text-lg bg-gradient-to-r from-[#3b82f6] to-[#2563eb] hover:from-[#2563eb] hover:to-[#1d4ed8] text-white shadow-lg hover:shadow-xl transition-all duration-300 rounded-full"
                   >
-                    <FaVideo className="text-xl" />
+                    <FaVideo className="text-lg sm:text-xl" />
                     Watch Our Videos
                   </Link>
                   <Link 
                     href="/#music"
-                    className="inline-flex items-center gap-3 px-8 py-4 text-lg bg-white/10 backdrop-blur-sm hover:bg-white/20 text-white border border-white/20 hover:border-white/30 transition-all duration-300 rounded-full"
+                    className="inline-flex items-center gap-2 px-6 py-3 sm:px-8 sm:py-4 text-base sm:text-lg bg-white/10 backdrop-blur-sm hover:bg-white/20 text-white border border-white/20 hover:border-white/30 transition-all duration-300 rounded-full"
                   >
-                    <FaMusic className="text-xl" />
+                    <FaMusic className="text-lg sm:text-xl" />
                     Listen Now
                   </Link>
                 </motion.div>
@@ -80,7 +80,7 @@ export default function HeroSection() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.8 }}
-          className="absolute bottom-12 left-1/2 transform -translate-x-1/2 flex flex-col items-center gap-2"
+          className="absolute bottom-8 sm:bottom-12 left-1/2 transform -translate-x-1/2 flex flex-col items-center gap-2"
         >
           <motion.div
             animate={{ 
@@ -93,10 +93,10 @@ export default function HeroSection() {
             }}
             className="flex flex-col items-center gap-1"
           >
-            <FaChevronDown className="text-white/60 text-xl" />
-            <FaChevronDown className="text-white/40 text-xl -mt-3" />
+            <FaChevronDown className="text-white/60 text-base sm:text-xl" />
+            <FaChevronDown className="text-white/40 text-base sm:text-xl -mt-3" />
           </motion.div>
-          <span className="text-white/60 text-sm">Scroll Down</span>
+          <span className="text-white/60 text-xs sm:text-sm">Scroll Down</span>
         </motion.div>
       </div>
     </section>

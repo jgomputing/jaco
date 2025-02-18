@@ -51,7 +51,7 @@ export default function Navbar({ isScrolled }: { isScrolled: boolean }) {
           ? 'bg-black/90 backdrop-blur-md shadow-xl py-3 border-b border-white/10' 
           : 'bg-gradient-to-b from-black/80 via-black/50 to-transparent py-5'
       }`}>
-        <div className="container mx-auto px-8 lg:px-16 2xl:px-24">
+        <div className="container">
           <div className="flex items-center justify-between">
             <Link href="/" className="block">
               <div className={`relative transition-all duration-500 hover:scale-105 ${

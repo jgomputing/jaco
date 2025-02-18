@@ -495,33 +495,45 @@ const MediaSection = () => {
           </p>
         </motion.div>
 
-        {/* Tab Navigation */}
-        <div className="flex justify-center gap-4 mb-12">
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={() => setActiveTab('music')}
-            className={`px-8 py-3 rounded-full text-lg font-medium transition-all duration-300 flex items-center gap-2 ${
-              activeTab === 'music'
-                ? 'bg-[#3b82f6] text-white'
-                : 'bg-white/10 text-white/70 hover:bg-white/20'
-            }`}
+        {/* Category Buttons */}
+        <div className="flex flex-wrap gap-3 mb-8">
+          <Link 
+            href="/music"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-[#3b82f6] hover:bg-[#2563eb] text-white rounded-full transition-colors text-sm sm:text-base"
           >
-            <FaMusic /> Music
-          </motion.button>
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={() => setActiveTab('videos')}
-            className={`px-8 py-3 rounded-full text-lg font-medium transition-all duration-300 flex items-center gap-2 ${
-              activeTab === 'videos'
-                ? 'bg-[#3b82f6] text-white'
-                : 'bg-white/10 text-white/70 hover:bg-white/20'
-            }`}
+            <FaMusic className="text-lg" /> Music
+          </Link>
+          <Link 
+            href="/videos"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-white/10 hover:bg-white/20 text-white rounded-full transition-colors text-sm sm:text-base"
           >
-            <FaVideo /> Videos
-          </motion.button>
+            <FaVideo className="text-lg" /> Videos
+          </Link>
         </div>
+
+        {/* Featured Album Card */}
+        <div className="glass-card p-4 sm:p-6 mb-8">
+          <h3 className="text-xl sm:text-2xl font-bold text-white mb-4">Divine Love Album</h3>
+          <div className="grid grid-cols-2 gap-2 sm:gap-3">
+            <a
+              href="#"
+              className="flex items-center justify-center gap-2 px-4 sm:px-5 py-2.5 bg-[#1DB954] hover:bg-[#1ed760] text-white rounded-full transition-colors text-xs sm:text-sm"
+            >
+              <FaSpotify className="text-base sm:text-lg" /> 
+              <span className="flex flex-col leading-tight text-center">
+                <span>Listen on</span>
+                <span>Spotify</span>
+              </span>
+            </a>
+            <button
+              className="flex items-center justify-center gap-2 px-4 sm:px-5 py-2.5 bg-white/10 hover:bg-white/20 text-white rounded-full transition-colors text-xs sm:text-sm"
+            >
+              <FaPlay className="text-base sm:text-lg" /> Preview
+            </button>
+          </div>
+        </div>
+
+        <h3 className="text-xl sm:text-2xl font-bold text-white mb-4">Recent Releases</h3>
 
         {/* Content Area */}
         <AnimatePresence mode="wait">

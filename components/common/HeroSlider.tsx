@@ -45,7 +45,7 @@ export default function HeroSlider() {
   }, [])
 
   return (
-    <div className="relative h-screen w-full overflow-hidden">
+    <div className="relative h-[60vh] sm:h-[70vh] md:h-screen w-full overflow-hidden">
       {/* Background Gradient */}
       <div className="absolute inset-0 bg-black/50 z-[1]" />
       
@@ -74,15 +74,15 @@ export default function HeroSlider() {
         </motion.div>
       </AnimatePresence>
 
-      {/* Progress Indicators - Updated positioning and styling */}
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex gap-3 z-20 px-4 py-2 bg-black/20 backdrop-blur-sm rounded-full">
+      {/* Progress Indicators */}
+      <div className="absolute bottom-4 sm:bottom-8 left-1/2 transform -translate-x-1/2 flex gap-2 sm:gap-3 z-20 px-3 sm:px-4 py-1.5 sm:py-2 bg-black/20 backdrop-blur-sm rounded-full">
         {slides.map((_, index) => (
           <motion.div
             key={index}
             className={`transition-all duration-300 cursor-pointer rounded-full ${
               index === currentSlide 
-                ? 'w-4 h-4 bg-[#3b82f6]' 
-                : 'w-2 h-2 bg-white/30 hover:bg-white/50'
+                ? 'w-3 sm:w-4 h-3 sm:h-4 bg-[#3b82f6]' 
+                : 'w-1.5 sm:w-2 h-1.5 sm:h-2 bg-white/30 hover:bg-white/50'
             }`}
             whileHover={{ scale: 1.2 }}
             onClick={() => setCurrentSlide(index)}

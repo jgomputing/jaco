@@ -18,8 +18,17 @@
 }
 
 @layer base {
+  * {
+    @apply box-border;
+  }
+
+  html,
   body {
-    @apply text-white bg-black overflow-x-hidden;
+    @apply overflow-x-hidden max-w-[100vw];
+  }
+
+  body {
+    @apply text-white bg-black;
     font-family: var(--font-titillium-web);
   }
 
@@ -44,6 +53,10 @@
 }
 
 @layer components {
+  .container {
+    @apply px-4 sm:px-6 lg:px-8 mx-auto max-w-7xl w-full;
+  }
+
   .btn-primary {
     @apply px-8 py-4 bg-gradient-to-r from-[#3b82f6] to-[#2563eb] text-white rounded-full 
            hover:from-[#2563eb] hover:to-[#1d4ed8] transition-all duration-300 
