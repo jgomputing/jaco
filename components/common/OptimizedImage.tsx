@@ -1,33 +1,42 @@
+'use client'
+
 import React from 'react'
 import Image from 'next/image'
 
 interface OptimizedImageProps {
   src: string
   alt: string
-  width?: number
-  height?: number
   className?: string
   priority?: boolean
+  sizes?: string
+  quality?: number
+  fill?: boolean
+  width?: number
+  height?: number
 }
 
 export default function OptimizedImage({
   src,
   alt,
-  width = 1920,
-  height = 1080,
   className = '',
-  priority = false
+  priority = false,
+  sizes = '100vw',
+  quality = 85,
+  fill = false,
+  width,
+  height
 }: OptimizedImageProps) {
   return (
-    <div className={`relative ${className}`}>
-      <Image
-        src={src}
-        alt={alt}
-        width={width}
-        height={height}
-        priority={priority}
-        className="object-cover"
-      />
-    </div>
+    <Image
+      src={src}
+      alt={alt}
+      className={className}
+      priority={priority}
+      sizes={sizes}
+      quality={quality}
+      fill={fill}
+      width={width}
+      height={height}
+    />
   )
 } 

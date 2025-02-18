@@ -26,7 +26,7 @@ export default function BlogCard({ post }: BlogCardProps) {
         />
       </div>
       <div className="p-6">
-        <time className="text-sm text-gray-500">{formatDate(new Date(post.date))}</time>
+        <time className="text-sm text-gray-500">{formatDate(post.date)}</time>
         <h3 className="text-xl font-semibold mt-2 mb-3">
           <Link href={`/blog/${post.slug}`} className="hover:text-blue-600">
             {post.title}

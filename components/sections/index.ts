@@ -1,0 +1,5 @@
+export { default as HeroSection } from './HeroSection'
+export { default as AboutSection } from './AboutSection'
+export { default as MediaSection } from './Media'
+export { default as FeaturedVideos } from './FeaturedVideos'
+export { default as RecentReleases } from './RecentReleases' 

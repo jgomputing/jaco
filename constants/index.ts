@@ -22,12 +22,29 @@ export const NAVIGATION_LINKS = [
 
 export const FEATURED_VIDEOS = [
   {
-    id: 'video1',
-    title: 'Amazing Grace',
-    thumbnail: '/images/videos/video1.jpg',
-    youtubeId: 'YOUR_YOUTUBE_VIDEO_ID',
+    id: '1',
+    title: 'Amazing Grace (Live Performance)',
+    thumbnail: 'https://images.unsplash.com/photo-1510915361894-db8b60106cb1?auto=format&fit=crop&q=85',
+    duration: '5:23',
+    description: 'A powerful live performance of Amazing Grace at our recent worship service.',
+    youtubeId: 'VIDEO_ID_1'
   },
-  // Add more videos
+  {
+    id: '2',
+    title: 'Worship Night Highlights',
+    thumbnail: 'https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?auto=format&fit=crop&q=85',
+    duration: '8:45',
+    description: 'Highlights from our monthly worship night featuring gospel songs and testimonies.',
+    youtubeId: 'VIDEO_ID_2'
+  },
+  {
+    id: '3',
+    title: 'Gospel Concert 2024',
+    thumbnail: 'https://images.unsplash.com/photo-1415201364774-f6f0bb35f28f?auto=format&fit=crop&q=85',
+    duration: '12:30',
+    description: 'Full coverage of our annual gospel concert with special guest performances.',
+    youtubeId: 'VIDEO_ID_3'
+  }
 ]
 
 export const LATEST_BLOG_POSTS = [
