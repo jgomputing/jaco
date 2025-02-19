@@ -7,7 +7,8 @@ export const SITE_CONFIG = {
     youtube: 'https://www.youtube.com/@jacoosijaye',
     instagram: 'https://www.instagram.com/jacomusicals/',
     facebook: 'https://www.facebook.com/jacomusicals',
-    tiktok: 'https://www.tiktok.com/@jacomusical/'
+    tiktok: 'https://www.tiktok.com/@jacomusical/',
+    spotify: 'https://open.spotify.com/artist/jacomusical'
   }
 }
 

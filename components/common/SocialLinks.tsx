@@ -15,13 +15,6 @@ const SOCIAL_LINKS = [
     bgColor: 'bg-red-500/10'
   },
   {
-    name: 'Spotify',
-    icon: <FaSpotify />,
-    url: SITE_CONFIG.social.spotify,
-    hoverColor: 'hover:bg-green-600',
-    bgColor: 'bg-green-500/10'
-  },
-  {
     name: 'Instagram',
     icon: <FaInstagram />,
     url: SITE_CONFIG.social.instagram,
@@ -41,6 +34,13 @@ const SOCIAL_LINKS = [
     url: SITE_CONFIG.social.tiktok,
     hoverColor: 'hover:bg-black',
     bgColor: 'bg-gray-500/10'
+  },
+  {
+    name: 'Spotify',
+    icon: <FaSpotify />,
+    url: SITE_CONFIG.social.spotify,
+    hoverColor: 'hover:bg-green-600',
+    bgColor: 'bg-green-500/10'
   }
 ]
 
