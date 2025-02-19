@@ -138,16 +138,16 @@ export default function AboutSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.2 }}
-              className="absolute -bottom-6 -right-6 bg-[#3b82f6] p-4 rounded-2xl shadow-xl max-w-[280px]"
+              className="absolute -bottom-6 -right-6 sm:-bottom-6 sm:-right-6 bg-[#3b82f6] p-3 sm:p-4 rounded-2xl shadow-xl max-w-[200px] sm:max-w-[280px] text-sm sm:text-base"
             >
-              <FaQuoteLeft className="text-white/20 text-2xl absolute top-4 left-4" />
-              <p className="text-white text-base font-medium relative z-10 mt-4">
+              <FaQuoteLeft className="text-white/20 text-xl sm:text-2xl absolute top-3 sm:top-4 left-3 sm:left-4" />
+              <p className="text-white text-sm sm:text-base font-medium relative z-10 mt-3 sm:mt-4">
                 "Using my voice to glorify God, inspire nations, and touch lives around the world."
               </p>
-              <div className="mt-4 flex items-center gap-3">
+              <div className="mt-3 sm:mt-4 flex items-center gap-2 sm:gap-3">
                 <div className="text-white">
-                  <div className="font-semibold text-sm">Jaco Osijaye</div>
-                  <div className="text-xs text-white/80">Gospel Artist & Minister</div>
+                  <div className="font-semibold text-xs sm:text-sm">Jaco Osijaye</div>
+                  <div className="text-[10px] sm:text-xs text-white/80">Gospel Artist & Minister</div>
                 </div>
               </div>
             </motion.div>
