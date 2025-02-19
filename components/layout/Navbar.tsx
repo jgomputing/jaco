@@ -4,16 +4,16 @@ import React, { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
-import { FaMusic, FaBlog, FaEnvelope, FaBars, FaTimes, FaYoutube, FaSpotify, FaInstagram, FaHeart, FaVideo, FaStore } from 'react-icons/fa'
+import { FaMusic, FaBlog, FaEnvelope, FaBars, FaTimes, FaYoutube, FaSpotify, FaInstagram, FaHeart, FaVideo, FaStore, FaHome } from 'react-icons/fa'
 import { usePathname } from 'next/navigation'
 
 // Navigation Links
 const NAVIGATION_LINKS = [
+  { name: 'Home', path: '/' },
   { name: 'About', path: '/#about' },
-  { name: 'Media', path: '/#music' },
-  { name: 'Blog', path: '/blog' },
-  { name: 'Store', path: '/store' },
-  { name: 'Contact', path: '/contact' }
+  { name: 'Media', path: '/#media' },
+  { name: 'Blog', path: '/#blog' },
+  { name: 'Contact', path: '/#contact' }
 ]
 
 export default function Navbar({ isScrolled }: { isScrolled: boolean }) {
@@ -27,8 +27,8 @@ export default function Navbar({ isScrolled }: { isScrolled: boolean }) {
       const targetElement = document.getElementById(targetId)
       
       if (targetElement && pathname === '/') {
-        const navbarHeight = 80
-        const targetPosition = targetElement.getBoundingClientRect().top + window.scrollY - navbarHeight
+        const navbarHeight = 80 // Height of your fixed navbar
+        const targetPosition = targetElement.offsetTop - navbarHeight
         
         window.scrollTo({
           top: targetPosition,
@@ -37,6 +37,7 @@ export default function Navbar({ isScrolled }: { isScrolled: boolean }) {
         
         setIsMobileMenuOpen(false)
       } else if (pathname !== '/') {
+        // If we're not on the homepage, first navigate to home then scroll
         window.location.href = path
       }
     } else {
@@ -80,10 +81,10 @@ export default function Navbar({ isScrolled }: { isScrolled: boolean }) {
                   }`}
                 >
                   <span className="flex items-center gap-2">
+                    {link.name === 'Home' && <FaHome className="text-lg" />}
                     {link.name === 'About' && <FaHeart className="text-lg" />}
                     {link.name === 'Media' && <FaVideo className="text-lg" />}
                     {link.name === 'Blog' && <FaBlog className="text-lg" />}
-                    {link.name === 'Store' && <FaStore className="text-lg" />}
                     {link.name === 'Contact' && <FaEnvelope className="text-lg" />}
                     {link.name}
                   </span>
@@ -158,10 +159,10 @@ export default function Navbar({ isScrolled }: { isScrolled: boolean }) {
                         className="py-3 text-base text-white/90 hover:text-white flex items-center gap-3 group"
                       >
                         <span className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center group-hover:bg-white/20 transition-colors">
+                          {link.name === 'Home' && <FaHome size={14} />}
                           {link.name === 'About' && <FaHeart size={14} />}
                           {link.name === 'Media' && <FaVideo size={14} />}
                           {link.name === 'Blog' && <FaBlog size={14} />}
-                          {link.name === 'Store' && <FaStore size={14} />}
                           {link.name === 'Contact' && <FaEnvelope size={14} />}
                         </span>
                         {link.name}
@@ -174,13 +175,10 @@ export default function Navbar({ isScrolled }: { isScrolled: boolean }) {
                 <div className="p-4 border-t border-white/10">
                   <p className="text-white/60 text-xs mb-3">Follow Us</p>
                   <div className="flex gap-2">
-                    <a href="#" className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center text-white/80 hover:bg-white/20 hover:text-white transition-colors">
+                    <a href="https://www.youtube.com/@jacoosijaye" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center text-white/80 hover:bg-white/20 hover:text-white transition-colors">
                       <FaYoutube size={16} />
                     </a>
-                    <a href="#" className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center text-white/80 hover:bg-white/20 hover:text-white transition-colors">
-                      <FaSpotify size={16} />
-                    </a>
-                    <a href="#" className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center text-white/80 hover:bg-white/20 hover:text-white transition-colors">
+                    <a href="https://www.instagram.com/jacomusicals/" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center text-white/80 hover:bg-white/20 hover:text-white transition-colors">
                       <FaInstagram size={16} />
                     </a>
                   </div>

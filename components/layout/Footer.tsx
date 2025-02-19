@@ -6,22 +6,41 @@ import { FaYoutube, FaSpotify, FaInstagram, FaFacebookF, FaTiktok, FaPlay, FaArr
 
 // Social Media Links with Gradient Colors
 const SOCIAL_LINKS = [
-  { icon: <FaYoutube />, href: '#', label: 'YouTube', gradient: 'from-red-500 to-red-600' },
-  { icon: <FaSpotify />, href: '#', label: 'Spotify', gradient: 'from-green-500 to-green-600' },
-  { icon: <FaInstagram />, href: '#', label: 'Instagram', gradient: 'from-purple-500 to-pink-500' },
-  { icon: <FaFacebookF />, href: '#', label: 'Facebook', gradient: 'from-blue-500 to-blue-600' },
-  { icon: <FaTiktok />, href: '#', label: 'TikTok', gradient: 'from-gray-800 to-black' }
+  { icon: <FaYoutube />, href: 'https://www.youtube.com/@jacoosijaye', label: 'YouTube', gradient: 'from-red-500 to-red-600' },
+  { icon: <FaInstagram />, href: 'https://www.instagram.com/jacomusicals/', label: 'Instagram', gradient: 'from-purple-500 to-pink-500' },
+  { icon: <FaFacebookF />, href: 'https://www.facebook.com/jacomusicals', label: 'Facebook', gradient: 'from-blue-500 to-blue-600' },
+  { icon: <FaTiktok />, href: 'https://www.tiktok.com/@jacomusical/', label: 'TikTok', gradient: 'from-gray-800 to-black' }
 ]
 
 // Navigation Links
-const NAV_LINKS = [
+const footerLinks = [
   { name: 'Home', href: '/' },
-  { name: 'About', href: '/#about' },
-  { name: 'Media', href: '/#music' },
+  { name: 'About', href: '/about' },
+  { name: 'Media', href: '/#media' },
   { name: 'Blog', href: '/blog' },
-  { name: 'Store', href: '/store' },
-  { name: 'Contact', href: '/contact' }
+  { name: 'Contact', href: '/#contact' }
 ]
+
+const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, path: string) => {
+  if (path.startsWith('/#')) {
+    e.preventDefault()
+    const targetId = path.replace('/#', '')
+    const targetElement = document.getElementById(targetId)
+    
+    if (targetElement) {
+      const navbarHeight = 80 // Height of your fixed navbar
+      const targetPosition = targetElement.offsetTop - navbarHeight
+      
+      window.scrollTo({
+        top: targetPosition,
+        behavior: 'smooth'
+      })
+    } else {
+      // If element not found, navigate to the path
+      window.location.href = path
+    }
+  }
+}
 
 export default function Footer() {
   return (
@@ -108,10 +127,11 @@ export default function Footer() {
               Quick Links
             </h3>
             <ul className="grid grid-cols-2 gap-3 sm:gap-4">
-              {NAV_LINKS.map((link) => (
+              {footerLinks.map((link) => (
                 <li key={link.href}>
                   <Link 
                     href={link.href}
+                    onClick={(e) => handleNavClick(e, link.href)}
                     className="text-white/60 hover:text-[#3b82f6] transition-all duration-300 flex items-center gap-2 group text-sm sm:text-base"
                   >
                     <FaArrowRight className="text-xs opacity-0 group-hover:opacity-100 transition-all duration-300 transform group-hover:translate-x-1" />

@@ -48,28 +48,28 @@ export default function HeroSection() {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.4 }}
-                className="flex flex-col sm:flex-row flex-wrap gap-4 mt-8"
+                className="flex flex-col sm:flex-row items-center gap-4 mt-8 max-w-[280px] sm:max-w-none mx-auto sm:mx-0"
               >
                 <Link 
                   href="/videos"
-                  className="group w-full sm:w-auto inline-flex items-center justify-center gap-3 px-6 sm:px-8 py-4 text-base sm:text-lg bg-gradient-to-r from-[#3b82f6] to-[#2563eb] hover:from-[#2563eb] hover:to-[#1d4ed8] text-white shadow-lg hover:shadow-xl hover:shadow-[#3b82f6]/25 transition-all duration-500 rounded-full relative overflow-hidden hover:scale-[1.02]"
+                  className="group w-full sm:w-auto inline-flex items-center justify-center gap-2 px-4 sm:px-6 py-3 sm:py-4 text-sm sm:text-base bg-gradient-to-r from-[#3b82f6] to-[#2563eb] hover:from-[#2563eb] hover:to-[#1d4ed8] text-white shadow-lg hover:shadow-xl hover:shadow-[#3b82f6]/25 transition-all duration-500 rounded-full relative overflow-hidden hover:scale-[1.02]"
                 >
                   <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
-                  <div className="relative flex items-center gap-3">
-                    <div className="p-2 bg-white/20 rounded-lg">
-                      <FaVideo className="text-xl" />
+                  <div className="relative flex items-center gap-2">
+                    <div className="p-1.5 sm:p-2 bg-white/20 rounded-lg">
+                      <FaVideo className="text-base sm:text-xl" />
                     </div>
                     <span>Watch Our Videos</span>
                   </div>
                 </Link>
                 <Link 
                   href="/#music"
-                  className="group w-full sm:w-auto inline-flex items-center justify-center gap-3 px-6 sm:px-8 py-4 text-base sm:text-lg bg-white/10 backdrop-blur-sm hover:bg-white/20 text-white border border-white/20 hover:border-white/30 transition-all duration-500 rounded-full relative overflow-hidden hover:scale-[1.02] hover:shadow-lg"
+                  className="group w-full sm:w-auto inline-flex items-center justify-center gap-2 px-4 sm:px-6 py-3 sm:py-4 text-sm sm:text-base bg-white/10 backdrop-blur-sm hover:bg-white/20 text-white border border-white/20 hover:border-white/30 transition-all duration-500 rounded-full relative overflow-hidden hover:scale-[1.02] hover:shadow-lg"
                 >
                   <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
-                  <div className="relative flex items-center gap-3">
-                    <div className="p-2 bg-white/10 rounded-lg group-hover:bg-white/20 transition-colors duration-500">
-                      <FaMusic className="text-xl" />
+                  <div className="relative flex items-center gap-2">
+                    <div className="p-1.5 sm:p-2 bg-white/10 rounded-lg group-hover:bg-white/20 transition-colors duration-500">
+                      <FaMusic className="text-base sm:text-xl" />
                     </div>
                     <span>Listen Now</span>
                   </div>

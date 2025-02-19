@@ -14,22 +14,25 @@ const FEATURED_MUSIC = [
     title: "Divine Love",
     duration: "4:35",
     image: "https://images.unsplash.com/photo-1510915361894-db8b60106cb1?auto=format&fit=crop&q=85",
-    spotifyUrl: "#",
+    spotifyUrl: "https://open.spotify.com/track/49ylqzlFZwGSgRRuFOdbgu?si=94bf0871915a4678",
+    youtubeUrl: "https://youtu.be/COjFbtkvBFM?si=sVTqCHrmcZfsyF_k",
     isNew: true
   },
   {
     id: 2,
-    title: "Amazing Grace",
-    duration: "5:20",
+    title: "I Cannot Fail",
+    duration: "4:48",
     image: "https://images.unsplash.com/photo-1415201364774-f6f0bb35f28f?auto=format&fit=crop&q=85",
-    spotifyUrl: "#"
+    spotifyUrl: "https://open.spotify.com/track/4GdivvSLawVabPs92ak5BG?si=23d7cdbf5d954993",
+    youtubeUrl: "https://youtu.be/_Og9mSPsMX4?si=tNzSxzKcv8z9n7aw"
   },
   {
     id: 3,
     title: "Glorious Day",
     duration: "4:15",
     image: "https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?auto=format&fit=crop&q=85",
-    spotifyUrl: "#"
+    spotifyUrl: "https://open.spotify.com/track/49ylqzlFZwGSgRRuFOdbgu?si=94bf0871915a4678",
+    youtubeUrl: "https://youtu.be/xeIN2_CA400?si=jSojQqh2ePBV6d6L"
   }
 ]
 
@@ -40,7 +43,7 @@ const FEATURED_VIDEOS = [
     title: "Live Worship Session",
     duration: "15:30",
     image: "https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?auto=format&fit=crop&q=85",
-    youtubeUrl: "#",
+    youtubeUrl: "https://youtu.be/COjFbtkvBFM?si=sVTqCHrmcZfsyF_k",
     isNew: true
   },
   {
@@ -48,14 +51,14 @@ const FEATURED_VIDEOS = [
     title: "Gospel Concert Highlights",
     duration: "8:45",
     image: "https://images.unsplash.com/photo-1510915361894-db8b60106cb1?auto=format&fit=crop&q=85",
-    youtubeUrl: "#"
+    youtubeUrl: "https://youtu.be/_Og9mSPsMX4?si=tNzSxzKcv8z9n7aw"
   },
   {
     id: 3,
     title: "Behind the Scenes",
     duration: "12:20",
     image: "https://images.unsplash.com/photo-1415201364774-f6f0bb35f28f?auto=format&fit=crop&q=85",
-    youtubeUrl: "#"
+    youtubeUrl: "https://youtu.be/xeIN2_CA400?si=jSojQqh2ePBV6d6L"
   }
 ]
 

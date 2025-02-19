@@ -1,12 +1,12 @@
-import { FaMusic, FaBlog, FaEnvelope, FaVideo, FaStore, FaHeart } from 'react-icons/fa'
+import { FaMusic, FaBlog, FaEnvelope, FaVideo, FaStore, FaHeart, FaHome } from 'react-icons/fa'
 
 // Navigation Links
 export const NAVIGATION_LINKS = [
+  { name: 'Home', path: '/', icon: FaHome },
   { name: 'About', path: '/#about', icon: FaHeart },
-  { name: 'Media', path: '/#music', icon: FaVideo },
-  { name: 'Blog', path: '/blog', icon: FaBlog },
-  { name: 'Store', path: '/store', icon: FaStore },
-  { name: 'Contact', path: '/contact', icon: FaEnvelope }
+  { name: 'Media', path: '/#media', icon: FaMusic },
+  { name: 'Blog', path: '/#blog', icon: FaBlog },
+  { name: 'Contact', path: '/#contact', icon: FaEnvelope }
 ]
 
 // Recent Releases

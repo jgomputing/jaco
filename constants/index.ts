@@ -4,20 +4,19 @@ export const SITE_CONFIG = {
   url: 'https://jacomusical.com',
   author: 'JACO MUSICAL',
   social: {
-    youtube: 'https://youtube.com/@jacomusical',
-    spotify: 'https://open.spotify.com/artist/jacomusical',
-    instagram: 'https://instagram.com/jacomusical',
-    facebook: 'https://facebook.com/jacomusical',
-    tiktok: 'https://tiktok.com/@jacomusical',
+    youtube: 'https://www.youtube.com/@jacoosijaye',
+    instagram: 'https://www.instagram.com/jacomusicals/',
+    facebook: 'https://www.facebook.com/jacomusicals',
+    tiktok: 'https://www.tiktok.com/@jacomusical/'
   }
 }
 
 export const NAVIGATION_LINKS = [
   { name: 'Home', path: '/' },
-  { name: 'About', path: '/about' },
-  { name: 'Music', path: '/music' },
-  { name: 'Blog', path: '/blog' },
-  { name: 'Contact', path: '/contact' },
+  { name: 'About', path: '/#about' },
+  { name: 'Media', path: '/#media' },
+  { name: 'Blog', path: '/#blog' },
+  { name: 'Contact', path: '/#contact' }
 ]
 
 export const FEATURED_VIDEOS = [
@@ -76,8 +75,8 @@ export const LATEST_BLOG_POSTS = [
 
 export const MUSIC_PLATFORMS = [
   {
-    name: 'Spotify',
-    embedUrl: 'https://open.spotify.com/embed/artist/YOUR_ARTIST_ID',
+    name: 'YouTube',
+    embedUrl: 'https://www.youtube.com/embed/videoseries?list=PLHCt-UvP4hzNxSz6HFzOdZGQWmc6Uvn-q',
   },
   {
     name: 'Apple Music',
