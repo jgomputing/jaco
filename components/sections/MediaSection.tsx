@@ -180,66 +180,58 @@ export default function MediaSection() {
                 <motion.div
                   key={release.id}
                   initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  className="group"
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: release.id * 0.1 }}
+                  className="group bg-white/5 backdrop-blur-sm rounded-xl overflow-hidden hover:bg-white/10 transition-all duration-300"
                 >
-                  <div className="glass-card overflow-hidden rounded-xl p-4 hover:bg-white/10 transition-colors">
-                    <div className="flex items-center gap-4">
-                      {/* Thumbnail */}
-                      <div className="relative w-16 h-16 rounded-lg overflow-hidden flex-shrink-0">
-                        <Image
-                          src={release.image}
-                          alt={release.title}
-                          fill
-                          className="object-cover"
-                        />
-                      </div>
-
-                      {/* Song Info */}
-                      <div className="flex-grow">
-                        <h3 className="text-lg font-semibold text-white group-hover:text-[#3b82f6] transition-colors">
+                  <div className="flex flex-col p-3">
+                    <div className="relative w-full h-40 sm:h-48 rounded-lg overflow-hidden">
+                      <Image
+                        src={release.image}
+                        alt={release.title}
+                        fill
+                        className="object-cover transition-transform duration-700 group-hover:scale-105"
+                      />
+                    </div>
+                    <div className="flex-1 min-w-0 w-full mt-3">
+                      <div className="flex items-center gap-3 mb-2">
+                        <h3 className="text-base sm:text-lg font-semibold text-white group-hover:text-[#3b82f6] transition-colors truncate">
                           {release.title}
                         </h3>
-                        <p className="text-white/60 text-sm mb-2">{release.description}</p>
-                        <div className="flex items-center gap-4 text-sm">
-                          <span className="text-white/40">
-                            {release.duration}
-                          </span>
-                          <span className="text-white/40">
-                            {release.releaseYear}
-                          </span>
-                        </div>
                       </div>
-
-                      {/* Action Buttons */}
-                      <div className="flex items-center gap-3">
-                        <button 
-                          onClick={() => handleShare(release.title, release.shareUrl)}
-                          className="w-10 h-10 rounded-full bg-[#3b82f6] flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity hover:bg-[#2563eb]"
-                          title="Share Song"
-                        >
-                          <FaShare size={14} />
-                        </button>
-                        <a 
-                          href={release.spotify}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="w-10 h-10 rounded-full bg-[#1DB954] flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity hover:bg-[#1ed760]"
-                          title="Listen on Spotify"
-                        >
-                          <FaSpotify size={16} />
-                        </a>
-                        <a 
-                          href={release.appleMusic}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="w-10 h-10 rounded-full bg-[#FB233B] flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity hover:bg-[#ff365c]"
-                          title="Listen on Apple Music"
-                        >
-                          <FaApple size={16} />
-                        </a>
+                      <p className="text-white/60 text-sm mb-2">{release.description}</p>
+                      <div className="flex items-center gap-2 text-sm text-white/40 mb-3">
+                        <span>{release.duration}</span>
+                        <span>•</span>
+                        <span>{release.releaseYear}</span>
                       </div>
+                    </div>
+                    <div className="flex items-center gap-2 w-full justify-center">
+                      <button 
+                        onClick={() => handleShare(release.title, release.shareUrl)}
+                        className="media-action-btn flex-1 p-3 rounded-xl bg-white/10 text-white transition-all hover:bg-white/20 hover:scale-105 hover:shadow-lg text-center max-w-[120px]"
+                        aria-label="Share"
+                      >
+                        <FaShare className="w-4 h-4 mx-auto" />
+                      </button>
+                      <a
+                        href={release.spotify}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="media-action-btn flex-1 p-3 rounded-xl bg-[#1DB954] text-white transition-all hover:bg-opacity-90 hover:scale-105 hover:shadow-lg hover:shadow-[#1DB954]/25 text-center max-w-[120px]"
+                        aria-label="Listen on Spotify"
+                      >
+                        <FaSpotify className="w-4 h-4 mx-auto" />
+                      </a>
+                      <a
+                        href={release.appleMusic}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="media-action-btn flex-1 p-3 rounded-xl bg-[#FB233B] text-white transition-all hover:bg-opacity-90 hover:scale-105 hover:shadow-lg hover:shadow-[#FB233B]/25 text-center max-w-[120px]"
+                        aria-label="Listen on Apple Music"
+                      >
+                        <FaApple className="w-4 h-4 mx-auto" />
+                      </a>
                     </div>
                   </div>
                 </motion.div>
