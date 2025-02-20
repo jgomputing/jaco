@@ -116,10 +116,14 @@ export default function ContactSection() {
           >
             <a
               href={`mailto:${CONTACT_INFO.email}`}
-              className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-[#3b82f6] to-[#2563eb] text-white rounded-full hover:from-[#2563eb] hover:to-[#1d4ed8] transition-all duration-300 shadow-lg group"
+              className="group inline-flex items-center justify-center gap-2 px-4 sm:px-5 py-3 sm:py-3.5 text-[14px] sm:text-[15px] bg-[#3b82f6] hover:bg-[#2563eb] text-white transition-all duration-300 rounded-xl relative overflow-hidden"
             >
-              <FaEnvelope className="text-xl" />
-              <span className="font-medium">Send us a Message</span>
+              <div className="relative flex items-center gap-2">
+                <div className="p-1.5 bg-white/20 rounded-lg">
+                  <FaEnvelope className="text-sm sm:text-base" />
+                </div>
+                <span className="font-medium">Send us a Message</span>
+              </div>
             </a>
           </motion.div>
         </div>

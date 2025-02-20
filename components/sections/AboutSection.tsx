@@ -80,7 +80,7 @@ export default function AboutSection() {
             className="lg:col-span-7 relative"
           >
             {/* Image Slider Container */}
-            <div className="relative aspect-square rounded-2xl overflow-hidden group">
+            <div className="relative w-full lg:w-[400px] xl:w-[480px] aspect-square rounded-2xl overflow-hidden group mx-auto lg:mx-0">
               <AnimatePresence mode="sync">
                 <motion.div
                   key={currentImageIndex}
@@ -105,14 +105,14 @@ export default function AboutSection() {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 10 }}
                     transition={{ duration: 0.7, ease: "easeOut" }}
-                    className="absolute bottom-0 left-0 right-0 p-8 bg-gradient-to-t from-black via-black/80 to-transparent"
+                    className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black via-black/80 to-transparent"
                   >
-                    <div className="max-w-xl space-y-4">
+                    <div className="max-w-xl space-y-2">
                       <motion.h3
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.7, delay: 0.1 }}
-                        className="text-2xl sm:text-3xl font-bold text-white mb-2"
+                        className="text-xl font-bold text-white mb-1"
                       >
                         {SLIDER_IMAGES[currentImageIndex].title}
                       </motion.h3>
@@ -120,17 +120,9 @@ export default function AboutSection() {
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.7, delay: 0.2 }}
-                        className="text-[#3b82f6] text-lg"
+                        className="text-[#3b82f6] text-sm"
                       >
                         {SLIDER_IMAGES[currentImageIndex].subtitle}
-                      </motion.p>
-                      <motion.p
-                        initial={{ opacity: 0, x: -10 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.7, delay: 0.3 }}
-                        className="text-white/90 text-base sm:text-lg italic leading-relaxed border-l-2 border-[#3b82f6] pl-4"
-                      >
-                        "With every word I speak, I magnify God's glory—igniting a revolution of hope that awakens nations and transforms lives worldwide."
                       </motion.p>
                     </div>
                   </motion.div>
