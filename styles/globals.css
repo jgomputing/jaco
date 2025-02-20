@@ -1,4 +1,84 @@
-/* Base button styles */
+@import url('https://fonts.googleapis.com/css2?family=Titillium+Web:wght@300;400;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary: #3b82f6;
+  --primary-dark: #1d4ed8;
+  --primary-light: #60a5fa;
+  --bg-dark: #030712;
+  --bg-light: #0f1729;
+}
+
+/* Base styles */
+body {
+  font-family: 'Titillium Web', sans-serif;
+  background-color: var(--bg-dark);
+  color: white;
+}
+
+/* Custom animations */
+@keyframes pulse-slow {
+  0%, 100% {
+    opacity: var(--tw-opacity);
+    transform: scale(1);
+  }
+  50% {
+    opacity: calc(var(--tw-opacity) * 0.7);
+    transform: scale(1.05);
+  }
+}
+
+.animate-pulse-slow {
+  animation: pulse-slow 8s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Glass effect */
+.glass-effect {
+  @apply backdrop-blur-sm bg-white/[0.02] border border-white/[0.05];
+}
+
+/* Section backgrounds */
+.section-gradient {
+  @apply relative;
+}
+
+.section-gradient::before {
+  content: '';
+  @apply absolute inset-0 bg-gradient-to-b from-[#0f1729]/50 via-transparent to-[#0f1729]/50 pointer-events-none;
+}
+
+/* Card hover effects */
+.hover-card {
+  @apply transition-all duration-500;
+}
+
+.hover-card:hover {
+  @apply transform -translate-y-1 bg-white/[0.03] border-white/10;
+}
+
+/* Custom scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 2px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(59, 130, 246, 0.2);
+  border-radius: 2px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(59, 130, 246, 0.3);
+}
+
+/* Button styles */
 .btn {
   @apply relative flex items-center gap-2 px-4 py-2 rounded-xl font-medium transition-all duration-300;
 }
@@ -8,29 +88,25 @@
 }
 
 .btn-icon {
-  @apply flex items-center justify-center p-1.5 rounded-lg bg-white/10;
-}
-
-.btn-glow {
-  @apply absolute inset-0 opacity-50 blur-xl rounded-xl transition-opacity duration-300;
+  @apply flex items-center justify-center p-1.5 rounded-lg bg-white/[0.03];
 }
 
 /* Primary button */
 .btn-primary {
-  @apply bg-gradient-to-r from-[#3b82f6] to-[#2563eb] text-white shadow-lg shadow-[#3b82f6]/25;
+  @apply bg-[#3b82f6] text-white;
 }
 
 .btn-primary:hover {
-  @apply shadow-xl shadow-[#3b82f6]/30;
+  @apply bg-[#2563eb];
 }
 
 /* Secondary button */
 .btn-secondary {
-  @apply bg-white/5 text-white/90 backdrop-blur-sm;
+  @apply bg-white/[0.02] text-white/90 border border-white/[0.05];
 }
 
 .btn-secondary:hover {
-  @apply bg-white/10;
+  @apply bg-white/[0.05] border-white/10;
 }
 
 /* Spotify button */
@@ -53,17 +129,9 @@
 
 /* YouTube button */
 .btn-youtube {
-  @apply bg-gradient-to-r from-[#FF0000] to-[#ff1a1a] text-white;
-}
-
-.btn-youtube .btn-glow {
-  @apply bg-gradient-to-r from-[#FF0000] to-[#ff1a1a];
+  @apply bg-[#FF0000] text-white;
 }
 
 .btn-youtube:hover {
-  @apply shadow-lg shadow-[#FF0000]/25;
-}
-
-.btn-youtube:hover .btn-glow {
-  @apply opacity-75;
+  @apply bg-[#ff1a1a];
 } 

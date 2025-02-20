@@ -11,13 +11,7 @@ const ScrollIndicator = dynamic(() => import('@/components/ui/ScrollIndicator'))
 
 export default function Home() {
   return (
-    <main className="relative min-h-screen bg-black">
-      {/* Global background effects */}
-      <div className="fixed inset-0 pointer-events-none">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-blue-900/20 via-black to-black" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-[#3b82f6]/10 via-black/0 to-transparent" />
-      </div>
-
+    <main className="relative min-h-screen">
       {/* Content Sections */}
       <div className="relative flex flex-col min-h-screen">
         {/* Hero - Full screen with video background */}
@@ -36,7 +30,7 @@ export default function Home() {
         </div>
 
         {/* Blog - Alternating layout */}
-        <div className="relative py-20 bg-gradient-to-b from-black via-black/95 to-black">
+        <div className="relative py-20">
           <BlogSection />
         </div>
 

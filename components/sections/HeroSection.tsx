@@ -39,7 +39,7 @@ export default function HeroSection() {
                 className="max-w-2xl mt-8"
               >
                 <p className="text-lg sm:text-xl md:text-2xl text-white/80 font-light leading-relaxed">
-                  Join JACO MUSICAL on a spiritual journey through gospel music. Available for church events, gospel concerts, and special occasions.
+                  Join JACO OSIJAYE on a spiritual journey through gospel music. Available for church events, gospel concerts, and special occasions.
                 </p>
               </motion.div>
 

@@ -46,47 +46,47 @@ export default function AboutSection() {
   }, [])
 
   return (
-    <section id="about" className="py-20 relative overflow-hidden scroll-mt-20">
-      {/* Background Elements */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-[#3b82f6] rounded-full opacity-[0.07] blur-3xl" />
-        <div className="absolute bottom-0 right-0 w-96 h-96 bg-purple-500 rounded-full opacity-[0.07] blur-3xl" />
-      </div>
-
+    <section id="about" className="relative py-20 scroll-mt-20">
       <div className="container">
-        {/* Section Header */}
+        {/* Enhanced Section Header */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-12 max-w-3xl mx-auto px-4"
+          className="relative"
         >
-          <span className="text-[#3b82f6] uppercase tracking-wider text-xs sm:text-sm font-medium">Our Story</span>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mt-3 sm:mt-4 mb-4 sm:mb-6">
-            Meet <span className="text-[#3b82f6]">Jaco Osijaye</span>
-          </h2>
-          <p className="text-base sm:text-lg text-white/70">
-            A dynamic gospel music minister celebrated for electrifying, vibrant, and charismatic performances that transform lives through worship.
-          </p>
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-1 bg-gradient-to-r from-transparent via-[#3b82f6] to-transparent" />
+          <div className="text-center max-w-3xl mx-auto px-4 pt-8">
+            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-effect mb-6">
+              <span className="w-2 h-2 rounded-full bg-[#3b82f6] animate-pulse" />
+              <span className="text-white/60 text-sm font-medium">Our Story</span>
+            </span>
+            <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-6">
+              Meet <span className="text-[#3b82f6]">Jaco Osijaye</span>
+            </h2>
+            <p className="text-white/60 text-lg max-w-2xl mx-auto">
+              A dynamic gospel music minister celebrated for electrifying, vibrant, and charismatic performances that transform lives through worship.
+            </p>
+          </div>
         </motion.div>
 
         {/* Main Content Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start max-w-6xl mx-auto">
+        <div className="mt-16 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start max-w-7xl mx-auto">
           {/* Left Column - Image & Quote */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="relative"
+            className="lg:col-span-7 relative"
           >
             {/* Image Slider Container */}
-            <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden">
+            <div className="relative aspect-square rounded-2xl overflow-hidden group">
               <AnimatePresence mode="sync">
                 <motion.div
                   key={currentImageIndex}
-                  initial={{ opacity: 0, x: 100 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -100 }}
+                  initial={{ opacity: 0, scale: 1.1 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.9 }}
                   transition={{ duration: 0.5 }}
                   className="absolute inset-0"
                 >
@@ -94,75 +94,75 @@ export default function AboutSection() {
                     src={SLIDER_IMAGES[currentImageIndex].url}
                     alt={SLIDER_IMAGES[currentImageIndex].title}
                     fill
-                    className="object-cover object-center"
+                    className="object-cover object-center transform transition-transform duration-700 group-hover:scale-105"
                     priority
                   />
-                  <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/40 to-black/80" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent opacity-60 transition-opacity duration-700" />
                   
-                  {/* Image Caption */}
+                  {/* Enhanced Image Caption with Quote */}
                   <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.3 }}
-                    className="absolute bottom-6 left-6 right-6 text-white"
+                    exit={{ opacity: 0, y: 10 }}
+                    transition={{ duration: 0.7, ease: "easeOut" }}
+                    className="absolute bottom-0 left-0 right-0 p-8 bg-gradient-to-t from-black via-black/80 to-transparent"
                   >
-                    <h3 className="text-2xl font-bold mb-1">
-                      {SLIDER_IMAGES[currentImageIndex].title}
-                    </h3>
-                    <p className="text-white/80">
-                      {SLIDER_IMAGES[currentImageIndex].subtitle}
-                    </p>
+                    <div className="max-w-xl space-y-4">
+                      <motion.h3
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.7, delay: 0.1 }}
+                        className="text-2xl sm:text-3xl font-bold text-white mb-2"
+                      >
+                        {SLIDER_IMAGES[currentImageIndex].title}
+                      </motion.h3>
+                      <motion.p
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.7, delay: 0.2 }}
+                        className="text-[#3b82f6] text-lg"
+                      >
+                        {SLIDER_IMAGES[currentImageIndex].subtitle}
+                      </motion.p>
+                      <motion.p
+                        initial={{ opacity: 0, x: -10 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.7, delay: 0.3 }}
+                        className="text-white/90 text-base sm:text-lg italic leading-relaxed border-l-2 border-[#3b82f6] pl-4"
+                      >
+                        "With every word I speak, I magnify God's glory—igniting a revolution of hope that awakens nations and transforms lives worldwide."
+                      </motion.p>
+                    </div>
                   </motion.div>
                 </motion.div>
               </AnimatePresence>
 
               {/* Slide Indicators */}
-              <div className="absolute bottom-4 right-4 flex gap-2 z-10">
+              <div className="absolute top-4 right-4 flex gap-2 z-10">
                 {SLIDER_IMAGES.map((_, index) => (
                   <button
                     key={index}
                     onClick={() => setCurrentImageIndex(index)}
                     className={`w-2 h-2 rounded-full transition-all duration-300 ${
                       index === currentImageIndex 
-                        ? 'w-6 bg-[#3b82f6]' 
+                        ? 'w-8 bg-[#3b82f6]' 
                         : 'bg-white/50 hover:bg-white/75'
                     }`}
                   />
                 ))}
               </div>
             </div>
-
-            {/* Quote Card */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.2 }}
-              className="absolute -bottom-6 -right-6 sm:-bottom-6 sm:-right-6 bg-gradient-to-br from-white/10 via-white/5 to-white/10 backdrop-blur-xl p-3 sm:p-4 md:p-5 rounded-2xl shadow-xl max-w-[180px] xs:max-w-[220px] sm:max-w-[280px] md:max-w-[320px] text-xs sm:text-sm md:text-base border border-white/20"
-            >
-              <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent rounded-2xl opacity-50" />
-              <FaQuoteLeft className="text-white/10 text-base sm:text-xl md:text-2xl absolute top-3 sm:top-4 md:top-5 left-3 sm:left-4 md:left-5" />
-              <p className="text-white/90 font-medium relative z-10 mt-2 sm:mt-3 md:mt-4 leading-relaxed">
-                "With every word I speak, I magnify God's glory—igniting a revolution of hope that awakens nations and transforms lives worldwide."
-              </p>
-              <div className="mt-3 sm:mt-4 md:mt-5 flex items-center gap-2 sm:gap-3">
-                <div className="text-white/90">
-                  <div className="font-semibold text-[10px] sm:text-xs md:text-sm">Jaco Osijaye</div>
-                  <div className="text-[8px] sm:text-[10px] md:text-xs text-white/70">Gospel Artist & Minister</div>
-                </div>
-              </div>
-            </motion.div>
           </motion.div>
 
-          {/* Right Column - Story Preview */}
+          {/* Right Column - Stats & Story */}
           <motion.div
             initial={{ opacity: 0, x: 50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="space-y-6"
+            className="lg:col-span-5 space-y-8 pt-12 lg:pt-0"
           >
             {/* Stats Grid */}
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-2 gap-4">
               {MINISTRY_STATS.map((stat, index) => (
                 <motion.div
                   key={stat.label}
@@ -170,37 +170,31 @@ export default function AboutSection() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.1 }}
-                  className="bg-white/5 backdrop-blur-sm p-4 rounded-2xl border border-white/10 hover:bg-white/10 transition-all duration-300"
+                  className="hover-card glass-effect p-6 rounded-2xl"
                 >
-                  <div className="text-2xl font-bold text-[#3b82f6] mb-1">{stat.value}</div>
-                  <div className="text-xs text-white/60">{stat.label}</div>
+                  <div className="text-3xl font-bold text-[#3b82f6] mb-2 group-hover:scale-110 transition-transform duration-300">{stat.value}</div>
+                  <div className="text-sm text-white/60">{stat.label}</div>
                 </motion.div>
               ))}
             </div>
 
             {/* Brief Story */}
-            <div className="bg-gradient-to-r from-[#3b82f6]/10 to-transparent p-6 rounded-2xl border border-[#3b82f6]/20">
-              <h3 className="text-xl font-semibold text-white mb-3">The Journey</h3>
-              <p className="text-sm text-white/80 leading-relaxed line-clamp-4">
-                Born and raised in Diobu, Port Harcourt, Rivers State, Jaco discovered his musical gift at age 13 in Gospel Life Ministry. His journey from one of the city's toughest neighborhoods to becoming a celebrated gospel minister is a testament to God's grace. In 2013, he released his first album "Let the Shout Begin," marking the beginning of his mission to spread the gospel through music.
+            <div className="glass-effect p-8 rounded-2xl">
+              <h3 className="text-2xl font-bold text-white mb-4">The Journey</h3>
+              <p className="text-white/80 leading-relaxed mb-6">
+                Born and raised in Diobu, Port Harcourt, Rivers State, Jaco discovered his musical gift at age 13 in Gospel Life Ministry. His journey from one of the city's toughest neighborhoods to becoming a celebrated gospel minister is a testament to God's grace.
               </p>
+              <div className="flex justify-between items-center pt-4 border-t border-white/10">
+                <span className="text-white/60 text-sm">Est. 2013</span>
+                <button
+                  onClick={() => setIsModalOpen(true)}
+                  className="group inline-flex items-center gap-2 text-[#3b82f6] hover:text-white transition-colors"
+                >
+                  <span>Read Full Story</span>
+                  <FaArrowRight className="text-sm transition-transform duration-300 group-hover:translate-x-1" />
+                </button>
+              </div>
             </div>
-
-            {/* Read More Button */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="flex justify-center pt-4"
-            >
-              <button
-                onClick={() => setIsModalOpen(true)}
-                className="group inline-flex items-center gap-2 px-6 py-3 bg-[#3b82f6] text-white rounded-full hover:bg-[#3b82f6]/90 transition-all duration-300"
-              >
-                Read Full Story
-                <FaArrowRight className="text-sm transition-transform duration-300 group-hover:translate-x-1" />
-              </button>
-            </motion.div>
           </motion.div>
         </div>
       </div>
