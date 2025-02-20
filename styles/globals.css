@@ -1,0 +1,69 @@
+/* Base button styles */
+.btn {
+  @apply relative flex items-center gap-2 px-4 py-2 rounded-xl font-medium transition-all duration-300;
+}
+
+.btn-content {
+  @apply relative flex items-center gap-2 z-10;
+}
+
+.btn-icon {
+  @apply flex items-center justify-center p-1.5 rounded-lg bg-white/10;
+}
+
+.btn-glow {
+  @apply absolute inset-0 opacity-50 blur-xl rounded-xl transition-opacity duration-300;
+}
+
+/* Primary button */
+.btn-primary {
+  @apply bg-gradient-to-r from-[#3b82f6] to-[#2563eb] text-white shadow-lg shadow-[#3b82f6]/25;
+}
+
+.btn-primary:hover {
+  @apply shadow-xl shadow-[#3b82f6]/30;
+}
+
+/* Secondary button */
+.btn-secondary {
+  @apply bg-white/5 text-white/90 backdrop-blur-sm;
+}
+
+.btn-secondary:hover {
+  @apply bg-white/10;
+}
+
+/* Spotify button */
+.btn-spotify {
+  @apply bg-[#1DB954] text-white;
+}
+
+.btn-spotify:hover {
+  @apply bg-[#1ed760];
+}
+
+/* Apple Music button */
+.btn-apple {
+  @apply bg-[#FB233B] text-white;
+}
+
+.btn-apple:hover {
+  @apply bg-[#ff365c];
+}
+
+/* YouTube button */
+.btn-youtube {
+  @apply bg-gradient-to-r from-[#FF0000] to-[#ff1a1a] text-white;
+}
+
+.btn-youtube .btn-glow {
+  @apply bg-gradient-to-r from-[#FF0000] to-[#ff1a1a];
+}
+
+.btn-youtube:hover {
+  @apply shadow-lg shadow-[#FF0000]/25;
+}
+
+.btn-youtube:hover .btn-glow {
+  @apply opacity-75;
+} 

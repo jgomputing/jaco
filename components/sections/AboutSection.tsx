@@ -207,128 +207,115 @@ export default function AboutSection() {
       {/* Full Story Modal */}
       <AnimatePresence>
         {isModalOpen && (
-          <div className="fixed inset-0 flex items-center justify-center z-50 p-4">
+          <div className="fixed inset-0 flex items-center justify-center z-[100]">
             {/* Backdrop */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
               onClick={() => setIsModalOpen(false)}
               className="absolute inset-0 bg-black/90 backdrop-blur-md"
             />
 
             {/* Modal Container */}
             <motion.div
-              initial={{ opacity: 0, scale: 0.95, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="relative w-full max-w-5xl max-h-[90vh] overflow-hidden rounded-2xl shadow-2xl"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 20 }}
+              transition={{ duration: 0.3, type: "spring", stiffness: 150 }}
+              className="relative w-[90%] max-w-3xl h-[85vh] bg-black/95 rounded-2xl border border-white/10 shadow-2xl overflow-hidden z-[110]"
             >
-              {/* Scrollable Content */}
-              <div className="relative bg-gradient-to-br from-[#3b82f6]/10 to-black/95 backdrop-blur-md rounded-2xl border border-white/10 overflow-hidden">
+              {/* Header Image Section */}
+              <div className="relative h-[35vh]">
+                <Image
+                  src="/images/jaco_02.jpg"
+                  alt="Jaco Osijaye"
+                  fill
+                  className="object-cover"
+                  priority
+                />
+                <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-transparent" />
+                
                 {/* Close Button */}
-                <button
+                <motion.button
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
                   onClick={() => setIsModalOpen(false)}
-                  className="absolute top-4 right-4 p-2 text-white/60 hover:text-white transition-colors hover:bg-white/10 rounded-xl z-10 backdrop-blur-sm"
+                  className="absolute top-4 right-4 p-2 rounded-full bg-black/50 backdrop-blur-sm border border-white/10 text-white hover:bg-white/20 transition-all duration-300 z-10"
                 >
-                  <FaTimes size={24} />
-                </button>
+                  <FaTimes size={20} />
+                </motion.button>
 
-                {/* Modal Header with Image */}
-                <div className="relative h-48 sm:h-64 w-full">
-                  <Image
-                    src="/images/jaco_02.jpg"
-                    alt="Jaco Osijaye"
-                    fill
-                    className="object-cover"
-                    priority
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/80" />
-                  <div className="absolute bottom-0 left-0 w-full p-6 sm:p-8">
-                    <h2 className="text-3xl sm:text-4xl font-bold text-white mb-2">
+                {/* Title Section */}
+                <div className="absolute bottom-0 left-0 w-full p-6 bg-gradient-to-t from-black via-black/80 to-transparent">
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.2 }}
+                  >
+                    <h2 className="text-3xl md:text-4xl font-bold text-white mb-2">
                       Our <span className="text-[#3b82f6]">Story</span>
                     </h2>
-                    <p className="text-white/80">A journey of faith, music, and ministry</p>
-                  </div>
+                    <p className="text-white/80 text-base">A journey of faith, music, and ministry</p>
+                  </motion.div>
                 </div>
+              </div>
 
-                {/* Scrollable Content Area */}
-                <div className="overflow-y-auto max-h-[calc(90vh-16rem)] custom-scrollbar">
-                  <div className="p-6 sm:p-8 space-y-8">
-                    {/* Timeline Section */}
-                    <div className="relative space-y-8">
-                      {/* Timeline Line */}
-                      <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-[#3b82f6] via-[#3b82f6]/50 to-transparent" />
+              {/* Content Area */}
+              <div className="h-[50vh] overflow-y-auto custom-scrollbar">
+                <div className="p-6 space-y-6">
+                  {/* Timeline Section */}
+                  <div className="relative space-y-6">
+                    {/* Timeline Line */}
+                    <div className="absolute left-[7px] sm:left-8 top-3 bottom-3 w-[2px] bg-gradient-to-b from-[#3b82f6] via-[#3b82f6]/50 to-transparent" />
 
-                      {/* Early Life */}
-                      <div className="relative pl-20">
-                        <div className="absolute left-6 w-4 h-4 rounded-full bg-[#3b82f6] border-4 border-black/80 shadow-lg" />
-                        <h3 className="text-xl font-semibold text-white mb-3 flex items-center gap-3">
-                          <span className="text-[#3b82f6]">Early Life</span>
-                          <span className="text-sm text-white/40 font-normal">2000s</span>
-                        </h3>
-                        <p className="text-white/80 leading-relaxed">
-                          Born and raised in Diobu, Port Harcourt, Rivers State, Jaco discovered his musical gift at age 13 in Gospel Life Ministry. His journey from one of the city's toughest neighborhoods to becoming a celebrated gospel minister is a testament to God's grace.
-                        </p>
-                      </div>
-
-                      {/* Ministry Journey */}
-                      <div className="relative pl-20">
-                        <div className="absolute left-6 w-4 h-4 rounded-full bg-[#3b82f6] border-4 border-black/80 shadow-lg" />
-                        <h3 className="text-xl font-semibold text-white mb-3 flex items-center gap-3">
-                          <span className="text-[#3b82f6]">Ministry Journey</span>
-                          <span className="text-sm text-white/40 font-normal">2013</span>
-                        </h3>
-                        <p className="text-white/80 leading-relaxed">
-                          In 2013, he released his first album "Let the Shout Begin," marking the beginning of his mission to spread the gospel through music. This milestone opened doors for ministry opportunities across Nigeria and beyond.
-                        </p>
-                      </div>
-
-                      {/* Current Ministry */}
-                      <div className="relative pl-20">
-                        <div className="absolute left-6 w-4 h-4 rounded-full bg-[#3b82f6] border-4 border-black/80 shadow-lg" />
-                        <h3 className="text-xl font-semibold text-white mb-3 flex items-center gap-3">
-                          <span className="text-[#3b82f6]">Current Ministry</span>
-                          <span className="text-sm text-white/40 font-normal">Present</span>
-                        </h3>
-                        <p className="text-white/80 leading-relaxed">
-                          Currently based in Dubai, UAE, Jaco serves as the coordinator of Worship Community UAE. His dedication earned him the RCCG SHIFT Award, and he has shared stages with renowned ministers like Pastor Nathaniel Bassey.
-                        </p>
-                      </div>
-
-                      {/* Personal Life */}
-                      <div className="relative pl-20">
-                        <div className="absolute left-6 w-4 h-4 rounded-full bg-[#3b82f6] border-4 border-black/80 shadow-lg" />
-                        <h3 className="text-xl font-semibold text-white mb-3">
-                          <span className="text-[#3b82f6]">Personal Life</span>
-                        </h3>
-                        <p className="text-white/80 leading-relaxed">
-                          Alongside his ministry, Jaco is happily married to Gift Duman Jacob, blessed with two children, Gilda and Gianna. His family life stands as a testimony to God's faithfulness and grace.
-                        </p>
-                      </div>
-
-                      {/* Vision & Mission */}
-                      <div className="relative pl-20">
-                        <div className="absolute left-6 w-4 h-4 rounded-full bg-[#3b82f6] border-4 border-black/80 shadow-lg" />
-                        <h3 className="text-xl font-semibold text-white mb-3">
-                          <span className="text-[#3b82f6]">Vision & Mission</span>
-                        </h3>
-                        <p className="text-white/80 leading-relaxed">
-                          As a worship leader and music minister, Jaco's mission is to inspire youth Christians to discover and develop their musical gifts for worship and service. Through powerful music ministry, he aims to foster a culture of excellence, drawing young people closer to God while nurturing their talents in a way that honors Him.
-                        </p>
-                      </div>
-
-                      {/* HR Ministry Mission */}
-                      <div className="relative pl-20">
-                        <div className="absolute left-6 w-4 h-4 rounded-full bg-[#3b82f6] border-4 border-black/80 shadow-lg" />
-                        <h3 className="text-xl font-semibold text-white mb-3">
-                          <span className="text-[#3b82f6]">HR Ministry Mission</span>
-                        </h3>
-                        <p className="text-white/80 leading-relaxed">
-                          Supporting the Human Resources Ministry by mentoring youth in music and leadership, Jaco creates a platform for young talents to grow both spiritually and professionally. His commitment extends to developing the next generation of worship leaders who will carry the torch of musical excellence and spiritual devotion.
-                        </p>
-                      </div>
-                    </div>
+                    {/* Timeline Items */}
+                    {[
+                      {
+                        title: "Early Life",
+                        date: "2000s",
+                        content: "Born and raised in Diobu, Port Harcourt, Rivers State, Jaco discovered his musical gift at age 13 in Gospel Life Ministry. His journey from one of the city's toughest neighborhoods to becoming a celebrated gospel minister is a testament to God's grace."
+                      },
+                      {
+                        title: "Ministry Journey",
+                        date: "2013",
+                        content: 'In 2013, he released his first album "Let the Shout Begin," marking the beginning of his mission to spread the gospel through music. This milestone opened doors for ministry opportunities across Nigeria and beyond.'
+                      },
+                      {
+                        title: "Current Ministry",
+                        date: "Present",
+                        content: "Currently based in Dubai, UAE, Jaco serves as the coordinator of Worship Community UAE. His dedication earned him the RCCG SHIFT Award, and he has shared stages with renowned ministers like Pastor Nathaniel Bassey."
+                      }
+                    ].map((item, index) => (
+                      <motion.div
+                        key={item.title}
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: index * 0.1 }}
+                        className="relative pl-8 sm:pl-24"
+                      >
+                        {/* Timeline Dot */}
+                        <div className="absolute left-0 sm:left-6 top-3 w-3 h-3 rounded-full bg-[#3b82f6] border-2 border-black shadow-lg shadow-[#3b82f6]/20" />
+                        
+                        {/* Content */}
+                        <div className="bg-white/[0.03] backdrop-blur-sm rounded-xl p-6 border border-white/10 hover:bg-white/[0.05] transition-all duration-300">
+                          <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 mb-4">
+                            <h3 className="text-xl font-bold text-[#3b82f6]">
+                              {item.title}
+                            </h3>
+                            {item.date && (
+                              <span className="px-3 py-1 rounded-full bg-[#3b82f6]/10 text-[#3b82f6] text-sm inline-block sm:inline">
+                                {item.date}
+                              </span>
+                            )}
+                          </div>
+                          <p className="text-white/80 leading-relaxed">
+                            {item.content}
+                          </p>
+                        </div>
+                      </motion.div>
+                    ))}
                   </div>
                 </div>
               </div>
@@ -340,21 +327,21 @@ export default function AboutSection() {
       {/* Add custom scrollbar styles */}
       <style jsx global>{`
         .custom-scrollbar::-webkit-scrollbar {
-          width: 8px;
+          width: 6px;
         }
         
         .custom-scrollbar::-webkit-scrollbar-track {
-          background: rgba(255, 255, 255, 0.1);
-          border-radius: 4px;
+          background: rgba(255, 255, 255, 0.05);
+          border-radius: 3px;
         }
         
         .custom-scrollbar::-webkit-scrollbar-thumb {
-          background: rgba(59, 130, 246, 0.5);
-          border-radius: 4px;
+          background: rgba(59, 130, 246, 0.3);
+          border-radius: 3px;
         }
         
         .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-          background: rgba(59, 130, 246, 0.7);
+          background: rgba(59, 130, 246, 0.5);
         }
       `}</style>
     </section>

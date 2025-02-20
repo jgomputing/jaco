@@ -3,7 +3,7 @@
 import React, { useState } from 'react'
 import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
-import { FaPlay, FaSpotify, FaApple, FaShare, FaMusic, FaVideo, FaYoutube } from 'react-icons/fa'
+import { FaPlay, FaSpotify, FaApple, FaShare, FaMusic, FaVideo, FaYoutube, FaArrowRight } from 'react-icons/fa'
 
 // Combined Media Data
 const MEDIA_DATA = {
@@ -116,159 +116,195 @@ export default function MediaSection() {
     <section id="media" className="py-12 sm:py-20 relative overflow-hidden">
       {/* Background Elements */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-[#3b82f6] rounded-full opacity-[0.07] blur-3xl" />
-        <div className="absolute bottom-0 right-0 w-96 h-96 bg-purple-500 rounded-full opacity-[0.07] blur-3xl" />
+        {/* Modern mesh gradient background */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-[#3b82f6]/10 via-purple-600/5 to-transparent" />
+        
+        {/* Subtle animated accent */}
+        <div className="absolute top-1/4 left-0 w-1/2 h-1/2 bg-gradient-to-r from-[#3b82f6]/10 to-transparent blur-3xl opacity-40 animate-pulse-slow" />
+        
+        {/* Glass effect overlay */}
+        <div className="absolute inset-0 backdrop-blur-[100px] bg-black/20" />
       </div>
 
-      <div className="container">
+      <div className="container px-4 mx-auto relative">
         {/* Section Header */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-12"
+          className="text-center mb-16"
         >
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 backdrop-blur-sm border border-white/10 mb-6">
+            <span className="w-2 h-2 rounded-full bg-[#3b82f6] animate-pulse" />
+            <span className="text-white/60 text-sm font-medium">Latest Releases</span>
+          </div>
+          <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white to-white/60">
             Media & <span className="text-[#3b82f6]">Releases</span>
           </h2>
-          <p className="text-white/60 text-lg">Experience our worship through music and videos</p>
+          <p className="text-white/60 text-lg max-w-2xl mx-auto">Experience our worship through music and videos</p>
         </motion.div>
 
         {/* Tab Navigation */}
-        <div className="flex justify-center gap-4 mb-12">
+        <div className="flex justify-center gap-3 mb-16">
           <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
             onClick={() => setActiveTab('music')}
-            className={`flex items-center gap-2 px-6 py-3 rounded-full text-sm font-medium transition-all duration-300 ${
-              activeTab === 'music'
-                ? 'bg-[#3b82f6] text-white'
-                : 'bg-white/10 text-white/70 hover:bg-white/20'
-            }`}
+            className={`btn ${activeTab === 'music' ? 'btn-primary' : 'btn-secondary'}`}
           >
-            <FaMusic className="text-lg" />
-            Music
+            <div className="btn-content">
+              <div className="btn-icon">
+                <FaMusic className="text-lg" />
+              </div>
+              <span>Music</span>
+            </div>
           </motion.button>
           <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
             onClick={() => setActiveTab('videos')}
-            className={`flex items-center gap-2 px-6 py-3 rounded-full text-sm font-medium transition-all duration-300 ${
-              activeTab === 'videos'
-                ? 'bg-[#3b82f6] text-white'
-                : 'bg-white/10 text-white/70 hover:bg-white/20'
-            }`}
+            className={`btn ${activeTab === 'videos' ? 'btn-primary' : 'btn-secondary'}`}
           >
-            <FaVideo className="text-lg" />
-            Videos
+            <div className="btn-content">
+              <div className="btn-icon">
+                <FaVideo className="text-lg" />
+              </div>
+              <span>Videos</span>
+            </div>
           </motion.button>
         </div>
 
         {/* Content Area */}
         <AnimatePresence mode="wait">
           {activeTab === 'music' ? (
-            // Music Releases
+            // Music Releases List
             <motion.div
               key="music"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.5 }}
-              className="grid grid-cols-1 gap-4"
+              className="max-w-6xl mx-auto"
             >
-              {MEDIA_DATA.music.map((release) => (
-                <motion.div
-                  key={release.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: release.id * 0.1 }}
-                  className="group bg-white/5 backdrop-blur-sm rounded-xl overflow-hidden hover:bg-white/10 transition-all duration-300"
-                >
-                  <div className="flex flex-col p-3">
-                    <div className="relative w-full h-40 sm:h-48 rounded-lg overflow-hidden">
-                      <Image
-                        src={release.image}
-                        alt={release.title}
-                        fill
-                        className="object-cover transition-transform duration-700 group-hover:scale-105"
-                      />
-                    </div>
-                    <div className="flex-1 min-w-0 w-full mt-3">
-                      <div className="flex items-center gap-3 mb-2">
-                        <h3 className="text-base sm:text-lg font-semibold text-white group-hover:text-[#3b82f6] transition-colors truncate">
-                          {release.title}
-                        </h3>
+              <div className="grid grid-cols-1 gap-4">
+                {MEDIA_DATA.music.map((release, index) => (
+                  <motion.div
+                    key={release.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.1 }}
+                    className="group relative"
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-r from-[#3b82f6]/20 via-purple-600/20 to-transparent rounded-xl blur-xl opacity-0 group-hover:opacity-100 transition-all duration-500 -z-10" />
+                    <div className="bg-white/[0.03] backdrop-blur-xl rounded-xl overflow-hidden hover:bg-white/[0.05] transition-all duration-500 border border-white/[0.05]">
+                      <div className="flex items-center">
+                        {/* Album Art */}
+                        <div className="relative h-20 w-20 shrink-0">
+                          <Image
+                            src={release.image}
+                            alt={release.title}
+                            fill
+                            className="object-cover"
+                          />
+                          <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center">
+                            <motion.button
+                              whileHover={{ scale: 1.1 }}
+                              whileTap={{ scale: 0.9 }}
+                              className="w-10 h-10 rounded-full bg-[#3b82f6] flex items-center justify-center text-white shadow-lg"
+                            >
+                              <FaPlay size={16} />
+                            </motion.button>
+                          </div>
+                        </div>
+
+                        {/* Content */}
+                        <div className="flex-1 flex items-center justify-between px-4 py-3">
+                          <div>
+                            <h3 className="text-base font-bold text-white group-hover:text-[#3b82f6] transition-colors line-clamp-1">
+                              {release.title}
+                            </h3>
+                            <div className="flex items-center gap-2 mt-1">
+                              <span className="text-xs text-white/40">{release.duration}</span>
+                              <span className="w-1 h-1 rounded-full bg-white/20" />
+                              <span className="text-xs text-white/40">{release.releaseYear}</span>
+                            </div>
+                          </div>
+
+                          {/* Action Buttons */}
+                          <div className="flex items-center gap-2">
+                            <motion.a
+                              whileHover={{ scale: 1.05 }}
+                              whileTap={{ scale: 0.95 }}
+                              href={release.spotify}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="btn btn-spotify p-2"
+                            >
+                              <FaSpotify className="w-4 h-4" />
+                            </motion.a>
+                            <motion.a
+                              whileHover={{ scale: 1.05 }}
+                              whileTap={{ scale: 0.95 }}
+                              href={release.appleMusic}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="btn btn-apple p-2"
+                            >
+                              <FaApple className="w-4 h-4" />
+                            </motion.a>
+                            <motion.button
+                              whileHover={{ scale: 1.05 }}
+                              whileTap={{ scale: 0.95 }}
+                              onClick={() => handleShare(release.title, release.shareUrl)}
+                              className="btn btn-secondary p-2"
+                            >
+                              <FaShare className="w-4 h-4" />
+                            </motion.button>
+                          </div>
+                        </div>
                       </div>
-                      <p className="text-white/60 text-sm mb-2">{release.description}</p>
-                      <div className="flex items-center gap-2 text-sm text-white/40 mb-3">
-                        <span>{release.duration}</span>
-                        <span>•</span>
-                        <span>{release.releaseYear}</span>
-                      </div>
                     </div>
-                    <div className="flex items-center gap-2 w-full justify-center">
-                      <button 
-                        onClick={() => handleShare(release.title, release.shareUrl)}
-                        className="media-action-btn flex-1 p-3 rounded-xl bg-white/10 text-white transition-all hover:bg-white/20 hover:scale-105 hover:shadow-lg text-center max-w-[120px]"
-                        aria-label="Share"
-                      >
-                        <FaShare className="w-4 h-4 mx-auto" />
-                      </button>
-                      <a
-                        href={release.spotify}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="media-action-btn flex-1 p-3 rounded-xl bg-[#1DB954] text-white transition-all hover:bg-opacity-90 hover:scale-105 hover:shadow-lg hover:shadow-[#1DB954]/25 text-center max-w-[120px]"
-                        aria-label="Listen on Spotify"
-                      >
-                        <FaSpotify className="w-4 h-4 mx-auto" />
-                      </a>
-                      <a
-                        href={release.appleMusic}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="media-action-btn flex-1 p-3 rounded-xl bg-[#FB233B] text-white transition-all hover:bg-opacity-90 hover:scale-105 hover:shadow-lg hover:shadow-[#FB233B]/25 text-center max-w-[120px]"
-                        aria-label="Listen on Apple Music"
-                      >
-                        <FaApple className="w-4 h-4 mx-auto" />
-                      </a>
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
+                  </motion.div>
+                ))}
+              </div>
             </motion.div>
           ) : (
-            // Videos Grid
-            <div className="space-y-8">
-              <motion.div
-                key="videos"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.5 }}
-                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-              >
-                {MEDIA_DATA.videos.slice(0, 3).map((video) => (
+            // Videos Grid with max 3 columns
+            <motion.div
+              key="videos"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.5 }}
+              className="space-y-12 max-w-7xl mx-auto"
+            >
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+                {MEDIA_DATA.videos.slice(0, 3).map((video, index) => (
                   <motion.div
                     key={video.id}
                     initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    className="group"
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.1 }}
+                    className="group relative h-full"
                   >
-                    <div className="glass-card overflow-hidden rounded-xl">
-                      {/* Thumbnail Container */}
-                      <div className="relative aspect-video">
+                    <div className="absolute inset-0 bg-gradient-to-br from-[#FF0000]/20 to-purple-600/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-all duration-500 -z-10" />
+                    <div className="bg-white/5 backdrop-blur-md rounded-2xl overflow-hidden hover:bg-white/10 transition-all duration-500 border border-white/10 h-full flex flex-col">
+                      <div className="aspect-video relative overflow-hidden">
                         <Image
                           src={video.thumbnail}
                           alt={video.title}
                           fill
-                          className="object-cover transform group-hover:scale-105 transition-transform duration-700"
+                          className="object-cover transition-transform duration-700 group-hover:scale-110"
                         />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500" />
                         
-                        {/* Play Button Overlay */}
-                        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        {/* Play Button */}
+                        <motion.div
+                          initial={{ opacity: 0, scale: 0.5 }}
+                          whileHover={{ scale: 1.1 }}
+                          whileTap={{ scale: 0.9 }}
+                          className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500"
+                        >
                           <a
                             href={video.youtubeUrl}
                             target="_blank"
@@ -277,40 +313,44 @@ export default function MediaSection() {
                           >
                             <FaPlay size={24} />
                           </a>
-                        </div>
+                        </motion.div>
 
                         {/* Duration Badge */}
-                        <div className="absolute bottom-4 right-4 px-3 py-1 bg-black/70 backdrop-blur-sm rounded-full text-white text-sm">
+                        <div className="absolute top-4 right-4 px-3 py-1.5 rounded-full bg-black/50 backdrop-blur-sm text-white text-sm">
                           {video.duration}
+                        </div>
+
+                        {/* Views Badge */}
+                        <div className="absolute top-4 left-4 px-3 py-1.5 rounded-full bg-black/50 backdrop-blur-sm text-white text-sm">
+                          {video.views}
                         </div>
                       </div>
 
-                      {/* Video Info */}
-                      <div className="p-6">
-                        <h3 className="text-xl font-semibold text-white mb-2 group-hover:text-[#3b82f6] transition-colors">
+                      <div className="p-6 flex-1 flex flex-col">
+                        <h3 className="text-xl font-bold text-white group-hover:text-[#FF0000] transition-colors mb-2">
                           {video.title}
                         </h3>
-                        <p className="text-white/60 text-sm mb-4">
+                        <p className="text-white/60 text-sm mb-4 line-clamp-2 flex-1">
                           {video.description}
                         </p>
 
-                        <div className="flex items-center justify-between text-sm">
-                          <span className="text-white/40">{video.releaseYear}</span>
+                        <div className="flex items-center justify-between mt-auto pt-4 border-t border-white/10">
+                          <span className="text-white/40 text-sm">{video.releaseYear}</span>
                           <a
                             href={video.youtubeUrl}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-flex items-center gap-2 text-[#FF0000] hover:text-[#ff1a1a] transition-colors"
+                            className="flex items-center gap-2 text-[#FF0000] hover:text-[#ff1a1a] transition-colors group/link"
                           >
                             <FaYoutube size={20} />
-                            Watch on YouTube
+                            <span className="text-sm font-medium group-hover/link:underline">Watch</span>
                           </a>
                         </div>
                       </div>
                     </div>
                   </motion.div>
                 ))}
-              </motion.div>
+              </div>
 
               {/* Watch More Button */}
               <motion.div
@@ -319,17 +359,23 @@ export default function MediaSection() {
                 transition={{ delay: 0.3 }}
                 className="flex justify-center"
               >
-                <a
+                <motion.a
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
                   href="https://www.youtube.com/@jacoosijaye"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group inline-flex items-center gap-2 px-6 py-3 bg-[#FF0000] text-white rounded-full hover:bg-[#ff1a1a] transition-all duration-300"
+                  className="btn btn-youtube"
                 >
-                  <FaYoutube className="text-xl" />
-                  <span>Watch More Videos</span>
-                </a>
+                  <div className="btn-glow" />
+                  <div className="btn-content">
+                    <FaYoutube className="text-2xl" />
+                    <span className="font-medium">Visit YouTube Channel</span>
+                    <FaArrowRight className="text-sm transition-transform duration-300 group-hover:translate-x-1" />
+                  </div>
+                </motion.a>
               </motion.div>
-            </div>
+            </motion.div>
           )}
         </AnimatePresence>
       </div>

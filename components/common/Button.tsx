@@ -5,7 +5,7 @@ import { motion } from 'framer-motion'
 
 interface ButtonProps {
   children: React.ReactNode
-  variant?: 'primary' | 'secondary' | 'outline'
+  variant?: 'primary' | 'secondary' | 'outline' | 'spotify' | 'apple'
   size?: 'sm' | 'md' | 'lg'
   className?: string
   onClick?: () => void
@@ -24,18 +24,20 @@ export default function Button({
   disabled = false,
   icon
 }: ButtonProps) {
-  const baseStyles = 'inline-flex items-center justify-center font-medium transition-all duration-300 rounded-xl disabled:opacity-50 disabled:cursor-not-allowed'
+  const baseStyles = 'inline-flex items-center justify-center font-medium transition-all duration-500 rounded relative overflow-hidden group'
   
   const variantStyles = {
-    primary: 'bg-gradient-to-r from-[#3b82f6] to-[#2563eb] text-white hover:from-[#2563eb] hover:to-[#1d4ed8] shadow-lg hover:shadow-xl hover:shadow-blue-500/20',
-    secondary: 'bg-white text-[#3b82f6] hover:bg-blue-50 shadow-lg hover:shadow-xl',
-    outline: 'border-2 border-[#3b82f6] text-[#3b82f6] hover:bg-[#3b82f6] hover:text-white'
+    primary: 'bg-gradient-to-r from-[#3b82f6] to-[#2563eb] text-white hover:shadow-lg hover:shadow-[#3b82f6]/25',
+    secondary: 'bg-white/5 backdrop-blur-sm text-white hover:bg-white/10 border border-white/10 hover:border-white/20',
+    outline: 'border-2 border-[#3b82f6] text-[#3b82f6] hover:bg-[#3b82f6] hover:text-white',
+    spotify: 'bg-[#1DB954] text-white hover:bg-[#1ed760]',
+    apple: 'bg-[#FB233B] text-white hover:bg-[#ff365c]'
   }
   
   const sizeStyles = {
-    sm: 'px-3 sm:px-4 py-2 text-xs sm:text-sm gap-1.5',
-    md: 'px-4 sm:px-6 py-2.5 sm:py-3 text-sm sm:text-base gap-2',
-    lg: 'px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg gap-2.5'
+    sm: 'px-4 py-2 text-sm gap-2',
+    md: 'px-4 py-2 text-sm gap-2',
+    lg: 'px-4 py-2 text-sm gap-2'
   }
 
   return (
@@ -43,11 +45,21 @@ export default function Button({
       onClick={onClick}
       type={type}
       disabled={disabled}
-      whileTap={{ scale: 0.98 }}
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 0.95 }}
       className={`${baseStyles} ${variantStyles[variant]} ${sizeStyles[size]} ${className}`}
     >
-      {icon && <span className="relative">{icon}</span>}
-      {children}
+      {variant === 'primary' && (
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+      )}
+      <div className="relative flex items-center gap-inherit">
+        {icon && (
+          <div className={`p-1.5 rounded ${variant === 'primary' ? 'bg-white/20' : 'bg-white/10'}`}>
+            {icon}
+          </div>
+        )}
+        {children}
+      </div>
     </motion.button>
   )
 } 

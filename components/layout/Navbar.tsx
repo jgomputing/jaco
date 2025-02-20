@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -16,9 +16,18 @@ const NAVIGATION_LINKS = [
   { name: 'Contact', path: '/#contact' }
 ]
 
-export default function Navbar({ isScrolled }: { isScrolled: boolean }) {
+export default function Navbar() {
+  const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const pathname = usePathname()
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 100)
+    }
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, path: string) => {
     if (path.startsWith('/#')) {
@@ -47,66 +56,89 @@ export default function Navbar({ isScrolled }: { isScrolled: boolean }) {
 
   return (
     <>
-      <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${
-        isScrolled 
-          ? 'bg-black/90 backdrop-blur-md shadow-xl py-3 border-b border-white/10' 
-          : 'bg-gradient-to-b from-black/80 via-black/50 to-transparent py-5'
-      }`}>
-        <div className="container">
-          <div className="flex items-center justify-between">
-            <Link href="/" className="block">
-              <div className={`relative transition-all duration-500 hover:scale-105 ${
-                isScrolled ? 'scale-90' : 'scale-100'
-              }`}>
-                <Image
-                  src="/images/logo/main_logo.png"
-                  alt="JACO MUSICAL"
-                  width={100}
-                  height={100}
-                  className="rounded-full"
-                  priority
-                />
-              </div>
-            </Link>
-
-            {/* Desktop Menu */}
-            <div className="hidden md:flex items-center gap-8 lg:gap-12">
-              {NAVIGATION_LINKS.map((link) => (
-                <Link
-                  key={link.path}
-                  href={link.path}
-                  onClick={(e) => handleNavClick(e, link.path)}
-                  className={`flex items-center gap-2 font-medium text-base transition-all duration-300 relative group ${
-                    isScrolled ? 'text-white hover:text-white' : 'text-white/80 hover:text-white'
-                  }`}
-                >
-                  <span className="flex items-center gap-2">
-                    {link.name === 'Home' && <FaHome className="text-lg" />}
-                    {link.name === 'About' && <FaHeart className="text-lg" />}
-                    {link.name === 'Media' && <FaVideo className="text-lg" />}
-                    {link.name === 'Blog' && <FaBlog className="text-lg" />}
-                    {link.name === 'Contact' && <FaEnvelope className="text-lg" />}
-                    {link.name}
-                  </span>
-                  <div className={`absolute -bottom-1 left-0 w-0 h-0.5 group-hover:w-full transition-all duration-300 ${
-                    isScrolled ? 'bg-[#3b82f6]' : 'bg-white'
-                  }`}></div>
-                </Link>
-              ))}
+      <motion.header
+        initial={{ y: -100 }}
+        animate={{ y: 0 }}
+        transition={{ duration: 0.5 }}
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+          isScrolled ? 'bg-black/80 backdrop-blur-xl shadow-xl' : 'bg-transparent'
+        }`}
+      >
+        <nav className="container py-4 flex items-center justify-between">
+          <Link href="/" className="block">
+            <div className={`relative transition-all duration-500 hover:scale-105 ${
+              isScrolled ? 'scale-90' : 'scale-100'
+            }`}>
+              <Image
+                src="/images/logo/main_logo.png"
+                alt="JACO MUSICAL"
+                width={100}
+                height={100}
+                className="rounded-full"
+                priority
+              />
             </div>
+          </Link>
 
-            {/* Mobile Menu Button */}
-            <button
+          <ul className="hidden md:flex items-center gap-8">
+            <li>
+              <Link 
+                href="/" 
+                className="relative text-white/80 hover:text-white transition-colors group"
+              >
+                <span className="relative z-10">Home</span>
+                <span className="absolute inset-x-0 -bottom-1 h-0.5 bg-[#3b82f6] scale-x-0 group-hover:scale-x-100 transition-transform origin-left" />
+              </Link>
+            </li>
+            <li>
+              <Link 
+                href="/#about" 
+                className="relative text-white/80 hover:text-white transition-colors group"
+              >
+                <span className="relative z-10">About</span>
+                <span className="absolute inset-x-0 -bottom-1 h-0.5 bg-[#3b82f6] scale-x-0 group-hover:scale-x-100 transition-transform origin-left" />
+              </Link>
+            </li>
+            <li>
+              <Link 
+                href="/#media" 
+                className="relative text-white/80 hover:text-white transition-colors group"
+              >
+                <span className="relative z-10">Media</span>
+                <span className="absolute inset-x-0 -bottom-1 h-0.5 bg-[#3b82f6] scale-x-0 group-hover:scale-x-100 transition-transform origin-left" />
+              </Link>
+            </li>
+            <li>
+              <Link 
+                href="/#blog" 
+                className="relative text-white/80 hover:text-white transition-colors group"
+              >
+                <span className="relative z-10">Blog</span>
+                <span className="absolute inset-x-0 -bottom-1 h-0.5 bg-[#3b82f6] scale-x-0 group-hover:scale-x-100 transition-transform origin-left" />
+              </Link>
+            </li>
+            <li>
+              <Link 
+                href="/#contact" 
+                className="relative text-white/80 hover:text-white transition-colors group"
+              >
+                <span className="relative z-10">Contact</span>
+                <span className="absolute inset-x-0 -bottom-1 h-0.5 bg-[#3b82f6] scale-x-0 group-hover:scale-x-100 transition-transform origin-left" />
+              </Link>
+            </li>
+          </ul>
+
+          <div className="md:hidden">
+            {/* Mobile menu button */}
+            <button 
               onClick={() => setIsMobileMenuOpen(true)}
-              className={`md:hidden p-3 rounded-lg transition-all duration-500 ${
-                isScrolled ? 'text-white hover:text-white hover:bg-white/10' : 'text-white/80 hover:text-white'
-              }`}
+              className="p-2 rounded-lg bg-white/5 hover:bg-white/10 transition-colors"
             >
-              <FaBars size={24} />
+              <FaBars size={24} className="text-white" />
             </button>
           </div>
-        </div>
-      </nav>
+        </nav>
+      </motion.header>
 
       {/* Mobile Menu */}
       <AnimatePresence>
@@ -128,21 +160,21 @@ export default function Navbar({ isScrolled }: { isScrolled: boolean }) {
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
               transition={{ type: "spring", damping: 25, stiffness: 200 }}
-              className="fixed top-4 right-4 w-[280px] bg-gradient-to-b from-[#3b82f6]/95 to-[#2563eb]/95 backdrop-blur-md z-50 md:hidden rounded-2xl shadow-xl"
+              className="fixed top-4 right-4 w-[240px] bg-gradient-to-b from-[#3b82f6]/95 to-[#2563eb]/95 backdrop-blur-md z-50 md:hidden rounded-2xl shadow-xl border border-white/10"
             >
               <div className="flex flex-col">
-                {/* Close Button Only */}
-                <div className="flex items-center justify-end p-4 border-b border-white/10">
+                {/* Header */}
+                <div className="flex items-center justify-end p-3 border-b border-white/10">
                   <button
                     onClick={() => setIsMobileMenuOpen(false)}
-                    className="p-2 text-white/80 hover:text-white rounded-lg hover:bg-white/10 transition-colors"
+                    className="p-1.5 text-white/80 hover:text-white rounded-lg hover:bg-white/10 transition-colors"
                   >
-                    <FaTimes size={20} />
+                    <FaTimes size={18} />
                   </button>
                 </div>
 
                 {/* Navigation Links */}
-                <div className="py-4 px-4">
+                <div className="p-2">
                   {NAVIGATION_LINKS.map((link, index) => (
                     <motion.div
                       key={link.path}
@@ -156,14 +188,14 @@ export default function Navbar({ isScrolled }: { isScrolled: boolean }) {
                           handleNavClick(e, link.path)
                           setIsMobileMenuOpen(false)
                         }}
-                        className="py-3 text-base text-white/90 hover:text-white flex items-center gap-3 group"
+                        className="py-2 px-3 text-sm text-white/90 hover:text-white flex items-center gap-3 group rounded-lg hover:bg-white/10 transition-all duration-300"
                       >
-                        <span className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center group-hover:bg-white/20 transition-colors">
-                          {link.name === 'Home' && <FaHome size={14} />}
-                          {link.name === 'About' && <FaHeart size={14} />}
-                          {link.name === 'Media' && <FaVideo size={14} />}
-                          {link.name === 'Blog' && <FaBlog size={14} />}
-                          {link.name === 'Contact' && <FaEnvelope size={14} />}
+                        <span className="w-7 h-7 rounded-lg bg-white/10 flex items-center justify-center group-hover:bg-white/20 transition-colors">
+                          {link.name === 'Home' && <FaHome size={12} />}
+                          {link.name === 'About' && <FaHeart size={12} />}
+                          {link.name === 'Media' && <FaVideo size={12} />}
+                          {link.name === 'Blog' && <FaBlog size={12} />}
+                          {link.name === 'Contact' && <FaEnvelope size={12} />}
                         </span>
                         {link.name}
                       </Link>
@@ -172,14 +204,13 @@ export default function Navbar({ isScrolled }: { isScrolled: boolean }) {
                 </div>
 
                 {/* Social Links */}
-                <div className="p-4 border-t border-white/10">
-                  <p className="text-white/60 text-xs mb-3">Follow Us</p>
-                  <div className="flex gap-2">
-                    <a href="https://www.youtube.com/@jacoosijaye" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center text-white/80 hover:bg-white/20 hover:text-white transition-colors">
-                      <FaYoutube size={16} />
+                <div className="p-3 border-t border-white/10">
+                  <div className="flex gap-2 justify-center">
+                    <a href="https://www.youtube.com/@jacoosijaye" target="_blank" rel="noopener noreferrer" className="w-7 h-7 rounded-lg bg-white/10 flex items-center justify-center text-white/80 hover:bg-white/20 hover:text-white transition-colors">
+                      <FaYoutube size={14} />
                     </a>
-                    <a href="https://www.instagram.com/jacomusicals/" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center text-white/80 hover:bg-white/20 hover:text-white transition-colors">
-                      <FaInstagram size={16} />
+                    <a href="https://www.instagram.com/jacomusicals/" target="_blank" rel="noopener noreferrer" className="w-7 h-7 rounded-lg bg-white/10 flex items-center justify-center text-white/80 hover:bg-white/20 hover:text-white transition-colors">
+                      <FaInstagram size={14} />
                     </a>
                   </div>
                 </div>

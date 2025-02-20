@@ -1,220 +1,140 @@
 'use client'
 
-import React, { useState } from 'react'
+import React from 'react'
 import { motion } from 'framer-motion'
-import { FaEnvelope, FaPhone, FaMapMarkerAlt, FaInstagram, FaYoutube, FaSpotify } from 'react-icons/fa'
+import { FaEnvelope, FaMapMarkerAlt, FaPhone, FaCalendar } from 'react-icons/fa'
 
-const CONTACT_INFO = [
-  {
-    icon: FaEnvelope,
-    title: 'Email',
-    content: 'contact@jacomusical.com',
-    link: 'mailto:contact@jacomusical.com'
-  },
-  {
-    icon: FaPhone,
-    title: 'Phone',
-    content: '+971 50 000 0000',
-    link: 'tel:+971500000000'
-  },
-  {
-    icon: FaMapMarkerAlt,
-    title: 'Location',
-    content: 'Dubai, United Arab Emirates',
-    link: '#'
-  }
-]
-
-const SOCIAL_LINKS = [
-  {
-    icon: FaYoutube,
-    label: 'YouTube',
-    href: 'https://www.youtube.com/@jacoosijaye',
-    color: 'hover:bg-red-600 hover:border-red-600'
-  },
-  {
-    icon: FaInstagram,
-    label: 'Instagram',
-    href: 'https://www.instagram.com/jacomusicals/',
-    color: 'hover:bg-pink-600 hover:border-pink-600'
-  }
-]
+const CONTACT_INFO = {
+  email: "bookings@jacomusical.com",
+  phone: "+971 50 123 4567",
+  location: "Dubai, United Arab Emirates",
+  bookingHours: "Available for bookings 24/7"
+}
 
 export default function ContactSection() {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    subject: '',
-    message: ''
-  })
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    // Handle form submission here
-    console.log('Form submitted:', formData)
-  }
-
   return (
-    <section id="contact" className="py-20 relative overflow-hidden">
+    <section id="contact" className="py-20 relative scroll-mt-20">
       {/* Background Elements */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-[#3b82f6] rounded-full opacity-[0.07] blur-3xl" />
-        <div className="absolute bottom-0 right-0 w-96 h-96 bg-purple-500 rounded-full opacity-[0.07] blur-3xl" />
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <div className="absolute top-1/2 right-0 w-[500px] h-[500px] bg-[#3b82f6] rounded-full opacity-[0.03] blur-3xl animate-pulse-slow" />
+        <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-purple-500 rounded-full opacity-[0.03] blur-3xl animate-pulse-slow" />
       </div>
 
       <div className="container">
         {/* Section Header */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-12"
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-center mb-16"
         >
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4">
-            Get in <span className="text-[#3b82f6]">Touch</span>
+          <span className="inline-block px-4 py-2 rounded-full bg-[#3b82f6]/10 text-[#3b82f6] text-sm font-medium mb-4">
+            Get in Touch
+          </span>
+          <h2 className="text-4xl sm:text-5xl font-bold text-white mb-6">
+            Contact <span className="text-[#3b82f6]">Us</span>
           </h2>
-          <p className="text-white/60 text-lg">
-            Reach out for bookings, collaborations, or just to say hello
+          <p className="text-white/60 text-lg max-w-2xl mx-auto">
+            Available for church events, gospel concerts, and special occasions
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          {/* Contact Form */}
-          <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                <div>
-                  <label htmlFor="name" className="block text-white/60 text-sm mb-2">Your Name</label>
-                  <input
-                    type="text"
-                    id="name"
-                    value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-[#3b82f6] focus:border-transparent transition-all duration-300"
-                    placeholder="John Doe"
-                    required
-                  />
-                </div>
-                <div>
-                  <label htmlFor="email" className="block text-white/60 text-sm mb-2">Email Address</label>
-                  <input
-                    type="email"
-                    id="email"
-                    value={formData.email}
-                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-[#3b82f6] focus:border-transparent transition-all duration-300"
-                    placeholder="john@example.com"
-                    required
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label htmlFor="subject" className="block text-white/60 text-sm mb-2">Subject</label>
-                <input
-                  type="text"
-                  id="subject"
-                  value={formData.subject}
-                  onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                  className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-[#3b82f6] focus:border-transparent transition-all duration-300"
-                  placeholder="How can we help?"
-                  required
-                />
-              </div>
-
-              <div>
-                <label htmlFor="message" className="block text-white/60 text-sm mb-2">Message</label>
-                <textarea
-                  id="message"
-                  value={formData.message}
-                  onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                  className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-[#3b82f6] focus:border-transparent transition-all duration-300 min-h-[150px]"
-                  placeholder="Your message here..."
-                  required
-                />
-              </div>
-
-              <motion.button
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                type="submit"
-                className="w-full px-8 py-4 bg-gradient-to-r from-[#3b82f6] to-[#2563eb] text-white rounded-xl hover:from-[#2563eb] hover:to-[#1d4ed8] transition-all duration-300 font-medium"
+        {/* Contact Grid */}
+        <div className="max-w-4xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Contact Info Cards */}
+            {[
+              {
+                icon: FaEnvelope,
+                title: "Email Us",
+                info: CONTACT_INFO.email,
+                link: `mailto:${CONTACT_INFO.email}`,
+                color: "hover:bg-[#3b82f6]"
+              },
+              {
+                icon: FaPhone,
+                title: "Call Us",
+                info: CONTACT_INFO.phone,
+                link: `tel:${CONTACT_INFO.phone.replace(/\s+/g, '')}`,
+                color: "hover:bg-green-500"
+              },
+              {
+                icon: FaMapMarkerAlt,
+                title: "Location",
+                info: CONTACT_INFO.location,
+                link: "https://maps.google.com/?q=Dubai",
+                color: "hover:bg-red-500"
+              },
+              {
+                icon: FaCalendar,
+                title: "Booking Hours",
+                info: CONTACT_INFO.bookingHours,
+                color: "hover:bg-purple-500"
+              }
+            ].map((item, index) => (
+              <motion.div
+                key={item.title}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
+                className="group relative"
               >
-                Send Message
-              </motion.button>
-            </form>
-          </motion.div>
-
-          {/* Contact Information */}
-          <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6 }}
-            className="space-y-8"
-          >
-            {/* Contact Cards */}
-            <div className="grid gap-6">
-              {CONTACT_INFO.map((info, index) => (
-                <motion.a
-                  key={info.title}
-                  href={info.link}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.1 }}
-                  className="group flex items-start gap-4 p-4 bg-white/5 border border-white/10 rounded-xl hover:bg-white/10 transition-all duration-300"
-                >
-                  <div className="w-12 h-12 rounded-xl bg-[#3b82f6]/10 flex items-center justify-center flex-shrink-0 group-hover:bg-[#3b82f6]/20 transition-colors">
-                    <info.icon className="text-[#3b82f6] text-xl" />
-                  </div>
-                  <div>
-                    <h3 className="text-white font-medium mb-1">{info.title}</h3>
-                    <p className="text-white/60">{info.content}</p>
-                  </div>
-                </motion.a>
-              ))}
-            </div>
-
-            {/* Social Links */}
-            <div className="space-y-4">
-              <h3 className="text-white font-medium">Connect With Us</h3>
-              <div className="flex gap-4">
-                {SOCIAL_LINKS.map((social, index) => (
-                  <motion.a
-                    key={social.label}
-                    href={social.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.3 + index * 0.1 }}
-                    className={`w-12 h-12 rounded-xl border border-white/10 flex items-center justify-center text-white/60 hover:text-white ${social.color} transition-all duration-300`}
-                    aria-label={social.label}
+                <div className="absolute inset-0 bg-gradient-to-r from-[#3b82f6]/20 via-purple-600/20 to-transparent rounded-xl blur-xl opacity-0 group-hover:opacity-100 transition-all duration-500 -z-10" />
+                
+                {item.link ? (
+                  <a
+                    href={item.link}
+                    target={item.link.startsWith('http') ? '_blank' : undefined}
+                    rel={item.link.startsWith('http') ? 'noopener noreferrer' : undefined}
+                    className="block p-6 rounded-xl bg-white/[0.03] backdrop-blur-xl border border-white/10 hover:bg-white/[0.05] transition-all duration-300"
                   >
-                    <social.icon size={20} />
-                  </motion.a>
-                ))}
-              </div>
-            </div>
+                    <ContactCard {...item} />
+                  </a>
+                ) : (
+                  <div className="p-6 rounded-xl bg-white/[0.03] backdrop-blur-xl border border-white/10 hover:bg-white/[0.05] transition-all duration-300">
+                    <ContactCard {...item} />
+                  </div>
+                )}
+              </motion.div>
+            ))}
+          </div>
 
-            {/* Additional Info Card */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6 }}
-              className="p-6 bg-gradient-to-r from-[#3b82f6]/10 to-transparent rounded-xl border border-[#3b82f6]/20"
+          {/* CTA Button */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mt-12"
+          >
+            <a
+              href={`mailto:${CONTACT_INFO.email}`}
+              className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-[#3b82f6] to-[#2563eb] text-white rounded-full hover:from-[#2563eb] hover:to-[#1d4ed8] transition-all duration-300 shadow-lg group"
             >
-              <h3 className="text-white font-medium mb-2">Booking Information</h3>
-              <p className="text-white/60 text-sm leading-relaxed">
-                For event bookings and performance inquiries, please contact us directly through the form or reach out via email. We typically respond within 24-48 hours.
-              </p>
-            </motion.div>
+              <FaEnvelope className="text-xl" />
+              <span className="font-medium">Send us a Message</span>
+            </a>
           </motion.div>
         </div>
       </div>
     </section>
+  )
+}
+
+function ContactCard({ icon: Icon, title, info, color = "hover:bg-[#3b82f6]" }) {
+  return (
+    <div className="flex items-start gap-4">
+      <div className={`p-3 rounded-lg bg-white/5 text-white group-hover:text-white transition-colors ${color}`}>
+        <Icon size={24} />
+      </div>
+      <div>
+        <h3 className="text-white font-semibold mb-1 group-hover:text-[#3b82f6] transition-colors">
+          {title}
+        </h3>
+        <p className="text-white/60">
+          {info}
+        </p>
+      </div>
+    </div>
   )
 } 
