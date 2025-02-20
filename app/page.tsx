@@ -1,12 +1,13 @@
-'use client'
+import dynamic from 'next/dynamic'
 
-import React from 'react'
-import HeroSection from '@/components/sections/HeroSection'
-import AboutSection from '@/components/sections/AboutSection'
-import MediaSection from '@/components/sections/MediaSection'
-import BlogSection from '@/components/sections/BlogSection'
-import ContactSection from '@/components/sections/ContactSection'
-import FooterSection from '@/components/sections/FooterSection'
+// Dynamic imports for client components
+const HeroSection = dynamic(() => import('@/components/sections/HeroSection'))
+const AboutSection = dynamic(() => import('@/components/sections/AboutSection'))
+const MediaSection = dynamic(() => import('@/components/sections/MediaSection'))
+const BlogSection = dynamic(() => import('@/components/sections/BlogSection'))
+const ContactSection = dynamic(() => import('@/components/sections/ContactSection'))
+const FooterSection = dynamic(() => import('@/components/sections/FooterSection'))
+const ScrollIndicator = dynamic(() => import('@/components/ui/ScrollIndicator'))
 
 export default function Home() {
   return (
@@ -48,11 +49,7 @@ export default function Home() {
         <FooterSection />
       </div>
 
-      {/* Scroll Progress Indicator */}
-      <div className="fixed bottom-8 right-8 w-12 h-12 rounded-full bg-white/5 backdrop-blur-lg border border-white/10 flex items-center justify-center text-white/60 text-sm font-medium">
-        <div className="absolute inset-1 rounded-full border-2 border-[#3b82f6] border-r-transparent rotate-45" />
-        <span className="rotate-45">↑</span>
-      </div>
+      <ScrollIndicator />
     </main>
   )
 } 

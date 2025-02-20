@@ -1,8 +1,57 @@
+import type { Metadata } from 'next'
 import './globals.css'
-import { metadata } from './metadata'
 import ClientLayout from '@/components/layout/ClientLayout'
 
-export { metadata }
+export const metadata: Metadata = {
+  title: 'Jaco Musical - Gospel Artist & Minister',
+  description: 'Experience powerful worship through music with Jaco Osijaye, a dynamic gospel music minister.',
+  keywords: [
+    'Jaco Osijaye',
+    'Gospel Music',
+    'Worship Leader',
+    'Christian Music',
+    'Gospel Artist',
+    'Music Minister',
+    'Worship Music',
+    'Gospel Songs',
+    'Christian Worship',
+    'Dubai Gospel',
+    'UAE Worship',
+  ],
+  authors: [{ name: 'Jaco Osijaye' }],
+  creator: 'Jaco Osijaye',
+  publisher: 'Jaco Musical',
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+  openGraph: {
+    title: 'Jaco Musical - Gospel Artist & Minister',
+    description: 'Experience powerful worship through music with Jaco Osijaye, a dynamic gospel music minister.',
+    url: 'https://jacomusical.com',
+    siteName: 'Jaco Musical',
+    locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Jaco Musical - Gospel Artist & Minister',
+    description: 'Experience powerful worship through music with Jaco Osijaye, a dynamic gospel music minister.',
+    creator: '@jacoosijaye',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+}
 
 export default function RootLayout({
   children,
@@ -11,6 +60,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+      </head>
       <body>
         <ClientLayout>
           {children}
