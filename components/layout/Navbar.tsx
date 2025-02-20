@@ -160,7 +160,7 @@ export default function Navbar() {
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
               transition={{ type: "spring", damping: 25, stiffness: 200 }}
-              className="fixed top-4 right-4 w-[240px] bg-gradient-to-b from-[#3b82f6]/95 to-[#2563eb]/95 backdrop-blur-md z-50 md:hidden rounded-2xl shadow-xl border border-white/10"
+              className="fixed top-4 right-4 w-[240px] bg-gradient-to-b from-white/10 via-white/5 to-white/10 backdrop-blur-xl z-50 md:hidden rounded-2xl shadow-xl border border-white/20"
             >
               <div className="flex flex-col">
                 {/* Header */}
@@ -188,9 +188,9 @@ export default function Navbar() {
                           handleNavClick(e, link.path)
                           setIsMobileMenuOpen(false)
                         }}
-                        className="py-2 px-3 text-sm text-white/90 hover:text-white flex items-center gap-3 group rounded-lg hover:bg-white/10 transition-all duration-300"
+                        className="py-2 px-3 text-sm text-white/90 hover:text-white flex items-center gap-3 group rounded-lg hover:bg-white/5 transition-all duration-300"
                       >
-                        <span className="w-7 h-7 rounded-lg bg-white/10 flex items-center justify-center group-hover:bg-white/20 transition-colors">
+                        <span className="w-7 h-7 rounded-lg bg-white/5 flex items-center justify-center group-hover:bg-white/10 transition-colors">
                           {link.name === 'Home' && <FaHome size={12} />}
                           {link.name === 'About' && <FaHeart size={12} />}
                           {link.name === 'Media' && <FaVideo size={12} />}
@@ -206,10 +206,10 @@ export default function Navbar() {
                 {/* Social Links */}
                 <div className="p-3 border-t border-white/10">
                   <div className="flex gap-2 justify-center">
-                    <a href="https://www.youtube.com/@jacoosijaye" target="_blank" rel="noopener noreferrer" className="w-7 h-7 rounded-lg bg-white/10 flex items-center justify-center text-white/80 hover:bg-white/20 hover:text-white transition-colors">
+                    <a href="https://www.youtube.com/@jacoosijaye" target="_blank" rel="noopener noreferrer" className="w-7 h-7 rounded-lg bg-white/5 flex items-center justify-center text-white/80 hover:bg-white/10 hover:text-white transition-colors">
                       <FaYoutube size={14} />
                     </a>
-                    <a href="https://www.instagram.com/jacomusicals/" target="_blank" rel="noopener noreferrer" className="w-7 h-7 rounded-lg bg-white/10 flex items-center justify-center text-white/80 hover:bg-white/20 hover:text-white transition-colors">
+                    <a href="https://www.instagram.com/jacomusicals/" target="_blank" rel="noopener noreferrer" className="w-7 h-7 rounded-lg bg-white/5 flex items-center justify-center text-white/80 hover:bg-white/10 hover:text-white transition-colors">
                       <FaInstagram size={14} />
                     </a>
                   </div>
