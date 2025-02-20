@@ -5,18 +5,17 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --font-family: 'Titillium Web', sans-serif;
-}
-
 @layer base {
+  :root {
+    --font-family: var(--font-titillium), system-ui, sans-serif;
+  }
+
   html {
     scroll-behavior: smooth;
   }
 
   body {
-    font-family: var(--font-family);
-    @apply text-white bg-black overflow-x-hidden max-w-[100vw];
+    @apply font-sans text-white bg-black overflow-x-hidden max-w-[100vw];
   }
 
   /* Custom Scrollbar */

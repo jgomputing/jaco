@@ -11,6 +11,13 @@ const CONTACT_INFO = {
   bookingHours: "Available for bookings 24/7"
 }
 
+interface ContactCardProps {
+  icon: React.ElementType;
+  title: string;
+  info: string;
+  color?: string;
+}
+
 export default function ContactSection() {
   return (
     <section id="contact" className="py-20 relative scroll-mt-20">
@@ -121,7 +128,7 @@ export default function ContactSection() {
   )
 }
 
-function ContactCard({ icon: Icon, title, info, color = "hover:bg-[#3b82f6]" }) {
+function ContactCard({ icon: Icon, title, info, color = "hover:bg-[#3b82f6]" }: ContactCardProps) {
   return (
     <div className="flex items-start gap-4">
       <div className={`p-3 rounded-lg bg-white/5 text-white group-hover:text-white transition-colors ${color}`}>
