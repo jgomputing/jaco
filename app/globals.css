@@ -6,37 +6,17 @@
 @tailwind utilities;
 
 :root {
-  /* Theme Colors */
-  --color-primary: #3b82f6;
-  --color-primary-dark: #2563eb;
-  --color-primary-light: #60a5fa;
-  --color-secondary: #1e1e1e;
-  --color-secondary-dark: #121212;
-  --color-text: #ffffff;
-  --color-text-secondary: rgba(255, 255, 255, 0.7);
-  --color-background: var(--color-secondary-dark);
-  --color-surface: rgba(255, 255, 255, 0.05);
-  --color-surface-hover: rgba(255, 255, 255, 0.1);
-  --color-border: rgba(255, 255, 255, 0.1);
+  --font-family: 'Titillium Web', sans-serif;
 }
 
-/* Base Styles */
 @layer base {
-  * {
-    @apply box-border;
-  }
-
   html {
     scroll-behavior: smooth;
-    background-color: black;
   }
 
   body {
-    font-family: 'Titillium Web', sans-serif;
-    color: white;
-    background-color: black;
-    overflow-x: hidden;
-    max-width: 100vw;
+    font-family: var(--font-family);
+    @apply text-white bg-black overflow-x-hidden max-w-[100vw];
   }
 
   /* Custom Scrollbar */
@@ -67,7 +47,11 @@
 
   /* Glass Card */
   .glass-card {
-    @apply bg-white/[0.03] backdrop-blur-xl border border-white/10 transition-all duration-300 hover:bg-white/[0.05] hover:border-white/20;
+    @apply bg-white/[0.03] backdrop-blur-xl border border-white/10 transition-all duration-300;
+  }
+
+  .glass-card:hover {
+    @apply bg-white/[0.05] border-white/20;
   }
 
   /* Button Base */
@@ -89,7 +73,7 @@
 
   /* Button Variants */
   .btn-primary {
-    @apply bg-[#3b82f6] text-white hover:bg-[#2563eb] shadow-lg hover:shadow-xl shadow-[#3b82f6]/25 hover:shadow-[#3b82f6]/30 hover:scale-[1.02];
+    @apply bg-blue-500 text-white hover:bg-blue-600 shadow-lg hover:shadow-xl shadow-blue-500/25 hover:shadow-blue-500/30 hover:scale-[1.02];
   }
 
   .btn-secondary {
@@ -97,7 +81,7 @@
   }
 
   .btn-outline {
-    @apply border-2 border-[#3b82f6] text-[#3b82f6] hover:bg-[#3b82f6] hover:text-white hover:scale-[1.02];
+    @apply border-2 border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white hover:scale-[1.02];
   }
 
   .btn-spotify {
@@ -123,12 +107,12 @@
 
   /* Card Styles */
   .feature-card {
-    @apply glass-card rounded-2xl p-6 hover:transform hover:scale-[1.02];
+    @apply glass-card rounded-2xl p-6 hover:scale-[1.02] transform transition-transform;
   }
 
   /* Text Styles */
   .gradient-text {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-[#3b82f6] to-[#2563eb];
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-blue-600;
   }
 }
 
@@ -143,7 +127,7 @@
   }
 
   .text-gradient {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-[#3b82f6] to-[#2563eb];
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-blue-600;
   }
 
   .hover-lift {
@@ -155,7 +139,7 @@
   }
 
   .bg-gradient-blur {
-    @apply bg-gradient-to-br from-[#3b82f6]/10 via-purple-500/5 to-transparent backdrop-blur-xl;
+    @apply bg-gradient-to-br from-blue-500/10 via-purple-500/5 to-transparent backdrop-blur-xl;
   }
 
   .bg-gradient-dark {
@@ -166,8 +150,8 @@
     @apply bg-white/[0.03] backdrop-blur-xl border border-white/10;
   }
 
-  .glass-effect-hover {
-    @apply hover:bg-white/[0.05] hover:border-white/20;
+  .glass-effect:hover {
+    @apply bg-white/[0.05] border-white/20;
   }
 
   .text-shadow {
