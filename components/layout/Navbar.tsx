@@ -35,9 +35,9 @@ export default function Navbar() {
       const targetId = path.replace('/#', '')
       const targetElement = document.getElementById(targetId)
       
-      if (targetElement && pathname === '/') {
+      if (targetElement) {
         const navbarHeight = 80 // Height of your fixed navbar
-        const targetPosition = targetElement.offsetTop - navbarHeight
+        const targetPosition = targetElement.getBoundingClientRect().top + window.scrollY - navbarHeight
         
         window.scrollTo({
           top: targetPosition,
@@ -46,7 +46,7 @@ export default function Navbar() {
         
         setIsMobileMenuOpen(false)
       } else if (pathname !== '/') {
-        // If we're not on the homepage, first navigate to home then scroll
+        // If we're not on the homepage, navigate to home then scroll
         window.location.href = path
       }
     } else {
