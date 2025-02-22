@@ -137,7 +137,15 @@ export default function Navbar() {
             </li>
           </ul>
 
-          <div className="md:hidden">
+          <div className="md:hidden flex items-center gap-3">
+            {/* Support Us Button */}
+            <Link 
+              href="/support"
+              className="inline-flex items-center gap-2 px-3 py-1.5 bg-[#00457C] hover:bg-[#003C6B] text-white text-sm rounded-xl transition-all duration-300"
+            >
+              <FaHeart className="text-sm" />
+              <span>Support</span>
+            </Link>
             {/* Mobile menu button */}
             <button 
               onClick={() => setIsMobileMenuOpen(true)}
@@ -172,7 +180,7 @@ export default function Navbar() {
               className="fixed top-4 right-4 w-[240px] bg-gradient-to-b from-white/10 via-white/5 to-white/10 backdrop-blur-xl z-50 md:hidden rounded-2xl shadow-xl border border-white/20"
             >
               <div className="flex flex-col">
-                {/* Header */}
+                {/* Header - Remove Support Us button */}
                 <div className="flex items-center justify-end p-3 border-b border-white/10">
                   <button
                     onClick={() => setIsMobileMenuOpen(false)}
@@ -210,24 +218,6 @@ export default function Navbar() {
                       </Link>
                     </motion.div>
                   ))}
-
-                  {/* Support Button in Mobile Menu */}
-                  <motion.div
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.5 }}
-                  >
-                    <Link
-                      href="/support"
-                      onClick={() => setIsMobileMenuOpen(false)}
-                      className="mt-2 py-2 px-3 text-sm text-white bg-[#00457C] hover:bg-[#003C6B] flex items-center gap-3 rounded-lg transition-all duration-300"
-                    >
-                      <span className="w-7 h-7 rounded-lg bg-white/10 flex items-center justify-center">
-                        <FaHeart size={12} />
-                      </span>
-                      Support Us
-                    </Link>
-                  </motion.div>
                 </div>
 
                 {/* Social Links */}

@@ -67,7 +67,7 @@ export default function SupportPage() {
                   Make a secure donation through PayPal. You can use your PayPal account or credit card.
                 </p>
                 <a
-                  href="https://www.paypal.com/donate?hosted_button_id=YOUR_BUTTON_ID"
+                  href="https://www.paypal.com/ncp/payment/2A7DLWCBWPSK8"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-full inline-flex items-center justify-center gap-2 px-6 py-3 bg-[#00457C] hover:bg-[#003C6B] text-white rounded-xl transition-all duration-300"

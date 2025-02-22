@@ -39,7 +39,7 @@ export default function HeroSection() {
                 className="max-w-2xl mt-1.5 sm:mt-6"
               >
                 <p className="text-base sm:text-xl md:text-2xl text-white/80 font-light leading-relaxed">
-                  Join JACO OSIJAYE on a spiritual journey through gospel music. Available for church events, gospel concerts, and special occasions.
+                  Join JACO OSIJAYE on a spiritual journey through gospel music. Delivering the Worship Message– Ready to Serve
                 </p>
               </motion.div>
 
@@ -60,7 +60,7 @@ export default function HeroSection() {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.4 }}
-                className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-3 mt-6 sm:mt-8 w-full sm:w-auto"
+                className="flex flex-col sm:flex-row items-center sm:items-center gap-4 sm:gap-3 mt-6 sm:mt-8 max-w-[280px] sm:max-w-none mx-auto sm:mx-0"
               >
                 <Link 
                   href="/videos"
