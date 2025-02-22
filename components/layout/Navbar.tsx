@@ -126,6 +126,15 @@ export default function Navbar() {
                 <span className="absolute inset-x-0 -bottom-1 h-0.5 bg-[#3b82f6] scale-x-0 group-hover:scale-x-100 transition-transform origin-left" />
               </Link>
             </li>
+            <li>
+              <Link 
+                href="/support"
+                className="inline-flex items-center justify-center gap-2 px-4 py-2 bg-[#00457C] hover:bg-[#003C6B] text-white text-sm rounded-xl transition-all duration-300"
+              >
+                <FaHeart className="text-sm" />
+                <span>Support Us</span>
+              </Link>
+            </li>
           </ul>
 
           <div className="md:hidden">
@@ -173,7 +182,7 @@ export default function Navbar() {
                   </button>
                 </div>
 
-                {/* Navigation Links */}
+                {/* Mobile Menu Navigation Links */}
                 <div className="p-2">
                   {NAVIGATION_LINKS.map((link, index) => (
                     <motion.div
@@ -201,6 +210,24 @@ export default function Navbar() {
                       </Link>
                     </motion.div>
                   ))}
+
+                  {/* Support Button in Mobile Menu */}
+                  <motion.div
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.5 }}
+                  >
+                    <Link
+                      href="/support"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="mt-2 py-2 px-3 text-sm text-white bg-[#00457C] hover:bg-[#003C6B] flex items-center gap-3 rounded-lg transition-all duration-300"
+                    >
+                      <span className="w-7 h-7 rounded-lg bg-white/10 flex items-center justify-center">
+                        <FaHeart size={12} />
+                      </span>
+                      Support Us
+                    </Link>
+                  </motion.div>
                 </div>
 
                 {/* Social Links */}

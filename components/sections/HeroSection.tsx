@@ -6,7 +6,7 @@ import Button from '@/components/common/Button'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
-import { FaMusic, FaVideo, FaChevronDown } from 'react-icons/fa'
+import { FaMusic, FaVideo, FaChevronDown, FaHeart } from 'react-icons/fa'
 
 export default function HeroSection() {
   return (
@@ -17,7 +17,7 @@ export default function HeroSection() {
       <div className="absolute inset-0 z-10">
         {/* Hero Content */}
         <div className="container h-full flex flex-col">
-          <div className="pt-32 sm:pt-0 flex-1 flex items-center">
+          <div className="pt-48 sm:pt-0 flex-1 flex items-center">
             <div className="max-w-6xl">
               {/* Main Title */}
               <motion.div
