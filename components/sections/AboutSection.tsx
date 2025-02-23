@@ -46,14 +46,14 @@ export default function AboutSection() {
   }, [])
 
   return (
-    <section id="about" className="relative -mt-1 sm:mt-0">
-      <div className="container px-4">
+    <section id="about" className="relative">
+      <div className="container">
         {/* Enhanced Section Header */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="relative pt-4"
+          className="relative"
         >
           <div className="text-center max-w-3xl mx-auto">
             <div className="flex justify-center">
@@ -62,17 +62,17 @@ export default function AboutSection() {
                 <span className="text-[#3b82f6] text-xs font-medium">Our Story</span>
               </span>
             </div>
-            <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white mt-2">
+            <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white mt-1">
               Meet <span className="text-[#3b82f6]">Jaco Osijaye</span>
             </h2>
-            <p className="text-white/60 text-base sm:text-lg max-w-2xl mx-auto mt-2 px-4">
+            <p className="text-white/60 text-base sm:text-lg max-w-2xl mx-auto mt-1 px-4">
               A dynamic gospel music minister celebrated for electrifying, vibrant, and charismatic performances that transform lives through worship.
             </p>
           </div>
         </motion.div>
 
         {/* Main Content Grid */}
-        <div className="mt-8 grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-8 items-start max-w-7xl mx-auto px-4">
+        <div className="mt-4 sm:mt-6 grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6 items-start max-w-7xl mx-auto px-4">
           {/* Left Column - Image & Quote */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}

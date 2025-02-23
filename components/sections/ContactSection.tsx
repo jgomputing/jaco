@@ -20,7 +20,7 @@ interface ContactCardProps {
 
 export default function ContactSection() {
   return (
-    <section id="contact" className="py-8 relative scroll-mt-0">
+    <section id="contact" className="py-4 relative scroll-mt-0">
       {/* Background Elements */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <div className="absolute top-1/2 right-0 w-[500px] h-[500px] bg-[#3b82f6] rounded-full opacity-[0.03] blur-3xl animate-pulse-slow" />
@@ -33,12 +33,12 @@ export default function ContactSection() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-8 sm:mb-16"
+          className="text-center mb-4 sm:mb-6"
         >
-          <span className="inline-block px-4 py-2 rounded-full bg-[#3b82f6]/10 text-[#3b82f6] text-sm font-medium mb-4">
+          <span className="inline-block px-4 py-2 rounded-full bg-[#3b82f6]/10 text-[#3b82f6] text-sm font-medium mb-2">
             Get in Touch
           </span>
-          <h2 className="text-4xl sm:text-5xl font-bold text-white mb-6">
+          <h2 className="text-4xl sm:text-5xl font-bold text-white mb-2">
             Contact <span className="text-[#3b82f6]">Us</span>
           </h2>
           <p className="text-white/60 text-lg max-w-2xl mx-auto">
@@ -48,7 +48,7 @@ export default function ContactSection() {
 
         {/* Contact Grid */}
         <div className="max-w-4xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             {/* Contact Info Cards */}
             {[
               {
@@ -94,12 +94,12 @@ export default function ContactSection() {
                     href={item.link}
                     target={item.link.startsWith('http') ? '_blank' : undefined}
                     rel={item.link.startsWith('http') ? 'noopener noreferrer' : undefined}
-                    className="block p-6 rounded-xl bg-white/[0.03] backdrop-blur-xl border border-white/10 hover:bg-white/[0.05] transition-all duration-300"
+                    className="block p-4 rounded-xl bg-white/[0.03] backdrop-blur-xl border border-white/10 hover:bg-white/[0.05] hover:scale-[1.02] cursor-pointer transition-all duration-300"
                   >
                     <ContactCard {...item} />
                   </a>
                 ) : (
-                  <div className="p-6 rounded-xl bg-white/[0.03] backdrop-blur-xl border border-white/10 hover:bg-white/[0.05] transition-all duration-300">
+                  <div className="p-4 rounded-xl bg-white/[0.03] backdrop-blur-xl border border-white/10 hover:bg-white/[0.05] hover:scale-[1.02] cursor-pointer transition-all duration-300">
                     <ContactCard {...item} />
                   </div>
                 )}
@@ -112,11 +112,11 @@ export default function ContactSection() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-center mt-12"
+            className="text-center mt-6"
           >
             <a
               href={`mailto:${CONTACT_INFO.email}`}
-              className="group inline-flex items-center justify-center gap-2 px-4 sm:px-5 py-3 sm:py-3.5 text-[14px] sm:text-[15px] bg-[#3b82f6] hover:bg-[#2563eb] text-white transition-all duration-300 rounded-xl relative overflow-hidden"
+              className="group inline-flex items-center justify-center gap-2 px-4 sm:px-5 py-2.5 sm:py-3 text-[14px] sm:text-[15px] bg-[#3b82f6] hover:bg-[#2563eb] hover:scale-[1.02] cursor-pointer text-white transition-all duration-300 rounded-xl relative overflow-hidden"
             >
               <div className="relative flex items-center gap-2">
                 <div className="p-1.5 bg-white/20 rounded-lg">
@@ -136,13 +136,13 @@ function ContactCard({ icon: Icon, title, info, color = "hover:bg-[#3b82f6]" }: 
   return (
     <div className="flex items-start gap-4">
       <div className={`p-3 rounded-lg bg-white/5 text-white group-hover:text-white transition-colors ${color}`}>
-        <Icon size={24} />
+        <Icon size={24} className="group-hover:scale-110 transition-transform duration-300" />
       </div>
       <div>
         <h3 className="text-white font-semibold mb-1 group-hover:text-[#3b82f6] transition-colors">
           {title}
         </h3>
-        <p className="text-white/60">
+        <p className="text-white/60 group-hover:text-white/80 transition-colors">
           {info}
         </p>
       </div>

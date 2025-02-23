@@ -67,12 +67,12 @@ export default function BlogSection() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-8 sm:mb-16"
+          className="text-center mb-4 sm:mb-8"
         >
-          <span className="inline-block px-4 py-2 rounded-full bg-[#3b82f6]/10 text-[#3b82f6] text-sm font-medium mb-4">
+          <span className="inline-block px-4 py-2 rounded-full bg-[#3b82f6]/10 text-[#3b82f6] text-sm font-medium mb-2">
             Upcoming Event
           </span>
-          <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-6 leading-tight">
+          <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-2">
             Blog & <span className="text-[#3b82f6]">Updates</span>
           </h2>
           <p className="text-white/60 text-lg sm:text-xl max-w-3xl mx-auto">
@@ -85,7 +85,7 @@ export default function BlogSection() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="mb-20"
+          className="mb-8 sm:mb-12"
         >
           <div className="relative bg-gradient-to-br from-[#3b82f6]/10 via-purple-500/5 to-transparent p-8 sm:p-12 rounded-3xl border border-[#3b82f6]/20 overflow-hidden">
             {/* Background Accent */}

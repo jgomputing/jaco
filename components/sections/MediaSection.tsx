@@ -130,22 +130,23 @@ export default function MediaSection() {
         {/* Section Header */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-center mb-4 sm:mb-8"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 backdrop-blur-sm border border-white/10 mb-6">
-            <span className="w-2 h-2 rounded-full bg-[#3b82f6] animate-pulse" />
-            <span className="text-white/60 text-sm font-medium">Latest Releases</span>
-          </div>
-          <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white to-white/60">
+          <span className="inline-block px-4 py-2 rounded-full bg-[#3b82f6]/10 text-[#3b82f6] text-sm font-medium mb-2">
+            Latest Releases
+          </span>
+          <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-2">
             Media & <span className="text-[#3b82f6]">Releases</span>
           </h2>
-          <p className="text-white/60 text-lg max-w-2xl mx-auto">Experience our worship through music and videos</p>
+          <p className="text-white/60 text-lg max-w-2xl mx-auto">
+            Experience our worship through music and videos
+          </p>
         </motion.div>
 
         {/* Tab Navigation */}
-        <div className="flex justify-center gap-3 mb-16">
+        <div className="flex justify-center gap-2 mb-8">
           <motion.button
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}

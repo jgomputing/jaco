@@ -15,7 +15,7 @@ export default function Home() {
       {/* Content Sections */}
       <div className="relative flex flex-col min-h-screen">
         {/* Hero - Full screen with video background */}
-        <div className="relative h-[75vh] sm:min-h-screen">
+        <div className="relative h-[75vh]">
           <HeroSection />
         </div>
 

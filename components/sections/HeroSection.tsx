@@ -17,7 +17,7 @@ export default function HeroSection() {
       <div className="absolute inset-0 z-10">
         {/* Hero Content */}
         <div className="container h-full flex flex-col">
-          <div className="pt-0 flex-1 flex items-center">
+          <div className="pt-20 sm:pt-32 flex-1 flex items-center">
             <div className="max-w-6xl">
               {/* Main Title */}
               <motion.div
@@ -25,7 +25,7 @@ export default function HeroSection() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8 }}
               >
-                <h1 className="text-2xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-[1.1] sm:leading-[1.2] tracking-tight max-w-4xl">
+                <h1 className="text-xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-[1.1] sm:leading-[1.2] tracking-tight max-w-4xl">
                   <span className="block mb-0 sm:mb-0.5">Spreading</span>
                   <span className="block text-[#3b82f6]">God's Love Through Music</span>
                 </h1>
@@ -36,9 +36,9 @@ export default function HeroSection() {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.2 }}
-                className="max-w-2xl mt-0 sm:mt-6"
+                className="max-w-2xl mt-2 sm:mt-4"
               >
-                <p className="text-xs sm:text-xl md:text-2xl text-white/80 font-light leading-relaxed">
+                <p className="text-sm sm:text-lg md:text-xl text-white/80 font-light leading-relaxed">
                   Join JACO OSIJAYE on a spiritual journey through gospel music. Delivering the Worship Message– Ready to Serve
                 </p>
               </motion.div>
@@ -48,9 +48,9 @@ export default function HeroSection() {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.3 }}
-                className="mt-0 sm:mt-6 max-w-2xl"
+                className="mt-2 sm:mt-4 max-w-2xl"
               >
-                <blockquote className="text-xs sm:text-xl italic text-white/90 border-l-2 border-[#3b82f6] pl-2 sm:pl-6 leading-relaxed">
+                <blockquote className="text-xs sm:text-base md:text-lg italic text-white/90 border-l-2 border-[#3b82f6] pl-2 sm:pl-4 leading-relaxed">
                   "With every word I speak, I magnify God's glory—igniting a revolution of hope that awakens nations and transforms lives worldwide."
                 </blockquote>
               </motion.div>
@@ -60,7 +60,7 @@ export default function HeroSection() {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.4 }}
-                className="flex flex-col sm:flex-row items-center sm:items-center gap-1 sm:gap-3 mt-1 sm:mt-8 max-w-[280px] sm:max-w-none mx-auto sm:mx-0"
+                className="flex flex-col sm:flex-row items-center sm:items-center gap-2 sm:gap-3 mt-4 sm:mt-6 max-w-[280px] sm:max-w-none mx-auto sm:mx-0"
               >
                 <Link 
                   href="/videos"
@@ -89,27 +89,26 @@ export default function HeroSection() {
           </div>
 
           {/* Bottom Section */}
-          <div className="mt-4 sm:mt-8 pb-1 sm:pb-8">
-            <div className="container">
-              <div className="max-w-6xl mx-auto">
-                {/* Scroll Indicator */}
-                <motion.div
-                  animate={{ 
-                    y: [0, 5, 0],
-                  }}
-                  transition={{
-                    duration: 2,
-                    repeat: Infinity,
-                    ease: "easeInOut"
-                  }}
-                  className="flex flex-col items-center gap-0.5 sm:gap-1"
-                >
-                  <FaChevronDown className="text-white/60 text-xs sm:text-xl" />
-                  <FaChevronDown className="text-white/40 text-xs sm:text-xl -mt-1 sm:-mt-2" />
-                  <span className="text-white/60 text-[8px] sm:text-sm">Scroll Down</span>
-                </motion.div>
+          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 sm:hidden z-20">
+            {/* Scroll Indicator */}
+            <motion.div
+              animate={{ 
+                y: [0, 5, 0],
+              }}
+              transition={{
+                duration: 2,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+              className="flex flex-col items-center gap-2 opacity-80 hover:opacity-100 transition-all duration-300 cursor-pointer group bg-black/20 backdrop-blur-sm p-2 rounded-xl"
+            >
+              {/* Chevrons */}
+              <div className="flex flex-col items-center">
+                <FaChevronDown className="text-white text-sm" />
+                <FaChevronDown className="text-white/60 text-sm -mt-1" />
               </div>
-            </div>
+              <span className="text-white text-[10px] font-medium tracking-wider uppercase">Scroll Down</span>
+            </motion.div>
           </div>
         </div>
       </div>
