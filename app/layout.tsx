@@ -14,9 +14,9 @@ export const metadata: Metadata = {
   metadataBase: new URL('https://jacoosijaye.com'),
   title: {
     template: '%s | Jaco Osijaye',
-    default: 'Jaco Osijaye - Creative Developer & Designer',
+    default: 'Jaco Osijaye - Gospel Artist & Music Minister',
   },
-  description: 'Creative Developer & Designer crafting innovative digital experiences.',
+  description: 'Experience powerful worship through music with Jaco Osijaye, a dynamic gospel music minister based in Dubai, UAE. Join us in spreading God\'s love through worship.',
   keywords: [
     'Jaco Osijaye',
     'Gospel Music',
@@ -29,26 +29,41 @@ export const metadata: Metadata = {
     'Christian Worship',
     'Dubai Gospel',
     'UAE Worship',
+    'Follow Jesus',
+    'I Cannot Fail',
+    'Hailing Your Name',
+    'Worship Community UAE'
   ],
   authors: [{ name: 'Jaco Osijaye' }],
   creator: 'Jaco Osijaye',
-  publisher: 'Jaco Musical',
+  publisher: 'Jaco Osijaye',
   formatDetection: {
     email: false,
     address: false,
     telephone: false,
   },
   openGraph: {
-    title: 'Jaco Osijaye - Creative Developer & Designer',
-    description: 'Creative Developer & Designer crafting innovative digital experiences.',
+    title: 'Jaco Osijaye - Gospel Artist & Music Minister',
+    description: 'Experience powerful worship through music with Jaco Osijaye, a dynamic gospel music minister based in Dubai, UAE.',
     url: 'https://jacoosijaye.com',
     siteName: 'Jaco Osijaye',
     locale: 'en_US',
     type: 'website',
+    images: [
+      {
+        url: '/images/jaco_02.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Jaco Osijaye - Gospel Artist & Music Minister'
+      }
+    ]
   },
   twitter: {
-    title: 'Jaco Osijaye',
     card: 'summary_large_image',
+    title: 'Jaco Osijaye - Gospel Artist & Music Minister',
+    description: 'Experience powerful worship through music with Jaco Osijaye, a dynamic gospel music minister.',
+    creator: '@jacoosijaye',
+    images: ['/images/jaco_02.jpg']
   },
   robots: {
     index: true,
