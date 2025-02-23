@@ -53,7 +53,7 @@ const FEATURED_POSTS = [
 
 export default function BlogSection() {
   return (
-    <section id="blog" className="py-20 relative scroll-mt-20">
+    <section id="blog" className="py-8 relative scroll-mt-0">
       {/* Background Elements */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <div className="absolute top-1/4 right-1/4 w-[500px] h-[500px] bg-[#3b82f6] rounded-full opacity-[0.03] blur-3xl animate-pulse-slow" />
@@ -61,13 +61,13 @@ export default function BlogSection() {
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-blue-500 rounded-full opacity-[0.02] blur-3xl" />
       </div>
 
-      <div className="container">
+      <div className="container px-4">
         {/* Section Header */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="text-center mb-8 sm:mb-16"
         >
           <span className="inline-block px-4 py-2 rounded-full bg-[#3b82f6]/10 text-[#3b82f6] text-sm font-medium mb-4">
             Upcoming Event

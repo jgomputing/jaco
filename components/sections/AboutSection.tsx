@@ -46,32 +46,33 @@ export default function AboutSection() {
   }, [])
 
   return (
-    <section id="about" className="relative py-20 scroll-mt-20">
-      <div className="container">
+    <section id="about" className="relative -mt-1 sm:mt-0">
+      <div className="container px-4">
         {/* Enhanced Section Header */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="relative"
+          className="relative pt-4"
         >
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-1 bg-gradient-to-r from-transparent via-[#3b82f6] to-transparent" />
-          <div className="text-center max-w-3xl mx-auto px-4 pt-8">
-            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-effect mb-6">
-              <span className="w-2 h-2 rounded-full bg-[#3b82f6] animate-pulse" />
-              <span className="text-white/60 text-sm font-medium">Our Story</span>
-            </span>
-            <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-6">
+          <div className="text-center max-w-3xl mx-auto">
+            <div className="flex justify-center">
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-[#3b82f6]/10 rounded-full">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#3b82f6] animate-pulse" />
+                <span className="text-[#3b82f6] text-xs font-medium">Our Story</span>
+              </span>
+            </div>
+            <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white mt-2">
               Meet <span className="text-[#3b82f6]">Jaco Osijaye</span>
             </h2>
-            <p className="text-white/60 text-lg max-w-2xl mx-auto">
+            <p className="text-white/60 text-base sm:text-lg max-w-2xl mx-auto mt-2 px-4">
               A dynamic gospel music minister celebrated for electrifying, vibrant, and charismatic performances that transform lives through worship.
             </p>
           </div>
         </motion.div>
 
         {/* Main Content Grid */}
-        <div className="mt-16 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start max-w-7xl mx-auto">
+        <div className="mt-8 grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-8 items-start max-w-7xl mx-auto px-4">
           {/* Left Column - Image & Quote */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
@@ -151,7 +152,7 @@ export default function AboutSection() {
             initial={{ opacity: 0, x: 50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="lg:col-span-5 space-y-8 pt-12 lg:pt-0"
+            className="lg:col-span-5 space-y-8 pt-4 lg:pt-0"
           >
             {/* Stats Grid */}
             <div className="grid grid-cols-2 gap-4">

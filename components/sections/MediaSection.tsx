@@ -113,7 +113,7 @@ export default function MediaSection() {
   }
 
   return (
-    <section id="media" className="py-12 sm:py-20 relative overflow-hidden">
+    <section id="media" className="py-10 relative overflow-hidden">
       {/* Background Elements */}
       <div className="absolute inset-0 pointer-events-none">
         {/* Modern mesh gradient background */}

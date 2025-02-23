@@ -15,32 +15,34 @@ export default function Home() {
       {/* Content Sections */}
       <div className="relative flex flex-col min-h-screen">
         {/* Hero - Full screen with video background */}
-        <div className="relative min-h-screen">
+        <div className="relative h-[75vh] sm:min-h-screen">
           <HeroSection />
         </div>
 
         {/* About - Offset grid layout */}
-        <div className="relative py-20">
+        <div className="relative mt-8 sm:mt-16">
           <AboutSection />
         </div>
 
         {/* Media - Full width with dynamic background */}
-        <div className="relative">
+        <div className="relative mt-8 sm:mt-16">
           <MediaSection />
         </div>
 
         {/* Blog - Alternating layout */}
-        <div className="relative py-20">
+        <div className="relative mt-8 sm:mt-16">
           <BlogSection />
         </div>
 
         {/* Contact - Clean layout with map */}
-        <div className="relative py-20">
+        <div className="relative mt-8 sm:mt-16">
           <ContactSection />
         </div>
 
         {/* Footer */}
-        <FooterSection />
+        <div className="relative mt-8 sm:mt-16">
+          <FooterSection />
+        </div>
       </div>
 
       <ScrollIndicator />
