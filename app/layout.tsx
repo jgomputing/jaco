@@ -11,9 +11,12 @@ const titilliumWeb = Titillium_Web({
 })
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://jacomusical.com'),
-  title: 'Jaco Musical - Gospel Artist & Minister',
-  description: 'Experience powerful worship through music with Jaco Osijaye, a dynamic gospel music minister.',
+  metadataBase: new URL('https://jacoosijaye.com'),
+  title: {
+    template: '%s | Jaco Osijaye',
+    default: 'Jaco Osijaye - Creative Developer & Designer',
+  },
+  description: 'Creative Developer & Designer crafting innovative digital experiences.',
   keywords: [
     'Jaco Osijaye',
     'Gospel Music',
@@ -36,18 +39,16 @@ export const metadata: Metadata = {
     telephone: false,
   },
   openGraph: {
-    title: 'Jaco Musical - Gospel Artist & Minister',
-    description: 'Experience powerful worship through music with Jaco Osijaye, a dynamic gospel music minister.',
-    url: 'https://jacomusical.com',
-    siteName: 'Jaco Musical',
+    title: 'Jaco Osijaye - Creative Developer & Designer',
+    description: 'Creative Developer & Designer crafting innovative digital experiences.',
+    url: 'https://jacoosijaye.com',
+    siteName: 'Jaco Osijaye',
     locale: 'en_US',
     type: 'website',
   },
   twitter: {
+    title: 'Jaco Osijaye',
     card: 'summary_large_image',
-    title: 'Jaco Musical - Gospel Artist & Minister',
-    description: 'Experience powerful worship through music with Jaco Osijaye, a dynamic gospel music minister.',
-    creator: '@jacoosijaye',
   },
   robots: {
     index: true,
@@ -59,6 +60,9 @@ export const metadata: Metadata = {
       'max-image-preview': 'large',
       'max-snippet': -1,
     },
+  },
+  verification: {
+    google: 'your-google-verification-code',
   },
 }
 
