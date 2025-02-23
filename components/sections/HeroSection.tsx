@@ -63,7 +63,7 @@ export default function HeroSection() {
                 className="flex flex-col sm:flex-row items-center sm:items-center gap-2 sm:gap-3 mt-4 sm:mt-6 max-w-[280px] sm:max-w-none mx-auto sm:mx-0"
               >
                 <Link 
-                  href="/videos"
+                  href="/#media"
                   className="group w-full sm:w-auto inline-flex items-center justify-center gap-2 px-3 sm:px-5 py-2.5 sm:py-3.5 text-[13px] sm:text-[15px] bg-[#3b82f6] hover:bg-[#2563eb] text-white transition-all duration-300 rounded-xl relative overflow-hidden"
                 >
                   <div className="relative flex items-center gap-1.5 sm:gap-2">

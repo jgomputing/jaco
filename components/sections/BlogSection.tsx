@@ -216,13 +216,6 @@ export default function BlogSection() {
         {/* Blog Posts Header */}
         <div className="flex justify-between items-center mb-8">
           <h3 className="text-2xl font-bold text-white">Latest Updates</h3>
-          <Link
-            href="/blog"
-            className="text-[#3b82f6] hover:text-white transition-colors flex items-center gap-2"
-          >
-            View All
-            <FaArrowRight className="text-sm" />
-          </Link>
         </div>
 
         {/* Blog Posts Grid */}

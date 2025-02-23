@@ -42,7 +42,7 @@ export default function ContactSection() {
             Contact <span className="text-[#3b82f6]">Us</span>
           </h2>
           <p className="text-white/60 text-lg max-w-2xl mx-auto">
-            Only available for Church Program and .line
+            Learn more today.
           </p>
         </motion.div>
 
