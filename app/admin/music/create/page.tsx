@@ -69,10 +69,8 @@ export default function CreateMusicTrack() {
     setFormData(prev => ({ ...prev, audioFile: file }))
   }
 
-  const handleSubmit = async (e: React.FormEvent | React.MouseEvent) => {
-    if (e) {
-      e.preventDefault()
-    }
+  const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault()
     
     if (!formData.title || !formData.duration) {
       setError('Please fill in all required fields')
@@ -139,7 +137,7 @@ export default function CreateMusicTrack() {
           </Button>
           <Button
             icon={FaSave}
-            onClick={(e) => handleSubmit(e)}
+            onClick={handleSubmit}
             disabled={loading}
             loading={loading}
             loadingText="Saving..."

@@ -70,11 +70,9 @@ export default function CreateBlogPost() {
     handleFileUpload(file)
   }
 
-  const handleSubmit = async (e: React.FormEvent | React.MouseEvent) => {
-    if (e) {
-      e.preventDefault()
-    }
-
+  const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault()
+    
     if (!formData.title || !formData.content || !formData.category) {
       setError('Please fill in all required fields')
       return

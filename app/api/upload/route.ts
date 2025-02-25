@@ -5,6 +5,7 @@ import { join } from 'path'
 // New route segment config format
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
+export const maxDuration = 60 // This replaces bodyParser config
 
 export async function POST(request: Request) {
   try {
@@ -41,10 +42,4 @@ export async function POST(request: Request) {
       { status: 500 }
     )
   }
-}
-
-export const config = {
-  api: {
-    bodyParser: false,
-  },
 } 

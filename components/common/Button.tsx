@@ -9,7 +9,7 @@ interface ButtonProps {
   variant?: 'primary' | 'secondary' | 'outline' | 'spotify' | 'apple' | 'danger'
   size?: 'sm' | 'md' | 'lg'
   className?: string
-  onClick?: (e: React.MouseEvent<HTMLButtonElement> | React.FormEvent) => void
+  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void
   type?: 'button' | 'submit'
   disabled?: boolean
   icon?: IconType | React.ReactNode
