@@ -1,7 +1,6 @@
-import type { Metadata } from 'next'
-import { Titillium_Web } from 'next/font/google'
 import './globals.css'
-import Navbar from '@/components/layout/Navbar'
+import { Titillium_Web } from 'next/font/google'
+import { metadata } from './metadata'
 
 const titilliumWeb = Titillium_Web({
   subsets: ['latin'],
@@ -10,44 +9,7 @@ const titilliumWeb = Titillium_Web({
   variable: '--font-titillium'
 })
 
-export const metadata: Metadata = {
-  title: {
-    default: 'JACO - Official Website',
-    template: '%s | JACO'
-  },
-  description: 'Official website of JACO - Music Artist and Producer',
-  keywords: ['JACO', 'music', 'artist', 'producer', 'electronic', 'dance', 'EDM'],
-  authors: [{ name: 'JACO' }],
-  creator: 'JACO',
-  publisher: 'JACO',
-  robots: {
-    index: true,
-    follow: true
-  },
-  openGraph: {
-    type: 'website',
-    locale: 'en_US',
-    url: 'https://jaco.com',
-    siteName: 'JACO',
-    title: 'JACO - Official Website',
-    description: 'Official website of JACO - Music Artist and Producer',
-    images: [
-      {
-        url: '/images/og-image.jpg',
-        width: 1200,
-        height: 630,
-        alt: 'JACO'
-      }
-    ]
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'JACO - Official Website',
-    description: 'Official website of JACO - Music Artist and Producer',
-    creator: '@jacomusic',
-    images: ['/images/twitter-image.jpg']
-  }
-}
+export { metadata }
 
 export default function RootLayout({
   children,
@@ -56,7 +18,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={titilliumWeb.variable}>
-      <body className="font-titillium bg-black text-white">
+      <body className="bg-[#0f1219] text-white font-titillium">
         {children}
       </body>
     </html>
