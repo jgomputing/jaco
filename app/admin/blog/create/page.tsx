@@ -70,8 +70,16 @@ export default function CreateBlogPost() {
     handleFileUpload(file)
   }
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
+  const handleSubmit = async (e: React.FormEvent | React.MouseEvent) => {
+    if (e) {
+      e.preventDefault()
+    }
+
+    if (!formData.title || !formData.content || !formData.category) {
+      setError('Please fill in all required fields')
+      return
+    }
+
     setIsSubmitting(true)
     setError('')
 
@@ -118,11 +126,13 @@ export default function CreateBlogPost() {
           </Button>
           <Button
             icon={FaSave}
-            onClick={(e: React.FormEvent) => handleSubmit(e)}
-            disabled={loading}
+            onClick={handleSubmit}
+            disabled={isSubmitting}
+            loading={isSubmitting}
+            loadingText="Creating..."
             className="bg-gradient-to-r from-[#3b82f6] to-[#2563eb] hover:from-[#2563eb] hover:to-[#1d4ed8] transition-all duration-300"
           >
-            {loading ? 'Creating...' : 'Create Post'}
+            Create Post
           </Button>
         </div>
       </div>

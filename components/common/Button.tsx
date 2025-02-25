@@ -9,7 +9,7 @@ interface ButtonProps {
   variant?: 'primary' | 'secondary' | 'outline' | 'spotify' | 'apple' | 'danger'
   size?: 'sm' | 'md' | 'lg'
   className?: string
-  onClick?: (e: React.MouseEvent) => void
+  onClick?: (e: React.MouseEvent<HTMLButtonElement> | React.FormEvent) => void
   type?: 'button' | 'submit'
   disabled?: boolean
   icon?: IconType | React.ReactNode
@@ -48,9 +48,15 @@ export default function Button({
     lg: 'px-6 py-3 text-lg gap-3'
   }
 
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    if (onClick) {
+      onClick(e)
+    }
+  }
+
   return (
     <motion.button
-      onClick={onClick}
+      onClick={handleClick}
       type={type}
       disabled={disabled || loading}
       whileHover={{ scale: 1.02 }}

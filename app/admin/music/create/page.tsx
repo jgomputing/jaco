@@ -69,44 +69,46 @@ export default function CreateMusicTrack() {
     setFormData(prev => ({ ...prev, audioFile: file }))
   }
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!formData.title || !formData.duration || !formData.genre || !formData.audioFile) {
+  const handleSubmit = async (e: React.FormEvent | React.MouseEvent) => {
+    if (e) {
+      e.preventDefault()
+    }
+    
+    if (!formData.title || !formData.duration) {
       setError('Please fill in all required fields')
       return
     }
 
+    setLoading(true)
+    setError('')
+
     try {
-      setLoading(true)
-      setError('')
+      const uploadData = new FormData()
+      if (formData.audioFile) {
+        uploadData.append('file', formData.audioFile)
+        const uploadRes = await fetch('/api/upload', {
+          method: 'POST',
+          body: uploadData,
+        })
 
-      // First upload the audio file
-      const audioFormData = new FormData()
-      audioFormData.append('file', formData.audioFile)
+        if (!uploadRes.ok) throw new Error('Failed to upload audio file')
+        const { url: audioUrl } = await uploadRes.json()
 
-      const audioRes = await fetch('/api/upload', {
-        method: 'POST',
-        body: audioFormData,
-      })
+        const res = await fetch('/api/music', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            ...formData,
+            audioUrl,
+          }),
+        })
 
-      if (!audioRes.ok) throw new Error('Failed to upload audio')
-      const audioData = await audioRes.json()
-
-      // Then create the track with all data
-      const res = await fetch('/api/music', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          ...formData,
-          audioUrl: audioData.url,
-        }),
-      })
-
-      if (!res.ok) throw new Error('Failed to create track')
-      router.push('/admin/music')
+        if (!res.ok) throw new Error('Failed to create track')
+        router.push('/admin/music')
+      }
     } catch (error) {
       console.error('Error creating track:', error)
-      setError('Failed to create track')
+      setError(error instanceof Error ? error.message : 'Failed to create track')
     } finally {
       setLoading(false)
     }
@@ -137,11 +139,13 @@ export default function CreateMusicTrack() {
           </Button>
           <Button
             icon={FaSave}
-            onClick={(e: React.MouseEvent) => handleSubmit(e as unknown as React.FormEvent)}
+            onClick={(e) => handleSubmit(e)}
             disabled={loading}
+            loading={loading}
+            loadingText="Saving..."
             className="bg-gradient-to-r from-[#3b82f6] to-[#2563eb] hover:from-[#2563eb] hover:to-[#1d4ed8] transition-all duration-300"
           >
-            {loading ? 'Saving...' : 'Save Track'}
+            Save Track
           </Button>
         </div>
       </div>
