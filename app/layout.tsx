@@ -1,84 +1,52 @@
 import type { Metadata } from 'next'
 import { Titillium_Web } from 'next/font/google'
 import './globals.css'
-import ClientLayout from '@/components/layout/ClientLayout'
+import Navbar from '@/components/layout/Navbar'
 
 const titilliumWeb = Titillium_Web({
   subsets: ['latin'],
   weight: ['200', '300', '400', '600', '700', '900'],
   display: 'swap',
-  variable: '--font-titillium',
+  variable: '--font-titillium'
 })
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://jacoosijaye.com'),
   title: {
-    template: '%s | Jaco Osijaye',
-    default: 'Jaco Osijaye - Gospel Artist & Music Minister',
+    default: 'JACO - Official Website',
+    template: '%s | JACO'
   },
-  description: 'Experience powerful worship through music with Jaco Osijaye, a dynamic gospel music minister based in Dubai, UAE. Join us in spreading God\'s love through worship.',
-  keywords: [
-    'Jaco Osijaye',
-    'Gospel Music',
-    'Worship Leader',
-    'Christian Music',
-    'Gospel Artist',
-    'Music Minister',
-    'Worship Music',
-    'Gospel Songs',
-    'Christian Worship',
-    'Dubai Gospel',
-    'UAE Worship',
-    'Follow Jesus',
-    'I Cannot Fail',
-    'Hailing Your Name',
-    'Worship Community UAE'
-  ],
-  authors: [{ name: 'Jaco Osijaye' }],
-  creator: 'Jaco Osijaye',
-  publisher: 'Jaco Osijaye',
-  formatDetection: {
-    email: false,
-    address: false,
-    telephone: false,
+  description: 'Official website of JACO - Music Artist and Producer',
+  keywords: ['JACO', 'music', 'artist', 'producer', 'electronic', 'dance', 'EDM'],
+  authors: [{ name: 'JACO' }],
+  creator: 'JACO',
+  publisher: 'JACO',
+  robots: {
+    index: true,
+    follow: true
   },
   openGraph: {
-    title: 'Jaco Osijaye - Gospel Artist & Music Minister',
-    description: 'Experience powerful worship through music with Jaco Osijaye, a dynamic gospel music minister based in Dubai, UAE.',
-    url: 'https://jacoosijaye.com',
-    siteName: 'Jaco Osijaye',
-    locale: 'en_US',
     type: 'website',
+    locale: 'en_US',
+    url: 'https://jaco.com',
+    siteName: 'JACO',
+    title: 'JACO - Official Website',
+    description: 'Official website of JACO - Music Artist and Producer',
     images: [
       {
-        url: '/images/jaco_02.jpg',
+        url: '/images/og-image.jpg',
         width: 1200,
         height: 630,
-        alt: 'Jaco Osijaye - Gospel Artist & Music Minister'
+        alt: 'JACO'
       }
     ]
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Jaco Osijaye - Gospel Artist & Music Minister',
-    description: 'Experience powerful worship through music with Jaco Osijaye, a dynamic gospel music minister.',
-    creator: '@jacoosijaye',
-    images: ['/images/jaco_02.jpg']
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
-    },
-  },
-  verification: {
-    google: 'your-google-verification-code',
-  },
+    title: 'JACO - Official Website',
+    description: 'Official website of JACO - Music Artist and Producer',
+    creator: '@jacomusic',
+    images: ['/images/twitter-image.jpg']
+  }
 }
 
 export default function RootLayout({
@@ -88,10 +56,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={titilliumWeb.variable}>
-      <body className={titilliumWeb.className}>
-        <ClientLayout>
-          {children}
-        </ClientLayout>
+      <body className="font-titillium bg-black text-white">
+        {children}
       </body>
     </html>
   )

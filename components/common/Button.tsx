@@ -2,63 +2,87 @@
 
 import React from 'react'
 import { motion } from 'framer-motion'
+import { IconType } from 'react-icons'
 
 interface ButtonProps {
   children: React.ReactNode
-  variant?: 'primary' | 'secondary' | 'outline' | 'spotify' | 'apple'
+  variant?: 'primary' | 'secondary' | 'outline' | 'spotify' | 'apple' | 'danger'
   size?: 'sm' | 'md' | 'lg'
   className?: string
-  onClick?: () => void
+  onClick?: (e: React.MouseEvent) => void
   type?: 'button' | 'submit'
   disabled?: boolean
-  icon?: React.ReactNode
+  icon?: IconType | React.ReactNode
+  fullWidth?: boolean
+  loading?: boolean
+  loadingText?: string
 }
 
-export default function Button({ 
-  children, 
-  onClick, 
+export default function Button({
+  children,
   variant = 'primary',
   size = 'md',
   className = '',
+  onClick,
   type = 'button',
   disabled = false,
-  icon
+  icon: Icon,
+  fullWidth = false,
+  loading = false,
+  loadingText
 }: ButtonProps) {
-  const baseStyles = 'inline-flex items-center justify-center font-medium transition-all duration-500 rounded relative overflow-hidden group'
+  const baseStyles = 'inline-flex items-center justify-center font-medium transition-all duration-500 rounded-xl relative overflow-hidden group'
   
   const variantStyles = {
     primary: 'bg-gradient-to-r from-[#3b82f6] to-[#2563eb] text-white hover:shadow-lg hover:shadow-[#3b82f6]/25',
     secondary: 'bg-white/5 backdrop-blur-sm text-white hover:bg-white/10 border border-white/10 hover:border-white/20',
     outline: 'border-2 border-[#3b82f6] text-[#3b82f6] hover:bg-[#3b82f6] hover:text-white',
     spotify: 'bg-[#1DB954] text-white hover:bg-[#1ed760]',
-    apple: 'bg-[#FB233B] text-white hover:bg-[#ff365c]'
+    apple: 'bg-[#FB233B] text-white hover:bg-[#ff365c]',
+    danger: 'bg-red-500 hover:bg-red-600 text-white'
   }
   
   const sizeStyles = {
-    sm: 'px-4 py-2 text-sm gap-2',
-    md: 'px-4 py-2 text-sm gap-2',
-    lg: 'px-4 py-2 text-sm gap-2'
+    sm: 'px-3 py-1.5 text-sm gap-2',
+    md: 'px-4 py-2 gap-2',
+    lg: 'px-6 py-3 text-lg gap-3'
   }
 
   return (
-    <motion.button 
+    <motion.button
       onClick={onClick}
       type={type}
-      disabled={disabled}
-      whileHover={{ scale: 1.05 }}
-      whileTap={{ scale: 0.95 }}
-      className={`${baseStyles} ${variantStyles[variant]} ${sizeStyles[size]} ${className}`}
+      disabled={disabled || loading}
+      whileHover={{ scale: 1.02 }}
+      whileTap={{ scale: 0.98 }}
+      className={`
+        ${baseStyles}
+        ${variantStyles[variant]}
+        ${sizeStyles[size]}
+        ${fullWidth ? 'w-full' : ''}
+        ${disabled || loading ? 'opacity-50 cursor-not-allowed' : ''}
+        ${className}
+      `}
     >
       {variant === 'primary' && (
         <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
       )}
-      <div className="relative flex items-center gap-inherit">
-        {icon && (
-          <div className={`p-1.5 rounded ${variant === 'primary' ? 'bg-white/20' : 'bg-white/10'}`}>
-            {icon}
-          </div>
+      <div className="relative flex items-center gap-2">
+        {Icon && !loading && (
+          typeof Icon === 'function' ? (
+            <Icon className={size === 'sm' ? 'text-sm' : size === 'lg' ? 'text-lg' : 'text-base'} />
+          ) : (
+            Icon
+          )
         )}
-        {children}
+        {loading ? (
+          <>
+            <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent" />
+            {loadingText || children}
+          </>
+        ) : (
+          children
+        )}
       </div>
     </motion.button>
   )
