@@ -7,7 +7,6 @@ import { FaEnvelope, FaMapMarkerAlt, FaPhone, FaCalendar } from 'react-icons/fa'
 const CONTACT_INFO = {
   email: "bookings@jacomusical.com",
   phone: "+971 50 123 4567",
-  location: "Dubai, United Arab Emirates",
   bookingHours: "Available for bookings 24/7"
 }
 
@@ -48,7 +47,7 @@ export default function ContactSection() {
 
         {/* Contact Grid */}
         <div className="max-w-4xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
             {/* Contact Info Cards */}
             {[
               {
@@ -64,13 +63,6 @@ export default function ContactSection() {
                 info: CONTACT_INFO.phone,
                 link: `tel:${CONTACT_INFO.phone.replace(/\s+/g, '')}`,
                 color: "hover:bg-green-500"
-              },
-              {
-                icon: FaMapMarkerAlt,
-                title: "Location",
-                info: CONTACT_INFO.location,
-                link: "https://maps.google.com/?q=Dubai",
-                color: "hover:bg-red-500"
               },
               {
                 icon: FaCalendar,

@@ -35,19 +35,27 @@ const UPCOMING_EVENT = {
 const FEATURED_POSTS = [
   {
     id: 1,
-    title: "The Journey of Gospel Music Ministry",
-    excerpt: "From local church events to international stages, discover how our musical journey has been transforming lives through worship.",
+    title: "Gospel Music Events in 2025: A Season of Praise",
+    excerpt: "2025 promises to be filled with impactful events across the globe. From intimate worship gatherings to large-scale festivals, the gospel community is coming together like never before.",
     date: "Feb 15, 2024",
-    image: "https://images.unsplash.com/photo-1525201548942-d8732f6617a0?auto=format&fit=crop&q=85&w=2000",
-    category: "Ministry"
+    image: "https://images.unsplash.com/photo-1501612780327-45045538702b?auto=format&fit=crop&q=85&w=2000",
+    category: "Events"
   },
   {
     id: 2,
-    title: "Behind the Scenes: Making of 'I Cannot Fail'",
-    excerpt: "Get an exclusive look into the creative process and spiritual inspiration behind our latest worship anthem.",
+    title: "Global Gospel Music Festivals 2025",
+    excerpt: "These festivals bring together the best in gospel and worship music, providing a platform for new and seasoned artists to share their gifts.",
+    date: "Feb 12, 2024",
+    image: "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?auto=format&fit=crop&q=85&w=2000",
+    category: "Festivals"
+  },
+  {
+    id: 3,
+    title: "Connecting Through Gospel Music",
+    excerpt: "Perfect opportunities for engaging with fans and musicians who share the same passion for uplifting others through the power of music.",
     date: "Feb 10, 2024",
-    image: "https://images.unsplash.com/photo-1511379938547-c1f69419868d?auto=format&fit=crop&q=85&w=2000",
-    category: "Music"
+    image: "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&q=85&w=2000",
+    category: "Community"
   }
 ]
 
@@ -219,7 +227,7 @@ export default function BlogSection() {
         </div>
 
         {/* Blog Posts Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {FEATURED_POSTS.map((post, index) => (
             <motion.article
               key={post.id}
