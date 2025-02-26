@@ -1,10 +1,22 @@
 'use client'
 
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { FaCalendar, FaArrowRight, FaClock, FaYoutube, FaInstagram, FaFacebook, FaPlay, FaMusic, FaPrayingHands } from 'react-icons/fa'
+
+interface BlogPost {
+  id: string
+  title: string
+  excerpt: string
+  content: string
+  image: string
+  category: string
+  status: string
+  createdAt: Date
+  updatedAt: Date
+}
 
 const UPCOMING_EVENT = {
   title: "ANCIENT SOUNDS, FRESH FIRE",
@@ -60,6 +72,35 @@ const FEATURED_POSTS = [
 ]
 
 export default function BlogSection() {
+  const [posts, setPosts] = useState<BlogPost[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState('')
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const response = await fetch('/api/blog')
+        if (!response.ok) throw new Error('Failed to fetch posts')
+        const data = await response.json()
+        // Filter only published posts and sort by date
+        const publishedPosts = data
+          .filter((post: BlogPost) => post.status === 'Published')
+          .sort((a: BlogPost, b: BlogPost) => 
+            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+          )
+          .slice(0, 3) // Get only the 3 most recent posts
+        setPosts(publishedPosts)
+      } catch (error) {
+        console.error('Error fetching posts:', error)
+        setError('Failed to load blog posts')
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchPosts()
+  }, [])
+
   return (
     <section id="blog" className="py-8 relative scroll-mt-0">
       {/* Background Elements */}
@@ -78,7 +119,7 @@ export default function BlogSection() {
           className="text-center mb-4 sm:mb-8"
         >
           <span className="inline-block px-4 py-2 rounded-full bg-[#3b82f6]/10 text-[#3b82f6] text-sm font-medium mb-2">
-            Upcoming Event
+            Latest Updates
           </span>
           <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-2">
             Blog & <span className="text-[#3b82f6]">Updates</span>
@@ -228,56 +269,81 @@ export default function BlogSection() {
 
         {/* Blog Posts Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {FEATURED_POSTS.map((post, index) => (
-            <motion.article
-              key={post.id}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
-              className="group"
-            >
-              <div className="bg-white/5 backdrop-blur-sm rounded-2xl overflow-hidden border border-white/10 hover:bg-white/10 transition-all duration-300 hover:shadow-2xl hover:shadow-[#3b82f6]/5">
-                <div className="relative aspect-[16/9] overflow-hidden">
-                  <Image
-                    src={post.image}
-                    alt={post.title}
-                    fill
-                    className="object-cover transform group-hover:scale-105 transition-transform duration-700"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                  
-                  {/* Category Badge */}
-                  <div className="absolute top-4 left-4 px-4 py-2 bg-[#3b82f6] rounded-full text-white text-sm font-medium">
-                    {post.category}
+          {loading ? (
+            // Loading skeleton
+            [...Array(3)].map((_, index) => (
+              <div key={index} className="animate-pulse">
+                <div className="bg-white/5 rounded-2xl overflow-hidden">
+                  <div className="aspect-[16/9] bg-white/10" />
+                  <div className="p-8 space-y-4">
+                    <div className="h-4 bg-white/10 rounded w-1/4" />
+                    <div className="h-6 bg-white/10 rounded w-3/4" />
+                    <div className="h-4 bg-white/10 rounded w-full" />
+                    <div className="h-4 bg-white/10 rounded w-2/3" />
                   </div>
-                </div>
-
-                <div className="p-8">
-                  <div className="flex items-center gap-2 text-white/60 text-sm mb-4">
-                    <FaCalendar className="text-[#3b82f6]" />
-                    {post.date}
-                  </div>
-
-                  <h3 className="text-xl font-semibold text-white mb-4 group-hover:text-[#3b82f6] transition-colors">
-                    {post.title}
-                  </h3>
-
-                  <p className="text-white/60 text-base mb-6 line-clamp-2">
-                    {post.excerpt}
-                  </p>
-
-                  <Link
-                    href={`/blog/${post.id}`}
-                    className="inline-flex items-center gap-2 text-[#3b82f6] hover:text-white transition-colors font-medium group"
-                  >
-                    Read More 
-                    <FaArrowRight className="transform group-hover:translate-x-1 transition-transform" />
-                  </Link>
                 </div>
               </div>
-            </motion.article>
-          ))}
+            ))
+          ) : error ? (
+            <div className="col-span-3 text-center py-12">
+              <p className="text-red-500">{error}</p>
+            </div>
+          ) : posts.length === 0 ? (
+            <div className="col-span-3 text-center py-12">
+              <p className="text-white/60">No published blog posts yet.</p>
+            </div>
+          ) : (
+            posts.map((post, index) => (
+              <motion.article
+                key={post.id}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
+                className="group"
+              >
+                <div className="bg-white/5 backdrop-blur-sm rounded-2xl overflow-hidden border border-white/10 hover:bg-white/10 transition-all duration-300 hover:shadow-2xl hover:shadow-[#3b82f6]/5">
+                  <div className="relative aspect-[16/9] overflow-hidden">
+                    <Image
+                      src={post.image || 'https://via.placeholder.com/400x300'}
+                      alt={post.title}
+                      fill
+                      className="object-cover transform group-hover:scale-105 transition-transform duration-700"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    
+                    {/* Category Badge */}
+                    <div className="absolute top-4 left-4 px-4 py-2 bg-[#3b82f6] rounded-full text-white text-sm font-medium">
+                      {post.category}
+                    </div>
+                  </div>
+
+                  <div className="p-8">
+                    <div className="flex items-center gap-2 text-white/60 text-sm mb-4">
+                      <FaCalendar className="text-[#3b82f6]" />
+                      {new Date(post.createdAt).toLocaleDateString()}
+                    </div>
+
+                    <h3 className="text-xl font-semibold text-white mb-4 group-hover:text-[#3b82f6] transition-colors">
+                      {post.title}
+                    </h3>
+
+                    <p className="text-white/60 text-base mb-6 line-clamp-2">
+                      {post.excerpt}
+                    </p>
+
+                    <Link
+                      href={`/blog/${post.id}`}
+                      className="inline-flex items-center gap-2 text-[#3b82f6] hover:text-white transition-colors font-medium group"
+                    >
+                      Read More 
+                      <FaArrowRight className="transform group-hover:translate-x-1 transition-transform" />
+                    </Link>
+                  </div>
+                </div>
+              </motion.article>
+            ))
+          )}
         </div>
       </div>
     </section>
