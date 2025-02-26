@@ -2,6 +2,7 @@
 
 import React from 'react'
 import dynamic from 'next/dynamic'
+import 'react-quill/dist/quill.snow.css'
 
 const ReactQuill = dynamic(() => import('react-quill'), {
   ssr: false,
@@ -11,6 +12,7 @@ const ReactQuill = dynamic(() => import('react-quill'), {
 interface QuillEditorProps {
   value: string
   onChange: (value: string) => void
+  className?: string
 }
 
 const modules = {
@@ -24,14 +26,25 @@ const modules = {
   ],
 }
 
-export default function QuillEditor({ value, onChange }: QuillEditorProps) {
+const formats = [
+  'header',
+  'bold', 'italic', 'underline', 'strike',
+  'list', 'bullet',
+  'align',
+  'link', 'image'
+]
+
+export default function QuillEditor({ value, onChange, className = '' }: QuillEditorProps) {
   return (
-    <ReactQuill
-      theme="snow"
-      value={value}
-      onChange={onChange}
-      modules={modules}
-      className="bg-white rounded-xl"
-    />
+    <div className={`bg-white rounded-xl ${className}`}>
+      <ReactQuill
+        theme="snow"
+        value={value}
+        onChange={onChange}
+        modules={modules}
+        formats={formats}
+        className="h-64"
+      />
+    </div>
   )
 } 

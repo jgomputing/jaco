@@ -12,11 +12,17 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-black">
       <HeroSection />
-      <AboutSection />
-      <MediaSection />
-      <BlogSection />
-      <ContactSection />
-      <FooterSection />
+      <div className="mt-16 md:mt-24 lg:mt-34">
+        <div className="space-y-16 md:space-y-24 lg:space-y-34">
+          <AboutSection />
+          <MediaSection />
+          <BlogSection />
+          <ContactSection />
+        </div>
+      </div>
+      <div className="mt-16 md:mt-24 lg:mt-34">
+        <FooterSection />
+      </div>
     </main>
   )
 } 
