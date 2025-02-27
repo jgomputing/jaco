@@ -213,7 +213,7 @@ export default function BlogPosts() {
                       </span>
                     </td>
                     <td className="px-6 py-4 text-sm text-white/60">
-                      {formatDate(post.createdAt)}
+                      {post.createdAt ? formatDate(post.createdAt.toISOString()) : 'No Date Available'}
                     </td>
                     <td className="px-6 py-4 text-right">
                       <div className="flex items-center justify-end gap-2">
