@@ -85,6 +85,7 @@ export default function BlogPosts() {
       const response = await fetch('/api/blog')
       if (!response.ok) throw new Error('Failed to fetch posts')
       const data = await response.json()
+      console.log('Fetched posts:', data);
       setPosts(data)
     } catch (error) {
       setError('Failed to load blog posts')
