@@ -7,6 +7,7 @@ import { FaPlus, FaEdit, FaTrash, FaEye, FaClock, FaTag, FaExclamationTriangle }
 import Button from '@/components/admin/Button'
 import Image from 'next/image'
 import Toast from '@/components/admin/Toast'
+import { formatDate } from '@/lib/utils'
 
 interface BlogPost {
   id: string
@@ -212,7 +213,7 @@ export default function BlogPosts() {
                       </span>
                     </td>
                     <td className="px-6 py-4 text-sm text-white/60">
-                      {new Date(post.createdAt).toLocaleDateString()}
+                      {formatDate(post.createdAt)}
                     </td>
                     <td className="px-6 py-4 text-right">
                       <div className="flex items-center justify-end gap-2">
@@ -220,15 +221,7 @@ export default function BlogPosts() {
                           variant="secondary"
                           size="sm"
                           icon={FaEdit}
-                          onClick={() => {
-                            setToast({ 
-                              message: 'Redirecting to edit page...', 
-                              type: 'success' 
-                            });
-                            setTimeout(() => {
-                              router.push(`/admin/blog/edit/${post.id}`)
-                            }, 1000);
-                          }}
+                          onClick={() => router.push(`/admin/blog/edit/${post.id}`)}
                         >
                           Edit
                         </Button>

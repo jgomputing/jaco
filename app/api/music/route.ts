@@ -3,17 +3,17 @@ import { supabase } from '@/lib/supabase'
 
 export async function GET() {
   try {
-    const { data: posts, error } = await supabase
-      .from('posts')
+    const { data: tracks, error } = await supabase
+      .from('tracks')
       .select('*')
       .order('created_at', { ascending: false })
 
     if (error) throw error
 
-    return NextResponse.json(posts)
+    return NextResponse.json(tracks)
   } catch (error) {
-    console.error('Error fetching posts:', error)
-    return NextResponse.json({ error: 'Failed to fetch posts' }, { status: 500 })
+    console.error('Error fetching tracks:', error)
+    return NextResponse.json({ error: 'Failed to fetch tracks' }, { status: 500 })
   }
 }
 
@@ -21,7 +21,7 @@ export async function POST(request: Request) {
   try {
     const body = await request.json()
     const { data, error } = await supabase
-      .from('posts')
+      .from('tracks')
       .insert([body])
       .select()
 
@@ -29,7 +29,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json(data[0])
   } catch (error) {
-    console.error('Error creating post:', error)
-    return NextResponse.json({ error: 'Failed to create post' }, { status: 500 })
+    console.error('Error creating track:', error)
+    return NextResponse.json({ error: 'Failed to create track' }, { status: 500 })
   }
 } 

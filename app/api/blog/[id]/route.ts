@@ -1,24 +1,18 @@
 import { NextResponse } from 'next/server'
-import { prisma } from '@/lib/prisma'
+import { supabase } from '@/lib/supabase'
 
 export async function GET(
   request: Request,
   { params }: { params: { id: string } }
 ) {
   try {
-    if (!params.id) {
-      return NextResponse.json(
-        { error: 'Post ID is required' },
-        { status: 400 }
-      )
-    }
+    const { data: post, error } = await supabase
+      .from('posts')
+      .select('*')
+      .eq('id', params.id)
+      .single()
 
-    const post = await prisma.blogPost.findUnique({
-      where: {
-        id: params.id,
-      },
-    })
-
+    if (error) throw error
     if (!post) {
       return NextResponse.json(
         { error: 'Post not found' },
@@ -28,9 +22,9 @@ export async function GET(
 
     return NextResponse.json(post)
   } catch (error) {
-    console.error('Error in GET /api/blog/[id]:', error)
+    console.error('Error fetching post:', error)
     return NextResponse.json(
-      { error: 'Failed to fetch blog post' },
+      { error: 'Failed to fetch post' },
       { status: 500 }
     )
   }
@@ -41,42 +35,26 @@ export async function PUT(
   { params }: { params: { id: string } }
 ) {
   try {
-    if (!params.id) {
+    const body = await request.json()
+    const { data, error } = await supabase
+      .from('posts')
+      .update(body)
+      .eq('id', params.id)
+      .select()
+
+    if (error) throw error
+    if (!data || data.length === 0) {
       return NextResponse.json(
-        { error: 'Post ID is required' },
-        { status: 400 }
+        { error: 'Post not found' },
+        { status: 404 }
       )
     }
 
-    const data = await request.json()
-
-    // Validate required fields
-    if (!data.title || !data.content || !data.category) {
-      return NextResponse.json(
-        { error: 'Missing required fields' },
-        { status: 400 }
-      )
-    }
-
-    const post = await prisma.blogPost.update({
-      where: {
-        id: params.id,
-      },
-      data: {
-        title: data.title,
-        excerpt: data.excerpt || '',
-        content: data.content,
-        image: data.image || '',
-        category: data.category,
-        status: data.status || 'Draft'
-      },
-    })
-
-    return NextResponse.json(post)
+    return NextResponse.json(data[0])
   } catch (error) {
-    console.error('Error in PUT /api/blog/[id]:', error)
+    console.error('Error updating post:', error)
     return NextResponse.json(
-      { error: 'Failed to update blog post' },
+      { error: 'Failed to update post' },
       { status: 500 }
     )
   }
@@ -87,39 +65,18 @@ export async function DELETE(
   { params }: { params: { id: string } }
 ) {
   try {
-    if (!params.id) {
-      return NextResponse.json(
-        { error: 'Post ID is required' },
-        { status: 400 }
-      )
-    }
+    const { error } = await supabase
+      .from('posts')
+      .delete()
+      .eq('id', params.id)
 
-    // Check if post exists
-    const existingPost = await prisma.blogPost.findUnique({
-      where: {
-        id: params.id,
-      },
-    })
+    if (error) throw error
 
-    if (!existingPost) {
-      return NextResponse.json(
-        { error: 'Post not found' },
-        { status: 404 }
-      )
-    }
-
-    // Delete the post
-    await prisma.blogPost.delete({
-      where: {
-        id: params.id,
-      },
-    })
-
-    return NextResponse.json({ message: 'Post deleted successfully' })
+    return new NextResponse(null, { status: 204 })
   } catch (error) {
-    console.error('Error in DELETE /api/blog/[id]:', error)
+    console.error('Error deleting post:', error)
     return NextResponse.json(
-      { error: 'Failed to delete blog post' },
+      { error: 'Failed to delete post' },
       { status: 500 }
     )
   }
