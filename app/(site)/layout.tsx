@@ -9,9 +9,9 @@ export default function SiteLayout({
   children: React.ReactNode
 }) {
   return (
-    <>
+    <div className="min-h-screen">
       <Navbar />
       {children}
-    </>
+    </div>
   )
 } 

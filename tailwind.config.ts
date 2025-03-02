@@ -9,6 +9,7 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
+        sans: ['var(--font-titillium)'],
         titillium: ['var(--font-titillium)', 'sans-serif'],
       },
       colors: {
@@ -30,6 +31,7 @@ const config: Config = {
         'gradient-x': 'gradient-x 15s ease infinite',
         'gradient-y': 'gradient-y 15s ease infinite',
         'gradient-xy': 'gradient-xy 15s ease infinite',
+        'fadeIn': 'fadeIn 0.3s ease-in-out',
       },
       keyframes: {
         'gradient-y': {
@@ -61,11 +63,24 @@ const config: Config = {
             'background-size': '200% 200%',
             'background-position': 'right center'
           }
+        },
+        'fadeIn': {
+          '0%': { 
+            opacity: '0',
+            transform: 'translateY(10px)'
+          },
+          '100%': {
+            opacity: '1',
+            transform: 'translateY(0)'
+          }
         }
       }
     },
   },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/typography'),
+  ],
+  darkMode: 'class',
 }
 
 export default config 

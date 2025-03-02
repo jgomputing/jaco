@@ -1,349 +1,288 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import { motion } from 'framer-motion'
 import Link from 'next/link'
 import Image from 'next/image'
-import { motion } from 'framer-motion'
-import { FaCalendar, FaArrowRight, FaClock, FaYoutube, FaInstagram, FaFacebook, FaPlay, FaMusic, FaPrayingHands } from 'react-icons/fa'
+import { useEffect, useState } from 'react'
+import { BlogService } from '@/lib/services/blog'
+import { ExtendedBlogPost } from '@/lib/types/blog'
+import { FaSpinner, FaCalendar, FaTag, FaClock } from 'react-icons/fa'
 
-interface BlogPost {
-  id: string
-  title: string
-  excerpt: string
-  content: string
-  image: string
-  category: string
-  status: string
-  createdAt: Date
-  updatedAt: Date
-}
-
-const UPCOMING_EVENT = {
-  title: "ANCIENT SOUNDS, FRESH FIRE",
-  subtitle: "30 Days of Hymns – A Journey of Worship",
-  description: "Are you searching for a deeper connection with God through worship? Do you yearn for a spiritual revival that ignites your faith? Get ready for an unforgettable journey with 30 Days of Hymns – A Journey of Worship",
-  time: "9:00 PM (UAE Time)",
-  features: [
-    {
-      icon: FaMusic,
-      title: "Timeless Hymns with Fresh Anointing",
-      description: "Be prepared for a powerful encounter as ancient melodies are infused with fresh fire."
-    },
-    {
-      icon: FaClock,
-      title: "Daily Uploads",
-      description: "A new hymn every day at 9:00 PM (UAE Time) to keep you connected and inspired."
-    },
-    {
-      icon: FaPrayingHands,
-      title: "Journey of Worship",
-      description: "Immerse yourself in the presence of God and experience personal revival through worship."
-    }
-  ],
-  image: "https://images.unsplash.com/photo-1602083566804-f3c1dd32e2b7?auto=format&fit=crop&q=85&w=2000",
-  startDate: "Starting March 1st, 2024"
-}
-
-const FEATURED_POSTS = [
+const events = [
   {
     id: 1,
-    title: "Gospel Music Events in 2025: A Season of Praise",
-    excerpt: "2025 promises to be filled with impactful events across the globe. From intimate worship gatherings to large-scale festivals, the gospel community is coming together like never before.",
-    date: "Feb 15, 2024",
-    image: "https://images.unsplash.com/photo-1501612780327-45045538702b?auto=format&fit=crop&q=85&w=2000",
-    category: "Events"
+    title: "Easter Sunday Celebration",
+    description: "Join us for a special Easter service celebrating the resurrection of Christ with worship and fellowship.",
+    date: "March 31, 2024"
   },
   {
     id: 2,
-    title: "Global Gospel Music Festivals 2025",
-    excerpt: "These festivals bring together the best in gospel and worship music, providing a platform for new and seasoned artists to share their gifts.",
-    date: "Feb 12, 2024",
-    image: "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?auto=format&fit=crop&q=85&w=2000",
-    category: "Festivals"
+    title: "Community Outreach Day",
+    description: "Serve our local community through various outreach programs and activities. Everyone is welcome to participate.",
+    date: "March 15, 2024"
   },
   {
     id: 3,
-    title: "Connecting Through Gospel Music",
-    excerpt: "Perfect opportunities for engaging with fans and musicians who share the same passion for uplifting others through the power of music.",
-    date: "Feb 10, 2024",
-    image: "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&q=85&w=2000",
-    category: "Community"
+    title: "Prayer & Worship Night",
+    description: "An evening dedicated to prayer, worship, and spiritual renewal. Come experience God's presence together.",
+    date: "March 8, 2024"
   }
 ]
 
+// Default church-themed images for fallback
+const defaultImages = [
+  "https://images.unsplash.com/photo-1438232992991-995b7058bbb3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1473&q=80",
+  "https://images.unsplash.com/photo-1544427920-c49ccfb85579?ixlib=rb-4.0.3&auto=format&fit=crop&w=1422&q=80",
+  "https://images.unsplash.com/photo-1593113598332-cd288d649433?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80"
+];
+
 export default function BlogSection() {
-  const [posts, setPosts] = useState<BlogPost[]>([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState('')
+  const [blogPosts, setBlogPosts] = useState<ExtendedBlogPost[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchPosts = async () => {
+    const loadPosts = async () => {
       try {
-        const response = await fetch('/api/blog')
-        if (!response.ok) throw new Error('Failed to fetch posts')
-        const data = await response.json()
-        // Filter only published posts and sort by date
-        const publishedPosts = data
-          .filter((post: BlogPost) => post.status === 'Published')
-          .sort((a: BlogPost, b: BlogPost) => 
-            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-          )
-          .slice(0, 3) // Get only the 3 most recent posts
-        setPosts(publishedPosts)
-      } catch (error) {
-        console.error('Error fetching posts:', error)
-        setError('Failed to load blog posts')
+        setLoading(true);
+        // Fetch only published posts with a limit of 3, sorted by publication date
+        const response = await BlogService.getPosts({
+          status: 'published',
+          limit: 3,
+          sort_by: 'published_at',
+          sort_order: 'desc'
+        });
+        setBlogPosts(response.posts);
+      } catch (err) {
+        console.error('Error loading blog posts:', err);
+        setError('Failed to load blog posts');
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
-    }
+    };
 
-    fetchPosts()
-  }, [])
+    loadPosts();
+  }, []);
+
+  // Function to format date
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
+  };
+
+  // Function to get a fallback image based on post ID
+  const getFallbackImage = (id: string): string => {
+    const index = parseInt(id, 10) % defaultImages.length;
+    // Ensure we always return a string by providing a default fallback
+    return defaultImages[index >= 0 ? index : 0] || defaultImages[0];
+  };
+
+  // Estimate reading time
+  const calculateReadingTime = (content: string): number => {
+    const wordsPerMinute = 200;
+    const wordCount = content.split(/\s+/).length;
+    return Math.ceil(wordCount / wordsPerMinute);
+  };
 
   return (
-    <section id="blog" className="py-8 relative scroll-mt-0">
-      {/* Background Elements */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-1/4 right-1/4 w-[500px] h-[500px] bg-[#3b82f6] rounded-full opacity-[0.03] blur-3xl animate-pulse-slow" />
-        <div className="absolute bottom-1/4 left-1/4 w-[500px] h-[500px] bg-purple-500 rounded-full opacity-[0.03] blur-3xl animate-pulse-slow" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-blue-500 rounded-full opacity-[0.02] blur-3xl" />
-      </div>
+    <section id="blog" className="py-20 bg-black">
+      <div className="container mx-auto px-4">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-20">
+          {/* Blog Posts Section */}
+          <div>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+              className="mb-12"
+            >
+              <h2 className="text-4xl font-bold text-white mb-4">
+                Latest from Our <span className="text-[#3b82f6]">Blog</span>
+              </h2>
+              <p className="text-white/60">
+                Stay updated with our latest news, events, and spiritual insights.
+              </p>
+            </motion.div>
 
-      <div className="container px-4">
-        {/* Section Header */}
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mb-4 sm:mb-8"
-        >
-          <span className="inline-block px-4 py-2 rounded-full bg-[#3b82f6]/10 text-[#3b82f6] text-sm font-medium mb-2">
-            Latest Updates
-          </span>
-          <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-2">
-            Blog & <span className="text-[#3b82f6]">Updates</span>
-          </h2>
-          <p className="text-white/60 text-lg sm:text-xl max-w-3xl mx-auto">
-            Stay updated with our journey, music insights, and upcoming events that will transform your worship experience
-          </p>
-        </motion.div>
-
-        {/* Featured Event */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="mb-8 sm:mb-12"
-        >
-          <div className="relative bg-gradient-to-br from-[#3b82f6]/10 via-purple-500/5 to-transparent p-8 sm:p-12 rounded-3xl border border-[#3b82f6]/20 overflow-hidden">
-            {/* Background Accent */}
-            <div className="absolute inset-0 bg-[url('/images/pattern.png')] opacity-5" />
-            
-            <div className="relative grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-              {/* Event Content */}
-              <div className="space-y-8">
-                <div className="space-y-4">
-                  <div className="flex items-center gap-3 text-[#3b82f6]">
-                    <FaPlay className="animate-pulse" />
-                    <span className="text-sm font-semibold tracking-wider uppercase">{UPCOMING_EVENT.startDate}</span>
-                  </div>
-                  <h3 className="text-3xl sm:text-4xl font-bold text-white">
-                    {UPCOMING_EVENT.title}
-                  </h3>
-                  <p className="text-[#3b82f6] text-xl font-semibold">
-                    {UPCOMING_EVENT.subtitle}
-                  </p>
-                  <p className="text-white/80 text-lg leading-relaxed">
-                    {UPCOMING_EVENT.description}
-                  </p>
-                </div>
-
-                {/* Features Grid */}
-                <div className="grid gap-6">
-                  {UPCOMING_EVENT.features.map((feature, index) => (
-                    <motion.div
-                      key={index}
-                      initial={{ opacity: 0, x: -20 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      transition={{ delay: index * 0.1 }}
-                      className="flex items-start gap-4 p-4 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/10 transition-colors group"
-                    >
-                      <div className="p-3 rounded-lg bg-[#3b82f6]/10 text-[#3b82f6] group-hover:bg-[#3b82f6] group-hover:text-white transition-colors">
-                        <feature.icon size={24} />
-                      </div>
-                      <div>
-                        <h4 className="text-white font-semibold mb-1 group-hover:text-[#3b82f6] transition-colors">
-                          {feature.title}
-                        </h4>
-                        <p className="text-white/60 text-sm">
-                          {feature.description}
-                        </p>
-                      </div>
-                    </motion.div>
-                  ))}
-                </div>
-
-                {/* Social Links */}
-                <div className="space-y-4">
-                  <p className="text-white font-medium">Follow us to stay updated:</p>
-                  <div className="flex gap-4">
-                    <a
-                      href="https://youtube.com/@jacoosijaye"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="group"
-                    >
-                      <div className="p-4 bg-white/5 hover:bg-[#FF0000] rounded-xl transition-all duration-300 transform hover:scale-110">
-                        <FaYoutube className="text-2xl text-white/80 group-hover:text-white" />
-                      </div>
-                    </a>
-                    <a
-                      href="https://instagram.com/jacoosijaye"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="group"
-                    >
-                      <div className="p-4 bg-white/5 hover:bg-[#E1306C] rounded-xl transition-all duration-300 transform hover:scale-110">
-                        <FaInstagram className="text-2xl text-white/80 group-hover:text-white" />
-                      </div>
-                    </a>
-                    <a
-                      href="https://facebook.com/jacoosijaye"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="group"
-                    >
-                      <div className="p-4 bg-white/5 hover:bg-[#1877F2] rounded-xl transition-all duration-300 transform hover:scale-110">
-                        <FaFacebook className="text-2xl text-white/80 group-hover:text-white" />
-                      </div>
-                    </a>
-                  </div>
-                </div>
+            {loading ? (
+              <div className="flex justify-center items-center h-64">
+                <FaSpinner className="animate-spin text-[#3b82f6] text-4xl" />
               </div>
+            ) : error ? (
+              <div className="text-red-500 text-center">{error}</div>
+            ) : blogPosts.length === 0 ? (
+              <div className="text-white/60 text-center">No blog posts available</div>
+            ) : (
+              <div className="space-y-8">
+                {blogPosts.map((post, index) => (
+                  <motion.div
+                    key={post.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                    className="group relative bg-gradient-to-br from-gray-900 to-black rounded-xl overflow-hidden shadow-xl border border-gray-800 hover:border-blue-500/30 transition-all duration-300"
+                  >
+                    <div className="absolute inset-0 bg-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    
+                    <div className="flex flex-col md:flex-row">
+                      {/* Image Section */}
+                      <div className="relative w-full md:w-2/5 h-56 md:h-auto overflow-hidden">
+                        <Image
+                          src={post.featured_image ? post.featured_image : getFallbackImage(post.id)}
+                          alt={post.title}
+                          fill
+                          className="object-cover transition-transform duration-700 group-hover:scale-105"
+                          onError={(e) => {
+                            // If image fails to load, use fallback
+                            const target = e.target as HTMLImageElement;
+                            target.src = getFallbackImage(post.id);
+                          }}
+                        />
+                        {/* Overlay gradient */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent md:bg-gradient-to-r md:from-black/50 md:to-transparent"></div>
+                        
+                        {/* Category badge - mobile */}
+                        <div className="absolute top-4 right-4 md:hidden">
+                          <span className="bg-blue-500 text-white text-xs font-medium px-2.5 py-1 rounded shadow-lg">
+                            {post.category_name}
+                          </span>
+                        </div>
+                      </div>
+                      
+                      {/* Content Section */}
+                      <div className="p-6 flex-1 flex flex-col justify-between relative z-10">
+                        <div>
+                          {/* Meta info */}
+                          <div className="flex items-center justify-between mb-3">
+                            {/* Category - desktop */}
+                            <span className="hidden md:inline-block bg-blue-500 text-white text-xs font-medium px-2.5 py-1 rounded shadow-lg">
+                              {post.category_name}
+                            </span>
+                            
+                            {/* Date and reading time */}
+                            <div className="flex items-center text-xs text-gray-400 space-x-4">
+                              <span className="flex items-center">
+                                <FaCalendar className="mr-1.5" size={12} />
+                                {post.published_at ? formatDate(post.published_at) : formatDate(post.created_at)}
+                              </span>
+                              <span className="flex items-center">
+                                <FaClock className="mr-1.5" size={12} />
+                                {calculateReadingTime(post.content)} min read
+                              </span>
+                            </div>
+                          </div>
+                          
+                          {/* Title */}
+                          <h3 className="text-xl font-bold text-white mb-3 leading-tight group-hover:text-blue-400 transition-colors">
+                            {post.title}
+                          </h3>
+                          
+                          {/* Excerpt */}
+                          <p className="text-gray-400 mb-4 line-clamp-2 text-sm">
+                            {post.excerpt}
+                          </p>
+                          
+                          {/* Tags */}
+                          {post.tags && post.tags.length > 0 && (
+                            <div className="flex flex-wrap gap-2 mb-4">
+                              {post.tags.slice(0, 2).map((tag, index) => (
+                                <span key={index} className="text-xs bg-gray-800 text-gray-300 px-2 py-0.5 rounded-full inline-flex items-center">
+                                  <FaTag className="mr-1 text-gray-400" size={8} />
+                                  {tag}
+                                </span>
+                              ))}
+                              {post.tags.length > 2 && (
+                                <span className="text-xs bg-gray-800 text-gray-300 px-2 py-0.5 rounded-full">
+                                  +{post.tags.length - 2} more
+                                </span>
+                              )}
+                            </div>
+                          )}
+                        </div>
+                        
+                        {/* Footer */}
+                        <div className="flex items-center justify-between pt-4 border-t border-gray-800">
+                          <div className="flex items-center text-xs text-gray-400">
+                            <span>{post.views} views</span>
+                          </div>
+                          <Link
+                            href={`/blog/${post.slug}`}
+                            className="inline-flex items-center text-blue-400 hover:text-blue-300 transition-colors text-sm font-medium"
+                          >
+                            Read Article
+                            <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                            </svg>
+                          </Link>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    {/* Full card link overlay */}
+                    <Link 
+                      href={`/blog/${post.slug}`}
+                      className="absolute inset-0 z-0"
+                      aria-label={`Read more about ${post.title}`}
+                    />
+                  </motion.div>
+                ))}
+              </div>
+            )}
+          </div>
 
-              {/* Event Image */}
-              <div className="relative">
+          {/* Events/Updates Section */}
+          <div>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+              className="mb-12"
+            >
+              <h2 className="text-4xl font-bold text-white mb-4">
+                Latest <span className="text-[#3b82f6]">Updates</span>
+              </h2>
+              <p className="text-white/60">
+                Stay informed about our upcoming events and church activities.
+              </p>
+            </motion.div>
+
+            <div className="space-y-6">
+              {events.map((event, index) => (
                 <motion.div
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
+                  key={event.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  className="relative aspect-[4/3] rounded-3xl overflow-hidden group"
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  className="bg-gradient-to-br from-gray-900 to-black p-6 rounded-xl border border-gray-800 hover:border-blue-500/30 transition-all duration-300 shadow-xl"
                 >
-                  <Image
-                    src={UPCOMING_EVENT.image}
-                    alt="30 Days of Hymns"
-                    fill
-                    className="object-cover transition-transform duration-700 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent opacity-60" />
-                  
-                  {/* Play Button Overlay */}
-                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <motion.div
-                      whileHover={{ scale: 1.1 }}
-                      whileTap={{ scale: 0.9 }}
-                      className="w-20 h-20 rounded-full bg-[#3b82f6] flex items-center justify-center shadow-lg cursor-pointer"
-                    >
-                      <FaPlay className="text-white text-2xl ml-2" />
-                    </motion.div>
+                  <div className="flex items-start gap-4">
+                    <div className="bg-blue-500/10 rounded-xl p-3 text-blue-400">
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
+                      </svg>
+                    </div>
+                    <div>
+                      <p className="text-blue-400 text-sm font-medium mb-1">{event.date}</p>
+                      <h3 className="text-xl font-bold text-white mb-2">
+                        {event.title}
+                      </h3>
+                      <p className="text-gray-400">
+                        {event.description}
+                      </p>
+                    </div>
                   </div>
                 </motion.div>
-
-                {/* Time Badge */}
-                <div className="absolute -bottom-6 right-6 px-6 py-4 bg-[#3b82f6] rounded-2xl shadow-lg">
-                  <div className="flex items-center gap-3 text-white">
-                    <FaClock className="text-xl" />
-                    <span className="font-semibold">{UPCOMING_EVENT.time}</span>
-                  </div>
-                </div>
-              </div>
+              ))}
             </div>
           </div>
-        </motion.div>
-
-        {/* Blog Posts Header */}
-        <div className="flex justify-between items-center mb-8">
-          <h3 className="text-2xl font-bold text-white">Latest Updates</h3>
-        </div>
-
-        {/* Blog Posts Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {loading ? (
-            // Loading skeleton
-            [...Array(3)].map((_, index) => (
-              <div key={index} className="animate-pulse">
-                <div className="bg-white/5 rounded-2xl overflow-hidden">
-                  <div className="aspect-[16/9] bg-white/10" />
-                  <div className="p-8 space-y-4">
-                    <div className="h-4 bg-white/10 rounded w-1/4" />
-                    <div className="h-6 bg-white/10 rounded w-3/4" />
-                    <div className="h-4 bg-white/10 rounded w-full" />
-                    <div className="h-4 bg-white/10 rounded w-2/3" />
-                  </div>
-                </div>
-              </div>
-            ))
-          ) : error ? (
-            <div className="col-span-3 text-center py-12">
-              <p className="text-red-500">{error}</p>
-            </div>
-          ) : posts.length === 0 ? (
-            <div className="col-span-3 text-center py-12">
-              <p className="text-white/60">No published blog posts yet.</p>
-            </div>
-          ) : (
-            posts.map((post, index) => (
-              <motion.article
-                key={post.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                className="group"
-              >
-                <div className="bg-white/5 backdrop-blur-sm rounded-2xl overflow-hidden border border-white/10 hover:bg-white/10 transition-all duration-300 hover:shadow-2xl hover:shadow-[#3b82f6]/5">
-                  <div className="relative aspect-[16/9] overflow-hidden">
-                    <Image
-                      src={post.image || 'https://via.placeholder.com/400x300'}
-                      alt={post.title}
-                      fill
-                      className="object-cover transform group-hover:scale-105 transition-transform duration-700"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                    
-                    {/* Category Badge */}
-                    <div className="absolute top-4 left-4 px-4 py-2 bg-[#3b82f6] rounded-full text-white text-sm font-medium">
-                      {post.category}
-                    </div>
-                  </div>
-
-                  <div className="p-8">
-                    <div className="flex items-center gap-2 text-white/60 text-sm mb-4">
-                      <FaCalendar className="text-[#3b82f6]" />
-                      {new Date(post.createdAt).toLocaleDateString()}
-                    </div>
-
-                    <h3 className="text-xl font-semibold text-white mb-4 group-hover:text-[#3b82f6] transition-colors">
-                      {post.title}
-                    </h3>
-
-                    <p className="text-white/60 text-base mb-6 line-clamp-2">
-                      {post.excerpt}
-                    </p>
-
-                    <Link
-                      href={`/blog/${post.id}`}
-                      className="inline-flex items-center gap-2 text-[#3b82f6] hover:text-white transition-colors font-medium group"
-                    >
-                      Read More 
-                      <FaArrowRight className="transform group-hover:translate-x-1 transition-transform" />
-                    </Link>
-                  </div>
-                </div>
-              </motion.article>
-            ))
-          )}
         </div>
       </div>
     </section>

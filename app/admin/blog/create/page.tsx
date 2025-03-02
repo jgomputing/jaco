@@ -1,299 +1,696 @@
-'use client'
+'use client';
 
-import React, { useState } from 'react'
-import { useRouter } from 'next/navigation'
-import dynamic from 'next/dynamic'
-import { motion } from 'framer-motion'
-import { FaImage, FaSave, FaTimes } from 'react-icons/fa'
-import Button from '@/components/admin/Button'
-import Toast from '@/components/admin/Toast'
-
-const QuillEditor = dynamic(() => import('@/components/admin/QuillEditor'), {
-  ssr: false,
-  loading: () => <div className="h-64 w-full bg-white/5 animate-pulse rounded-xl" />
-})
+import React, { useState, useRef } from 'react';
+import { useRouter } from 'next/navigation';
+import { FaSave, FaImage, FaTimes, FaArrowLeft, FaEye, FaTag, FaCalendarAlt, FaLink } from 'react-icons/fa';
+import { FaBold, FaItalic, FaHeading, FaListUl, FaListOl, FaQuoteRight, FaCode, FaLink as FaLinkIcon } from 'react-icons/fa';
+import Link from 'next/link';
 
 export default function CreateBlogPost() {
-  const router = useRouter()
-  const [loading, setLoading] = useState(false)
-  const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null)
+  const router = useRouter();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [activeTab, setActiveTab] = useState<'content' | 'seo'>('content');
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [imageInputType, setImageInputType] = useState<'upload' | 'url'>('upload');
+  const [imageUrl, setImageUrl] = useState('');
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  
+  // Form state
   const [formData, setFormData] = useState({
     title: '',
-    excerpt: '',
     content: '',
-    image: '',
+    excerpt: '',
     category: '',
-    status: 'Draft'
-  })
-  const [imagePreview, setImagePreview] = useState('')
+    tags: '',
+    featuredImage: null as File | null,
+    featuredImagePreview: '',
+    status: 'draft' as 'draft' | 'published',
+    seo: {
+      metaTitle: '',
+      metaDescription: '',
+      keywords: '',
+      ogImage: null as File | null,
+      ogImagePreview: ''
+    }
+  });
 
-  const handleFileUpload = async (file: File) => {
-    const formData = new FormData()
-    formData.append('file', file)
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    
+    if (name.startsWith('seo.')) {
+      const seoField = name.split('.')[1];
+      setFormData({
+        ...formData,
+        seo: {
+          ...formData.seo,
+          [seoField as string]: value
+        }
+      });
+    } else {
+      setFormData({
+        ...formData,
+        [name]: value
+      });
+    }
+  };
+
+  const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setFormData({
+      ...formData,
+      content: e.target.value
+    });
+  };
+
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>, type: 'featured' | 'og') => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      if (type === 'featured') {
+        setFormData({
+          ...formData,
+          featuredImage: file,
+          featuredImagePreview: reader.result as string
+        });
+      } else {
+        setFormData({
+          ...formData,
+          seo: {
+            ...formData.seo,
+            ogImage: file,
+            ogImagePreview: reader.result as string
+          }
+        });
+      }
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handleImageUrlSubmit = () => {
+    if (!imageUrl.trim()) return;
+    
+    setFormData({
+      ...formData,
+      featuredImage: null,
+      featuredImagePreview: imageUrl
+    });
+    
+    setImageUrl('');
+  };
+
+  const removeImage = (type: 'featured' | 'og') => {
+    if (type === 'featured') {
+      setFormData({
+        ...formData,
+        featuredImage: null,
+        featuredImagePreview: ''
+      });
+      setImageUrl('');
+    } else {
+      setFormData({
+        ...formData,
+        seo: {
+          ...formData.seo,
+          ogImage: null,
+          ogImagePreview: ''
+        }
+      });
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent, saveAsDraft = false) => {
+    e.preventDefault();
+    setIsSubmitting(true);
 
     try {
-      const response = await fetch('/api/upload', {
-        method: 'POST',
-        body: formData,
-      })
-
-      if (!response.ok) throw new Error('Upload failed')
-
-      const data = await response.json()
-      return data.url
+      // Here you would normally send the data to your API
+      console.log('Submitting form data:', {
+        ...formData,
+        status: saveAsDraft ? 'draft' : formData.status
+      });
+      
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      // Redirect back to blog list
+      router.push('/admin/blog');
+      
     } catch (error) {
-      console.error('Error uploading file:', error)
-      throw error
+      console.error('Error submitting form:', error);
+      setIsSubmitting(false);
     }
-  }
+  };
 
-  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0]
-    if (!file) return
+  const generateExcerptFromContent = () => {
+    // Strip HTML and get plain text
+    const text = formData.content;
+    
+    // Limit to ~150 characters
+    const excerpt = text.substring(0, 147) + (text.length > 147 ? '...' : '');
+    
+    setFormData({
+      ...formData,
+      excerpt
+    });
+  };
 
-    try {
-      const url = await handleFileUpload(file)
-      setFormData(prev => ({ ...prev, image: url }))
-      setImagePreview(URL.createObjectURL(file))
-    } catch (error) {
-      setToast({ message: 'Failed to upload image', type: 'error' })
+  // Text formatting functions
+  const insertFormatting = (startTag: string, endTag: string = '') => {
+    if (!textareaRef.current) return;
+    
+    const textarea = textareaRef.current;
+    const start = textarea.selectionStart;
+    const end = textarea.selectionEnd;
+    const selectedText = formData.content.substring(start, end);
+    const beforeText = formData.content.substring(0, start);
+    const afterText = formData.content.substring(end);
+    
+    const newText = beforeText + startTag + selectedText + (endTag || startTag) + afterText;
+    setFormData({
+      ...formData,
+      content: newText
+    });
+    
+    // Set focus back to textarea and position cursor after the inserted text
+    setTimeout(() => {
+      textarea.focus();
+      textarea.setSelectionRange(
+        start + startTag.length + selectedText.length + (endTag || startTag).length,
+        start + startTag.length + selectedText.length + (endTag || startTag).length
+      );
+    }, 0);
+  };
+  
+  const formatBold = () => insertFormatting('**');
+  const formatItalic = () => insertFormatting('*');
+  const formatHeading = () => insertFormatting('## ');
+  const formatUnorderedList = () => insertFormatting('- ');
+  const formatOrderedList = () => insertFormatting('1. ');
+  const formatQuote = () => insertFormatting('> ');
+  const formatCode = () => insertFormatting('`', '`');
+  const formatLink = () => {
+    const url = prompt('Enter URL:');
+    if (url) {
+      if (!textareaRef.current) return;
+      
+      const textarea = textareaRef.current;
+      const start = textarea.selectionStart;
+      const end = textarea.selectionEnd;
+      const selectedText = formData.content.substring(start, end);
+      const linkText = selectedText || 'link text';
+      
+      insertFormatting('[' + linkText + '](', ')');
     }
-  }
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setLoading(true)
-
-    try {
-      const response = await fetch('/api/blog', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
-      })
-
-      if (!response.ok) throw new Error('Failed to create post')
-
-      setToast({ message: 'Blog post created successfully!', type: 'success' })
-      setTimeout(() => {
-        router.push('/admin/blog')
-      }, 1000)
-    } catch (error) {
-      console.error('Error creating post:', error)
-      setToast({ message: 'Failed to create blog post', type: 'error' })
-    } finally {
-      setLoading(false)
-    }
-  }
+  };
 
   return (
-    <div className="space-y-8">
-      <form onSubmit={handleSubmit}>
-        <div className="flex justify-between items-center mb-8">
-          <h1 className="text-3xl font-bold">Create New Blog Post</h1>
-          <div className="flex items-center gap-3">
-            <Button
-              variant="secondary"
-              icon={FaTimes}
-              onClick={() => router.back()}
-              type="button"
-            >
-              Cancel
-            </Button>
-            <Button
-              type="submit"
-              disabled={loading}
-              loading={loading}
-              loadingText="Creating..."
-              className="w-full"
-            >
-              Create Post
-            </Button>
+    <div className="space-y-4">
+      {/* Header */}
+      <div className="flex justify-between items-center glass-effect rounded-xl p-3">
+        <div className="flex items-center gap-3">
+          <Link 
+            href="/admin/blog" 
+            className="p-2 text-gray-400 hover:text-white hover:bg-white/10 rounded-lg transition-colors"
+          >
+            <FaArrowLeft />
+          </Link>
+          <div>
+            <h1 className="text-xl font-semibold text-white">Create New Blog Post</h1>
           </div>
         </div>
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={(e) => handleSubmit(e, true)}
+            disabled={isSubmitting}
+            className="px-3 py-1.5 bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition-colors disabled:opacity-50 text-sm"
+          >
+            Save Draft
+          </button>
+          <button
+            type="button"
+            onClick={(e) => handleSubmit(e, false)}
+            disabled={isSubmitting}
+            className="flex items-center px-3 py-1.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 text-sm"
+          >
+            <FaSave className="w-3.5 h-3.5 mr-1.5" />
+            {isSubmitting ? 'Publishing...' : 'Publish'}
+          </button>
+        </div>
+      </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Main Content */}
-          <div className="lg:col-span-2 space-y-6">
-            {/* Title */}
-            <div className="space-y-2">
-              <label htmlFor="title" className="block text-sm font-medium text-white/80">
-                Title
-              </label>
-              <input
-                id="title"
-                type="text"
-                value={formData.title}
-                onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
-                className="w-full px-4 py-2 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-[#3b82f6] focus:border-transparent text-base"
-                placeholder="Enter blog title"
-                required
-              />
-            </div>
+      {/* Tabs */}
+      <div className="flex border-b border-white/10">
+        <button
+          className={`px-4 py-2 font-medium text-sm transition-colors ${
+            activeTab === 'content' 
+              ? 'text-blue-400 border-b-2 border-blue-400' 
+              : 'text-gray-400 hover:text-white'
+          }`}
+          onClick={() => setActiveTab('content')}
+        >
+          Content
+        </button>
+        <button
+          className={`px-4 py-2 font-medium text-sm transition-colors ${
+            activeTab === 'seo' 
+              ? 'text-blue-400 border-b-2 border-blue-400' 
+              : 'text-gray-400 hover:text-white'
+          }`}
+          onClick={() => setActiveTab('seo')}
+        >
+          SEO Settings
+        </button>
+      </div>
 
-            {/* Excerpt */}
-            <div className="space-y-2">
-              <label htmlFor="excerpt" className="block text-sm font-medium text-white/80">
-                Excerpt
-              </label>
-              <textarea
-                id="excerpt"
-                value={formData.excerpt}
-                onChange={(e) => setFormData(prev => ({ ...prev, excerpt: e.target.value }))}
-                className="w-full px-4 py-2 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-[#3b82f6] focus:border-transparent text-base resize-none h-24"
-                placeholder="Enter a brief excerpt"
-                required
-              />
-            </div>
-
-            {/* Content */}
-            <div className="space-y-2">
-              <label htmlFor="content" className="block text-sm font-medium text-white/80">
-                Content
-              </label>
-              <style jsx global>{`
-                .ql-toolbar {
-                  background: rgba(255, 255, 255, 0.1) !important;
-                  border-color: rgba(255, 255, 255, 0.2) !important;
-                  border-top-left-radius: 12px !important;
-                  border-top-right-radius: 12px !important;
-                }
-                .ql-toolbar .ql-stroke {
-                  stroke: rgba(255, 255, 255, 0.8) !important;
-                }
-                .ql-toolbar .ql-fill {
-                  fill: rgba(255, 255, 255, 0.8) !important;
-                }
-                .ql-toolbar .ql-picker {
-                  color: rgba(255, 255, 255, 0.8) !important;
-                }
-                .ql-toolbar .ql-picker-options {
-                  background-color: #1f2937 !important;
-                  border-color: rgba(255, 255, 255, 0.2) !important;
-                }
-                .ql-container {
-                  background: rgba(255, 255, 255, 0.1) !important;
-                  border-color: rgba(255, 255, 255, 0.2) !important;
-                  border-bottom-left-radius: 12px !important;
-                  border-bottom-right-radius: 12px !important;
-                  font-size: 16px !important;
-                }
-                .ql-editor {
-                  color: white !important;
-                  min-height: 200px !important;
-                }
-                .ql-editor.ql-blank::before {
-                  color: rgba(255, 255, 255, 0.4) !important;
-                  font-style: normal !important;
-                }
-                .ql-editor * {
-                  color: white !important;
-                }
-                .ql-snow * {
-                  color: white !important;
-                }
-              `}</style>
-              <div className="prose-editor">
-                <QuillEditor
-                  value={formData.content}
-                  onChange={(content) => setFormData(prev => ({ ...prev, content }))}
+      <form onSubmit={(e) => handleSubmit(e, false)} className="space-y-4">
+        {activeTab === 'content' ? (
+          /* Content Tab */
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+            {/* Main Content Column */}
+            <div className="lg:col-span-2 space-y-4">
+              {/* Title */}
+              <div className="glass-effect rounded-xl p-4">
+                <input
+                  type="text"
+                  id="title"
+                  name="title"
+                  value={formData.title}
+                  onChange={handleInputChange}
+                  placeholder="Enter post title..."
+                  className="w-full px-4 py-2 bg-white/5 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/50 text-white text-lg"
+                  required
                 />
               </div>
-            </div>
-          </div>
 
-          {/* Sidebar */}
-          <div className="space-y-6">
-            {/* Image Upload */}
-            <div className="space-y-2">
-              <label className="block text-sm font-medium text-white/80">
-                Featured Image
-              </label>
-              <div className="relative aspect-video bg-white/5 rounded-xl overflow-hidden border-2 border-dashed border-white/20 hover:border-white/40 transition-colors">
-                {imagePreview ? (
-                  <div className="relative h-full group">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={imagePreview}
-                      alt="Preview"
-                      className="w-full h-full object-cover"
-                    />
-                    <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setFormData(prev => ({ ...prev, image: '' }))
-                          setImagePreview('')
-                        }}
-                        className="p-2 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors"
-                      >
-                        <FaTimes />
-                      </button>
-                    </div>
-                  </div>
-                ) : (
-                  <label className="absolute inset-0 flex flex-col items-center justify-center cursor-pointer">
-                    <FaImage className="text-3xl text-white/40 mb-2" />
-                    <span className="text-sm text-white/60">Click to upload image</span>
-                    <input
-                      type="file"
-                      accept="image/*"
-                      onChange={handleImageUpload}
-                      className="hidden"
-                    />
+              {/* Content Editor - With formatting toolbar */}
+              <div className="glass-effect rounded-xl p-4">
+                <label htmlFor="content" className="block text-sm font-medium text-gray-300 mb-2">
+                  Content
+                </label>
+                
+                {/* Formatting Toolbar */}
+                <div className="flex items-center gap-1 mb-2 p-1 bg-white/5 rounded-lg border border-white/10">
+                  <button 
+                    type="button" 
+                    onClick={formatBold}
+                    className="p-2 text-gray-300 hover:text-white hover:bg-white/10 rounded transition-colors" 
+                    title="Bold"
+                  >
+                    <FaBold />
+                  </button>
+                  <button 
+                    type="button" 
+                    onClick={formatItalic}
+                    className="p-2 text-gray-300 hover:text-white hover:bg-white/10 rounded transition-colors" 
+                    title="Italic"
+                  >
+                    <FaItalic />
+                  </button>
+                  <button 
+                    type="button" 
+                    onClick={formatHeading}
+                    className="p-2 text-gray-300 hover:text-white hover:bg-white/10 rounded transition-colors" 
+                    title="Heading"
+                  >
+                    <FaHeading />
+                  </button>
+                  <div className="h-5 w-px bg-white/10 mx-1"></div>
+                  <button 
+                    type="button" 
+                    onClick={formatUnorderedList}
+                    className="p-2 text-gray-300 hover:text-white hover:bg-white/10 rounded transition-colors" 
+                    title="Bullet List"
+                  >
+                    <FaListUl />
+                  </button>
+                  <button 
+                    type="button" 
+                    onClick={formatOrderedList}
+                    className="p-2 text-gray-300 hover:text-white hover:bg-white/10 rounded transition-colors" 
+                    title="Numbered List"
+                  >
+                    <FaListOl />
+                  </button>
+                  <div className="h-5 w-px bg-white/10 mx-1"></div>
+                  <button 
+                    type="button" 
+                    onClick={formatQuote}
+                    className="p-2 text-gray-300 hover:text-white hover:bg-white/10 rounded transition-colors" 
+                    title="Quote"
+                  >
+                    <FaQuoteRight />
+                  </button>
+                  <button 
+                    type="button" 
+                    onClick={formatCode}
+                    className="p-2 text-gray-300 hover:text-white hover:bg-white/10 rounded transition-colors" 
+                    title="Code"
+                  >
+                    <FaCode />
+                  </button>
+                  <button 
+                    type="button" 
+                    onClick={formatLink}
+                    className="p-2 text-gray-300 hover:text-white hover:bg-white/10 rounded transition-colors" 
+                    title="Link"
+                  >
+                    <FaLinkIcon />
+                  </button>
+                </div>
+                
+                <textarea
+                  id="content"
+                  ref={textareaRef}
+                  value={formData.content}
+                  onChange={handleContentChange}
+                  placeholder="Write your blog post content here..."
+                  className="w-full h-64 px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/50 text-white resize-y"
+                  style={{ fontFamily: 'Titillium Web, sans-serif' }}
+                ></textarea>
+                
+                <p className="text-xs text-gray-500 mt-1">
+                  Use the formatting toolbar or Markdown syntax for styling
+                </p>
+              </div>
+
+              {/* Excerpt */}
+              <div className="glass-effect rounded-xl p-4">
+                <div className="flex justify-between items-center mb-2">
+                  <label htmlFor="excerpt" className="block text-sm font-medium text-gray-300">
+                    Excerpt
                   </label>
-                )}
+                  <button
+                    type="button"
+                    onClick={generateExcerptFromContent}
+                    className="text-xs text-blue-400 hover:text-blue-300"
+                  >
+                    Generate from content
+                  </button>
+                </div>
+                <textarea
+                  id="excerpt"
+                  name="excerpt"
+                  value={formData.excerpt}
+                  onChange={handleInputChange}
+                  placeholder="Brief summary of your post (shown in previews)..."
+                  className="w-full px-4 py-2 bg-white/5 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/50 text-white h-20"
+                />
+                <p className="text-xs text-gray-500 mt-1">
+                  {formData.excerpt.length}/150 characters recommended
+                </p>
               </div>
             </div>
 
-            {/* Category */}
-            <div className="space-y-2">
-              <label htmlFor="category" className="block text-sm font-medium text-white/80">
-                Category
-              </label>
-              <select
-                id="category"
-                value={formData.category}
-                onChange={(e) => setFormData(prev => ({ ...prev, category: e.target.value }))}
-                className="w-full px-4 py-2 bg-white/10 border border-white/20 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-[#3b82f6] focus:border-transparent text-base"
-                required
-              >
-                <option value="" disabled className="bg-gray-800 text-white">Select a category</option>
-                <option value="Worship" className="bg-gray-800 text-white">Worship</option>
-                <option value="Music" className="bg-gray-800 text-white">Music</option>
-                <option value="Events" className="bg-gray-800 text-white">Events</option>
-                <option value="Ministry" className="bg-gray-800 text-white">Ministry</option>
-                <option value="Personal" className="bg-gray-800 text-white">Personal</option>
-              </select>
-            </div>
+            {/* Sidebar Column */}
+            <div className="space-y-4">
+              {/* Featured Image */}
+              <div className="glass-effect rounded-xl p-4">
+                <label className="block text-sm font-medium text-gray-300 mb-2">
+                  Featured Image
+                </label>
+                
+                {formData.featuredImagePreview ? (
+                  <div className="relative rounded-lg overflow-hidden mb-2">
+                    <img 
+                      src={formData.featuredImagePreview} 
+                      alt="Featured preview" 
+                      className="w-full h-48 object-cover"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => removeImage('featured')}
+                      className="absolute top-2 right-2 p-1.5 bg-red-500/80 text-white rounded-full hover:bg-red-600 transition-colors"
+                    >
+                      <FaTimes />
+                    </button>
+                  </div>
+                ) : (
+                  <div className="space-y-3">
+                    {/* Image Input Type Selector */}
+                    <div className="flex border-b border-white/10 mb-3">
+                      <button
+                        type="button"
+                        className={`px-3 py-1.5 text-sm font-medium transition-colors ${
+                          imageInputType === 'upload' 
+                            ? 'text-blue-400 border-b-2 border-blue-400' 
+                            : 'text-gray-400 hover:text-white'
+                        }`}
+                        onClick={() => setImageInputType('upload')}
+                      >
+                        Upload
+                      </button>
+                      <button
+                        type="button"
+                        className={`px-3 py-1.5 text-sm font-medium transition-colors ${
+                          imageInputType === 'url' 
+                            ? 'text-blue-400 border-b-2 border-blue-400' 
+                            : 'text-gray-400 hover:text-white'
+                        }`}
+                        onClick={() => setImageInputType('url')}
+                      >
+                        Image URL
+                      </button>
+                    </div>
+                    
+                    {imageInputType === 'upload' ? (
+                      <div 
+                        onClick={() => fileInputRef.current?.click()}
+                        className="border-2 border-dashed border-white/20 rounded-lg p-4 text-center cursor-pointer hover:border-white/40 transition-colors"
+                      >
+                        <FaImage className="w-8 h-8 mx-auto text-gray-400 mb-2" />
+                        <p className="text-gray-300 text-sm">Click to upload image</p>
+                        <p className="text-gray-500 text-xs mt-1">1200 x 630px recommended</p>
+                      </div>
+                    ) : (
+                      <div className="space-y-2">
+                        <div className="flex">
+                          <input
+                            type="text"
+                            value={imageUrl}
+                            onChange={(e) => setImageUrl(e.target.value)}
+                            placeholder="Enter image URL..."
+                            className="flex-1 px-3 py-2 bg-white/5 border border-white/10 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-blue-500/50 text-white text-sm"
+                          />
+                          <button
+                            type="button"
+                            onClick={handleImageUrlSubmit}
+                            className="px-3 py-2 bg-blue-600 text-white rounded-r-lg hover:bg-blue-700 transition-colors"
+                          >
+                            <FaLink />
+                          </button>
+                        </div>
+                        <p className="text-gray-500 text-xs">
+                          Paste a direct link to an image (JPG, PNG, GIF)
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                )}
+                
+                <input
+                  type="file"
+                  ref={fileInputRef}
+                  onChange={(e) => handleImageUpload(e, 'featured')}
+                  accept="image/*"
+                  className="hidden"
+                />
+              </div>
 
-            {/* Status */}
-            <div className="space-y-2">
-              <label htmlFor="status" className="block text-sm font-medium text-white/80">
-                Status
-              </label>
-              <select
-                id="status"
-                value={formData.status}
-                onChange={(e) => setFormData(prev => ({ ...prev, status: e.target.value }))}
-                className="w-full px-4 py-2 bg-white/10 border border-white/20 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-[#3b82f6] focus:border-transparent text-base"
-                required
-              >
-                <option value="Draft" className="bg-gray-800 text-white">Draft</option>
-                <option value="Published" className="bg-gray-800 text-white">Published</option>
-              </select>
+              {/* Category and Tags - Updated to use text input */}
+              <div className="glass-effect rounded-xl p-4">
+                <label htmlFor="category" className="block text-sm font-medium text-gray-300 mb-2">
+                  <FaTag className="inline mr-2" />
+                  Category
+                </label>
+                <input
+                  type="text"
+                  id="category"
+                  name="category"
+                  value={formData.category}
+                  onChange={handleInputChange}
+                  placeholder="Please enter a category..."
+                  className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/50 text-white mb-3"
+                />
+                
+                <label htmlFor="tags" className="block text-sm font-medium text-gray-300 mb-2">
+                  <FaTag className="inline mr-2" />
+                  Tags
+                </label>
+                <input
+                  type="text"
+                  id="tags"
+                  name="tags"
+                  value={formData.tags}
+                  onChange={handleInputChange}
+                  placeholder="Enter tags separated by commas..."
+                  className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/50 text-white"
+                />
+              </div>
+
+              {/* Publication Status */}
+              <div className="glass-effect rounded-xl p-4">
+                <label className="block text-sm font-medium text-gray-300 mb-2">
+                  <FaCalendarAlt className="inline mr-2" />
+                  Publication Status
+                </label>
+                <div className="flex items-center space-x-4">
+                  <label className="inline-flex items-center">
+                    <input
+                      type="radio"
+                      name="status"
+                      value="draft"
+                      checked={formData.status === 'draft'}
+                      onChange={handleInputChange}
+                      className="form-radio h-4 w-4 text-blue-600"
+                    />
+                    <span className="ml-2 text-gray-300 text-sm">Draft</span>
+                  </label>
+                  <label className="inline-flex items-center">
+                    <input
+                      type="radio"
+                      name="status"
+                      value="published"
+                      checked={formData.status === 'published'}
+                      onChange={handleInputChange}
+                      className="form-radio h-4 w-4 text-blue-600"
+                    />
+                    <span className="ml-2 text-gray-300 text-sm">Publish</span>
+                  </label>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
+        ) : (
+          /* SEO Tab */
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+            {/* Main SEO Column */}
+            <div className="lg:col-span-2 space-y-4">
+              <div className="glass-effect rounded-xl p-4">
+                <h3 className="text-lg font-medium text-white mb-3">Search Engine Optimization</h3>
+                
+                <div className="space-y-3">
+                  <div>
+                    <label htmlFor="metaTitle" className="block text-sm font-medium text-gray-300 mb-1">
+                      Meta Title
+                    </label>
+                    <input
+                      type="text"
+                      id="metaTitle"
+                      name="seo.metaTitle"
+                      value={formData.seo.metaTitle}
+                      onChange={handleInputChange}
+                      placeholder="SEO title (if different from post title)..."
+                      className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/50 text-white"
+                    />
+                    <p className="text-xs text-gray-500 mt-1">
+                      Leave blank to use the post title. 50-60 characters recommended.
+                    </p>
+                  </div>
+                  
+                  <div>
+                    <label htmlFor="metaDescription" className="block text-sm font-medium text-gray-300 mb-1">
+                      Meta Description
+                    </label>
+                    <textarea
+                      id="metaDescription"
+                      name="seo.metaDescription"
+                      value={formData.seo.metaDescription}
+                      onChange={handleInputChange}
+                      placeholder="Brief description for search engines..."
+                      className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/50 text-white h-20"
+                    />
+                    <p className="text-xs text-gray-500 mt-1">
+                      150-160 characters recommended.
+                    </p>
+                  </div>
+                  
+                  <div>
+                    <label htmlFor="keywords" className="block text-sm font-medium text-gray-300 mb-1">
+                      Keywords
+                    </label>
+                    <input
+                      type="text"
+                      id="keywords"
+                      name="seo.keywords"
+                      value={formData.seo.keywords}
+                      onChange={handleInputChange}
+                      placeholder="Enter keywords separated by commas..."
+                      className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/50 text-white"
+                    />
+                  </div>
+                </div>
+              </div>
+              
+              <div className="glass-effect rounded-xl p-4">
+                <h3 className="text-lg font-medium text-white mb-3">Preview</h3>
+                
+                <div className="bg-white rounded-lg p-3">
+                  <div className="text-gray-800">
+                    <p className="text-blue-600 text-lg font-medium truncate">
+                      {formData.seo.metaTitle || formData.title || 'Post Title'}
+                    </p>
+                    <p className="text-green-700 text-sm truncate">
+                      https://yourwebsite.com/blog/post-slug
+                    </p>
+                    <p className="text-gray-600 text-sm mt-1 line-clamp-2">
+                      {formData.seo.metaDescription || formData.excerpt || 'Your post description will appear here...'}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            {/* Sidebar Column */}
+            <div className="space-y-4">
+              <div className="glass-effect rounded-xl p-4">
+                <label className="block text-sm font-medium text-gray-300 mb-2">
+                  Social Media Image
+                </label>
+                
+                {formData.seo.ogImagePreview ? (
+                  <div className="relative rounded-lg overflow-hidden mb-2">
+                    <img 
+                      src={formData.seo.ogImagePreview} 
+                      alt="OG preview" 
+                      className="w-full h-48 object-cover"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => removeImage('og')}
+                      className="absolute top-2 right-2 p-1.5 bg-red-500/80 text-white rounded-full hover:bg-red-600 transition-colors"
+                    >
+                      <FaTimes />
+                    </button>
+                  </div>
+                ) : (
+                  <div 
+                    onClick={() => document.getElementById('ogImageUpload')?.click()}
+                    className="border-2 border-dashed border-white/20 rounded-lg p-4 text-center cursor-pointer hover:border-white/40 transition-colors"
+                  >
+                    <FaImage className="w-8 h-8 mx-auto text-gray-400 mb-2" />
+                    <p className="text-gray-300 text-sm">Upload social image</p>
+                    <p className="text-gray-500 text-xs mt-1">1200 x 630px recommended</p>
+                  </div>
+                )}
+                
+                <input
+                  type="file"
+                  id="ogImageUpload"
+                  onChange={(e) => handleImageUpload(e, 'og')}
+                  accept="image/*"
+                  className="hidden"
+                />
+                
+                <p className="text-xs text-gray-500 mt-2">
+                  This image will be displayed when your post is shared on social media.
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
       </form>
-
-      {/* Toast Notification */}
-      {toast && (
-        <Toast
-          message={toast.message}
-          type={toast.type}
-          onClose={() => setToast(null)}
-        />
-      )}
     </div>
-  )
+  );
 } 
